@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+
+    <h:head>
+
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+
+
+        <ui:insert name="meta"></ui:insert>
+        <title></title>
+
+        <!-- Bootstrap Core CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous"/>
+
+        <!-- Custom CSS -->
+        <link href="#{request.contextPath}/css/blog-post.css" rel="stylesheet"/>
+        <link rel="stylesheet" href="#{request.contextPath}/css/main.css"/>
+
+
+        <link rel="icon" type="image/gif" href="/favicon.ico" />
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+
+        <!-- Temporary fix for navbar responsiveness -->
+        <style>
+            .navbar-toggler {
+                z-index: 1;
+            }
+
+            @media (max-width: 576px) {
+                nav > .container {
+                    width: 100%;
+                }
+            }
+        </style>
+
+        <ui:insert name="head"></ui:insert>
+    </h:head>
+
+    <h:body>
+        <ui:insert name="topBody"></ui:insert>
+        <!-- Navigation -->
+        <nav class="navbar fixed-top navbar-toggleable-md navbar-inverse bg-inverse">
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarExample" aria-controls="navbarExample" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="container">
+                <ui:insert name="navbar-brand">
+                    <a class="navbar-brand" href="#{request.contextPath}/">Get Reeler</a>
+                </ui:insert>
+                <div class="collapse navbar-collapse" id="navbarReeler">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#{request.contextPath}">Home </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Page Content -->
+        <main>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="panel panel-primary">
+                            <div class="panel-body">
+                                <ui:insert name="content">                   
+
+                                </ui:insert>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <ui:insert name="rightNav">
+                            <ui:include src="rightNav.xhtml"/>
+                        </ui:insert>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!-- /.container -->
+
+        <ui:insert name="footer">
+            <ui:include src="footer.xhtml" />  
+        </ui:insert>
+
+
+        <!-- jQuery Version 3.1.1 -->
+        <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+        <!-- Tether -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+        <!-- Bootstrap Core JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+
+
+        <script src="#{request.contextPath}/js/main.js"></script>
+        <ui:insert name="postBody">
+            
+        </ui:insert>
+
+    </h:body>
+
+</html>
+
+

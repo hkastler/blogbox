@@ -1,0 +1,35 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <f:view>
+
+        <nav class="navbar static-top navbar-toggleable-md navbar-inverse bg-inverse">
+            <button class="navbar-toggler navbar-toggler-right" 
+                    type="button" data-toggle="collapse" data-target="#navbarReeler"
+                    aria-controls="navbarReeler" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+                <ui:insert name="navbar-brand">
+                    <a class="navbar-brand" href="#{request.contextPath}/">
+                        #{index.config.props["site.name"]}
+                    </a>
+                    
+                </ui:insert>
+                <div class="collapse navbar-collapse" id="navbarReeler">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#{request.contextPath}">#{messages['home']}</a>
+                        </li>
+                    </ul>
+                </div>
+            
+        </nav>
+
+    </f:view>
+</ui:composition>
+

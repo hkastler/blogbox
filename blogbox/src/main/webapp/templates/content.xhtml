@@ -1,0 +1,35 @@
+<ui:composition template="defaultTemplate.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:define name="title">
+        <h:outputText value="#{messages[pageBean.pages[pageBean.page][0]]}"></h:outputText>            
+    </ui:define>
+
+    <ui:define name="navigation">
+        <ui:include src="navigation.xhtml">
+            <ui:param name="pageBean" value="#{pageBean}"/>
+        </ui:include>
+    </ui:define>
+
+    <ui:define name="sideNav">
+
+    </ui:define>
+    
+    <ui:define name="content">        
+        
+                <h:messages infoClass="alert alert-success"
+                            errorClass="alert alert-warning"/>
+                      
+                   
+    </ui:define>
+    
+    <ui:define name="postBody">
+
+    </ui:define>
+
+    
+</ui:composition>
