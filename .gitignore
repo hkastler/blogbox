@@ -1,3 +1,5 @@
 .project
 .classpath
 .settings/
+blogbox/nb-configuration.xml
+blogbox-st/nbactions.xml
