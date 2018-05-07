@@ -35,3 +35,15 @@
 	min-height: 100px;
     height: 100%;
 }
+
+
+
+input:focus::-webkit-input-placeholder{
+    color: transparent!important;
+}
+input:focus::-moz-placeholder{
+    color: transparent!important;
+}
+input:focus:-moz-placeholder{
+    color: transparent!important;
+}
