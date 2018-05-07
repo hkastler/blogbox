@@ -18,17 +18,32 @@
 			<h:messages layout="table" infoClass="table alert alert-success"
 				errorClass="table alert alert-danger" globalOnly="false"
 				id="profileForm" />
+				
+			<div class="form-group #{imapHost.isValid()? '' : 'has-error'}">
 
+				<input jsfc="h:inputText" class="form-control" id="imapHost"
+					binding="#{imapHost}" value="#{bean.imapHost}"
+					ps:placeholder="#{messages['setup.imapHost']}" ps:required="true"
+					ps:requiredMessage="required" />
+				<h:message for="username" errorClass="form-control-label has-error" />
+				<span class="help-block" jsfc="h:panelGroup">
+					<h:outputLabel for="imapHost">
+						#{messages['setup.imapHost.label']}
+					</h:outputLabel>
+				</span>
+			</div>
 
 			<div class="form-group #{username.isValid()? '' : 'has-error'}">
 
 				<input jsfc="h:inputText" class="form-control" id="username"
 					binding="#{emailAddress}" value="#{bean.user.username}"
-					ps:placeholder="#{res['userSettings.email']}" ps:required="true"
+					ps:placeholder="#{messages['setup.email']}" ps:required="true"
 					ps:requiredMessage="required" />
 				<h:message for="username" errorClass="form-control-label has-error" />
-				<span class="help-block" jsfc="h:panelGroup"> Please enter
-					valid email address username. 
+				<span class="help-block" jsfc="h:panelGroup"> 
+					<h:outputLabel for="username">
+						#{messages['setup.email.label']}
+					</h:outputLabel>
 				</span>
 			</div>
 
@@ -37,12 +52,15 @@
 				<h:inputSecret class="form-control"
 					id="password"
 					 value="#{bean.user.password}"
-					ps:placeholder="#{res['userSettings.password']}" ps:required="true"
+					ps:placeholder="#{messages['setup.password']}" ps:required="true"
 					ps:requiredMessage="required">
 				</h:inputSecret>
 				<h:message for="password"
 					errorClass="form-control-label has-error" />
-				<span class="help-block" jsfc="h:panelGroup"> Your password.
+				<span class="help-block" jsfc="h:panelGroup">
+					<h:outputLabel for="password">
+						#{messages['setup.password.label']}
+					</h:outputLabel>
 				</span>
 			</div>
 
@@ -52,12 +70,15 @@
 				id="folderName" 
 				required="true"
 				value="#{bean.folderName}"
-					ps:placeholder="#{res['userSettings.passwordConfirm']}"
+					ps:placeholder="#{messages['setup.folderName']}"
 					ps:required="true" ps:requiredMessage="required">
 				</h:inputText>
 				<h:message for="folderName" errorClass="control-label has-error" />
-				<span class="help-block" jsfc="h:panelGroup"> The name of the
-					folder containing your blog entries. </span>
+				<span class="help-block" jsfc="h:panelGroup"> 
+					<h:outputLabel for="folderName">
+						#{messages['setup.folderName.label']}
+					</h:outputLabel>
+				</span>
 			</div>
 
 

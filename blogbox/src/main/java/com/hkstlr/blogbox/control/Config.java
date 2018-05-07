@@ -56,7 +56,8 @@ public class Config {
         try {
             return this.getProps().containsKey(EmailReaderPropertyKey.USERNAME) 
             		&& this.getProps().containsKey(EmailReaderPropertyKey.PASSWORD)
-                    && this.getProps().containsKey(EmailReaderPropertyKey.FOLDER_NAME);
+                    && this.getProps().containsKey(EmailReaderPropertyKey.FOLDER_NAME)
+                    && this.getProps().containsKey(EmailReaderPropertyKey.MAIL_IMAP_HOST);
         } catch (Exception e) {
             return false;
         }

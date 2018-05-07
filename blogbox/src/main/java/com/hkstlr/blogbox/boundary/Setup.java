@@ -15,6 +15,7 @@ import com.hkstlr.blogbox.control.FetchEvent;
 public class Setup {
 	
     private User user = new User();
+    private String imapHost;
     private String folderName;
     private String action = "create";
 
@@ -35,6 +36,8 @@ public class Setup {
         		this.folderName);
         config.getProps().put(EmailReader.EmailReaderPropertyKey.USERNAME, 
         		this.user.getUsername());
+        config.getProps().put(EmailReader.EmailReaderPropertyKey.MAIL_IMAP_HOST, 
+        		this.imapHost);
         
         if(config.isSetup()) {
         	event.fire(new FetchEvent(this.getClass().getName().concat(".setup()")));
@@ -55,7 +58,21 @@ public class Setup {
         this.folderName = folderName;
     }
 
-    public String getAction() {
+    /**
+	 * @return the imapHost
+	 */
+	public String getImapHost() {
+		return imapHost;
+	}
+
+	/**
+	 * @param imapHost the imapHost to set
+	 */
+	public void setImapHost(String imapHost) {
+		this.imapHost = imapHost;
+	}
+
+	public String getAction() {
         return action;
     }
 
