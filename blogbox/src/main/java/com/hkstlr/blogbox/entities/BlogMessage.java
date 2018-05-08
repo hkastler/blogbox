@@ -230,6 +230,11 @@ public class BlogMessage {
     private String processHtml(String html) {
     	Document doc = Jsoup.parse(html);
         Element htmlBody = doc.body();
+        
+        Optional<Element> sig = Optional.ofNullable(doc.select("div:contains(Sent from Yahoo Mail)").first()) ;
+        if(sig.isPresent()) {
+        	sig.get().remove();
+        }
 
         Whitelist wl = Whitelist.relaxed();
         wl.addAttributes("div", "style");

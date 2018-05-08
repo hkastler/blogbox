@@ -34,10 +34,13 @@ public class EmailReader {
     Session session;
     Store store;    
     String mailhost;
+    String folderName;
 
     Folder blogBox;
     String username;
     String password;
+    
+    String protocol;
 
     private final Logger log = Logger.getLogger(this.getClass().getName());
 
@@ -50,18 +53,22 @@ public class EmailReader {
     @PostConstruct
     void init() {
         this.mailhost = props.getProperty(EmailReaderPropertyKey.MAIL_IMAP_HOST, "hostname");
+        this.protocol = props.getProperty(EmailReaderPropertyKey.STORE_PROTOCOL, DEFAULT_PROTOCOL);
         this.username = props.getProperty(EmailReaderPropertyKey.USERNAME, "username");
         this.password = props.getProperty(EmailReaderPropertyKey.PASSWORD, "password");
-
+        this.folderName = props.getProperty(EmailReaderPropertyKey.FOLDER_NAME);
+        
         try {
             storeConnect();
             
-            this.blogBox = store.getFolder(props.getProperty(EmailReaderPropertyKey.FOLDER_NAME));
+            this.blogBox = store.getFolder(this.folderName);
                         
             this.blogBox.open(Folder.READ_ONLY);
+            
         } catch (MessagingException e) {
-            log.log(Level.SEVERE, "error", e);
+            log.log(Level.SEVERE, "init()", e);
         }
+        
     }
 
     public Message[] getImapEmails() {
@@ -71,7 +78,7 @@ public class EmailReader {
                 init();
             }
             if (null == blogBox) {
-                this.blogBox = store.getFolder(props.getProperty(EmailReaderPropertyKey.FOLDER_NAME));
+                this.blogBox = store.getFolder(this.folderName);
             }
 
             if (!this.blogBox.isOpen()) {
@@ -141,7 +148,7 @@ public class EmailReader {
     public void storeConnect() {
         this.session = Session.getDefaultInstance(this.props, null);
         try {
-            this.store = session.getStore(props.getProperty(EmailReaderPropertyKey.STORE_PROTOCOL, DEFAULT_PROTOCOL));
+            this.store = session.getStore(this.protocol);
         } catch (NoSuchProviderException e) {
             log.log(Level.SEVERE, "error", e);
         }

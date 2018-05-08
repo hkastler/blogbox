@@ -90,7 +90,7 @@ public class FetchHandler implements Serializable {
                 bmsgs.add(bmsg);
                 
             } catch (IOException | MessagingException e) {
-                log.log(Level.WARNING, "", e);
+                log.log(Level.WARNING, "bmsg", e);
                 continue;
             } finally {
 				er.storeClose();
