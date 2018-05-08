@@ -14,10 +14,11 @@
 	</div>
 	<div class="panel-body">
 
-		<h:form id="profile" prependId="false">
+		<h:form id="setupForm" prependId="false">
 			<h:messages layout="table" infoClass="table alert alert-success"
 				errorClass="table alert alert-danger" globalOnly="false"
-				id="profileForm" />
+				id="setupFormMsgs" />
+				
 				
 			<div class="form-group #{imapHost.isValid()? '' : 'has-error'}">
 

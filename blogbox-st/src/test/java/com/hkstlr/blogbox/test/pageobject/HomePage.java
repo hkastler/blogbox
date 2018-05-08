@@ -15,6 +15,8 @@ package com.hkstlr.blogbox.test.pageobject;
 
 import com.hkstlr.blogbox.test.util.TestUtils;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.LoadableComponent;
 
@@ -26,6 +28,10 @@ public class HomePage extends LoadableComponent<HomePage> {
     private final WebDriver driver;
     private final String pageURL;
 
+    @FindBy(tagName = "title")
+    public WebElement title;
+    
+    
     
     public HomePage(WebDriver aDriver) {
         this.pageURL = TestUtils.getTestURL();

@@ -23,8 +23,8 @@ import org.junit.runner.RunWith;
                            "json:target/cucumber.json" ,
                            "junit:target/cucumber.xml"}
                             , features = {
-                                "src/test/resources/com/hkstlr/blogbox/test/cucumber/setup.feature"
+                                "src/test/resources/com/hkstlr/blogbox/test/cucumber/home_page.feature"
                             })
-public class Run01SetupIT {
+public class Run02HomeIT {
 }
 

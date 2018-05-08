@@ -41,7 +41,7 @@ public class HomeStepDefs extends BaseStepDefs {
 
     @Then("^a the title should be \"([^\"]*)\"$")
     public void a_the_title_should_be(String arg1) throws Throwable {
-        String expected = "hkstlr.com";
-        assertEquals(expected, arg1);
+        String pagetitle = put.title.getText();
+        assertEquals(arg1, pagetitle);
     }
 }
