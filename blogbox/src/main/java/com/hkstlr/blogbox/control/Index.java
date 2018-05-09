@@ -2,9 +2,11 @@ package com.hkstlr.blogbox.control;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,6 +18,7 @@ import javax.ejb.Startup;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
+
 import com.hkstlr.blogbox.entities.BlogMessage;
 
 @ApplicationScoped
@@ -23,8 +26,8 @@ import com.hkstlr.blogbox.entities.BlogMessage;
 @Startup
 public class Index {
 	
-	private List<BlogMessage> msgs = new ArrayList<>();
-    private Map<String,Integer> msgMap = new LinkedHashMap<>();
+	private List<BlogMessage> msgs = new CopyOnWriteArrayList<>();
+    private ConcurrentMap<String,Integer> msgMap = new ConcurrentHashMap<>();
     
     private static Logger log = Logger.getLogger(Index.class.getName());
     
@@ -54,7 +57,7 @@ public class Index {
 	public Map<String, Integer> getMsgMap() {
 		return msgMap;
 	}
-	public void setMsgMap(Map<String, Integer> msgMap) {
+	public void setMsgMap(ConcurrentMap<String, Integer> msgMap) {
 		this.msgMap = msgMap;
 	}
 
