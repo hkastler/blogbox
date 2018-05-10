@@ -18,7 +18,20 @@
 			<h:messages layout="table" infoClass="table alert alert-success"
 				errorClass="table alert alert-danger" globalOnly="false"
 				id="setupFormMsgs" />
-				
+			
+			<div class="form-group #{blogName.isValid()? '' : 'has-error'}">
+
+				<input jsfc="h:inputText" class="form-control" id="siteName"
+					binding="#{siteName}" value="#{bean.siteName}"
+					ps:placeholder="#{messages['setup.siteName']}" ps:required="true"
+					ps:requiredMessage="required" />
+				<h:message for="username" errorClass="form-control-label has-error" />
+				<span class="help-block" jsfc="h:panelGroup">
+					<h:outputLabel for="siteName">
+						#{messages['setup.siteName.label']}
+					</h:outputLabel>
+				</span>
+			</div>	
 				
 			<div class="form-group #{imapHost.isValid()? '' : 'has-error'}">
 

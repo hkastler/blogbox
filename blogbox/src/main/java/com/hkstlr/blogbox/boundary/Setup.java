@@ -18,6 +18,7 @@ public class Setup {
     private String imapHost;
     private String folderName;
     private String action = "create";
+    private String siteName = "";
 
     @Inject
     Config config;
@@ -38,6 +39,8 @@ public class Setup {
         		this.user.getUsername());
         config.getProps().put(EmailReader.EmailReaderPropertyKey.MAIL_IMAP_HOST, 
         		this.imapHost);
+        config.getProps().put("site.name", this.siteName);
+        
         
         if(config.isSetup()) {
         	event.fire(new FetchEvent(this.getClass().getName().concat(".setup()")));
@@ -80,13 +83,29 @@ public class Setup {
         this.action = action;
     }
 
-    public User getUser() {
+    /**
+	 * @return the siteName
+	 */
+	public String getSiteName() {
+		return siteName;
+	}
+
+	/**
+	 * @param siteName the siteName to set
+	 */
+	public void setSiteName(String siteName) {
+		this.siteName = siteName;
+	}
+
+	public User getUser() {
         return user;
     }
 
     public void setUser(User user) {
         this.user = user;
     }
+    
+    
     
     @Produces
     public boolean isSetup() {
