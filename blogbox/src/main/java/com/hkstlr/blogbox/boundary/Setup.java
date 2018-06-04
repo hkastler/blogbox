@@ -31,13 +31,13 @@ public class Setup {
     }
 
     public void setup()  {
-        config.getProps().put(EmailReader.EmailReaderPropertyKey.PASSWORD, 
+        config.getProps().put(EmailReader.EmailReaderPropertyKeys.PASSWORD, 
         		this.user.getPassword());
-        config.getProps().put(EmailReader.EmailReaderPropertyKey.FOLDER_NAME, 
+        config.getProps().put(EmailReader.EmailReaderPropertyKeys.FOLDER_NAME, 
         		this.folderName);
-        config.getProps().put(EmailReader.EmailReaderPropertyKey.USERNAME, 
+        config.getProps().put(EmailReader.EmailReaderPropertyKeys.USERNAME, 
         		this.user.getUsername());
-        config.getProps().put(EmailReader.EmailReaderPropertyKey.MAIL_IMAP_HOST, 
+        config.getProps().put(EmailReader.EmailReaderPropertyKeys.MAIL_IMAP_HOST, 
         		this.imapHost);
         config.getProps().put("site.name", this.siteName);
         

@@ -44,7 +44,7 @@ public class BlogBoxService {
     	//new prop to remove password from view without removing it from app config
     	Properties rProps = new Properties();
     	rProps.putAll(index.getConfig().getProps());
-    	rProps.remove(EmailReader.EmailReaderPropertyKey.PASSWORD);
+    	rProps.remove(EmailReader.EmailReaderPropertyKeys.PASSWORD);
         return rProps;
     }
 }

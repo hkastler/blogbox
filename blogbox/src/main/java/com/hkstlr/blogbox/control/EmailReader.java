@@ -19,7 +19,7 @@ import com.sun.mail.imap.IMAPFolder;
 
 public class EmailReader {
 
-	public class EmailReaderPropertyKey {
+	public class EmailReaderPropertyKeys {
 
 		public final static String FOLDER_NAME = "folderName";
 		public final static String MAIL_IMAP_HOST = "mail.imap.host";
@@ -27,7 +27,7 @@ public class EmailReader {
 		public final static String PASSWORD = "password";
 		public final static String STORE_PROTOCOL = "mail.store.protocol";
 
-		private EmailReaderPropertyKey() {
+		private EmailReaderPropertyKeys() {
 			// strings
 		}
 	}
@@ -55,11 +55,11 @@ public class EmailReader {
 
 	@PostConstruct
 	void init() {
-		this.mailhost = props.getProperty(EmailReaderPropertyKey.MAIL_IMAP_HOST, "hostname");
-		this.protocol = props.getProperty(EmailReaderPropertyKey.STORE_PROTOCOL, DEFAULT_PROTOCOL);
-		this.username = props.getProperty(EmailReaderPropertyKey.USERNAME, "username");
-		this.password = props.getProperty(EmailReaderPropertyKey.PASSWORD, "password");
-		this.folderName = props.getProperty(EmailReaderPropertyKey.FOLDER_NAME);
+		this.mailhost = props.getProperty(EmailReaderPropertyKeys.MAIL_IMAP_HOST, "hostname");
+		this.protocol = props.getProperty(EmailReaderPropertyKeys.STORE_PROTOCOL, DEFAULT_PROTOCOL);
+		this.username = props.getProperty(EmailReaderPropertyKeys.USERNAME, "username");
+		this.password = props.getProperty(EmailReaderPropertyKeys.PASSWORD, "password");
+		this.folderName = props.getProperty(EmailReaderPropertyKeys.FOLDER_NAME);
 
 		try {
 
