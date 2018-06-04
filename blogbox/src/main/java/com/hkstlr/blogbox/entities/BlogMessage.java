@@ -206,8 +206,12 @@ public class BlogMessage {
                     String imageString = Base64.getEncoder().encodeToString(attBytes);
                     baos.close();
 
+                    //get the contentType ensure no attachment name                    
+                    String contentType = dh.getContentType().split(";")[0];
+                    
                     String template = "<div><img src=\"data:{0};base64, {1} \" /></div>";
-                    String imgTag = MessageFormat.format(template, new Object[]{dh.getContentType(), imageString});
+                    String imgTag = MessageFormat.format(template, 
+                    		new Object[]{contentType, imageString});
                     imgStr = Optional.of(imgTag);
                 }   
                 

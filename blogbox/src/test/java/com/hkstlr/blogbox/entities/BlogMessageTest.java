@@ -7,11 +7,15 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.logging.Logger;
+
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,7 +26,8 @@ import org.junit.Test;
 public class BlogMessageTest {
     
     BlogMessage cut;
-    MimeMessage message; 
+    MimeMessage message;
+    Logger log = Logger.getLogger(BlogMessageTest.class.getName());
     
     public BlogMessageTest() {
     }
@@ -31,12 +36,13 @@ public class BlogMessageTest {
     @Before
     public void setUp() throws IOException, MessagingException {
         Session session = Session.getDefaultInstance(System.getProperties(), null);
-        Path eml = Paths.get("src","test","resources","message.eml");
+        Path eml = Paths.get("src","test","resources","email-img.eml");
         
         try (InputStream is = Files.newInputStream(eml)) {
             message = new MimeMessage(session, is);
         }
         cut = new BlogMessage(message);
+        
     }
 
     /**
@@ -66,7 +72,7 @@ public class BlogMessageTest {
      */
     @Test
     public void testGetSubject() {
-        assertEquals("img hello world",cut.getSubject());
+        assertEquals("The Case for 10 Minute Exercise",cut.getSubject());
     }
 
     
@@ -75,6 +81,8 @@ public class BlogMessageTest {
      */
     @Test
     public void testGetBody() {
+    	assertTrue(cut.getBody().contains("image/jpeg"));
+    	//log.info(cut.getBody().substring(0, 1000));
     }
 
    
@@ -84,7 +92,7 @@ public class BlogMessageTest {
     @Test
     public void testGetHref() {
         
-        assertEquals("img-hello-world",cut.getHref());
+        assertEquals("the-case-for-10-minute-exercise",cut.getHref());
     }
 
     /**
