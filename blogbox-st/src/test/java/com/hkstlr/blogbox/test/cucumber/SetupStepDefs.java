@@ -30,6 +30,14 @@ public class SetupStepDefs extends BaseStepDefs {
 		assertNotNull(put.setupForm);
 	}
 
+	@Given("^user enters \"([^\"]*)\" in setup form siteName field$")
+	public void user_enters_in_setup_form_siteName_field(String arg1) throws Throwable {
+		wl = put.siteName;
+		wl.clear();
+        wl.sendKeys(arg1);
+	}
+	
+	
 	@Given("^user enters \"([^\"]*)\" in setup form imapHost field$")
 	public void user_enters_in_setup_form_imapHost_field(String arg1) throws Throwable {
 		wl = put.imapHostField;

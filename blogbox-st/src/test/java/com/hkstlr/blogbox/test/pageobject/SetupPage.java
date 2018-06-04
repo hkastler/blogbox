@@ -17,6 +17,8 @@ public class SetupPage extends LoadableComponent<SetupPage> {
     @FindBy(id = "setupForm")
     public WebElement setupForm;
     
+    @FindBy(id = "siteName")
+    public WebElement siteName;
     @FindBy(id = "imapHost")
     public WebElement imapHostField;
     @FindBy(id = "username")
