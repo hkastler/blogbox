@@ -1,6 +1,11 @@
 package com.hkstlr.blogbox.control;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,6 +45,14 @@ public class Config {
 
             log.log(Level.SEVERE, null, e);
         }
+        try {
+        	log.info("filesystem props");
+        	InputStream is = null;
+        	is = new FileInputStream(new File("/etc/config/blogbox_app_properties"));
+        	props.load(is);
+        }catch (Exception e) {
+        	log.log(Level.SEVERE, null, e);
+		}
 
     }
 
