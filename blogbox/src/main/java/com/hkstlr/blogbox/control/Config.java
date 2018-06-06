@@ -39,14 +39,7 @@ public class Config {
     void init() {
 
         try {
-            props.load(this.getClass().getClassLoader().getResourceAsStream("app.properties"));
-
-        } catch (IOException e) {
-
-            log.log(Level.SEVERE, null, e);
-        }
-        try {
-        	log.info("filesystem props");
+        	
         	InputStream is = null;
         	is = new FileInputStream(new File("/etc/config/blogbox_app_properties"));
         	props.load(is);
