@@ -2,8 +2,10 @@ package com.hkstlr.blogbox.control;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
@@ -43,7 +45,14 @@ public class Config {
         	InputStream is = null;
         	is = new FileInputStream(new File("/etc/config/blogbox_app_properties"));
         	props.load(is);
-        }catch (Exception e) {
+        	is.close();
+        } catch (FileNotFoundException ne) {
+        	 try {
+				props.load(this.getClass().getClassLoader().getResourceAsStream("app.properties"));
+			} catch (IOException e) {
+				log.log(Level.SEVERE, null, e);
+			}
+        } catch (Exception e) {
         	log.log(Level.SEVERE, null, e);
 		}
 
