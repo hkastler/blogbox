@@ -2,6 +2,7 @@ package com.hkstlr.blogbox.control;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -142,6 +143,9 @@ public class EmailReader {
 
 	public ArrayList<BlogMessage> setBlogMessages(ArrayList<BlogMessage> bmsgs, Integer hrefMaxWords) {
 
+		
+		List<String> hrefs = new ArrayList<>();
+		
 		for (Message msg : getImapEmails()) {
 			
 			if (!blogBox.isOpen()) {
@@ -154,6 +158,14 @@ public class EmailReader {
 
 			try {
 				BlogMessage bmsg = new BlogMessage(msg, hrefMaxWords);
+			
+				if( hrefs.contains(bmsg.getHref()) ){
+					StringBuilder tmpHref = new StringBuilder(bmsg.getHref());
+					tmpHref.append(BlogMessage.TITLE_SEPARATOR)
+					.append(Integer.toString(bmsg.getMessageNumber()));
+					bmsg.setHref(tmpHref.toString());
+				}
+				hrefs.add(bmsg.getHref());
 				bmsgs.add(bmsg);
 
 			} catch (IOException | MessagingException e) {

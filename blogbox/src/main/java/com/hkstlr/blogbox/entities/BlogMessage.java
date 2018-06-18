@@ -44,6 +44,7 @@ public class BlogMessage {
     private static final Logger LOG = Logger.getLogger(BlogMessage.class.getName());
     private static final String DEFAULT_SUBJECTREGEX = "[Bb]log";
     public static final Integer DEFAULT_HREFWORDMAX = 10;
+    public static final String TITLE_SEPARATOR = "-";
 
     public BlogMessage() {
     	super();
@@ -267,7 +268,7 @@ public class BlogMessage {
      */
     private String createHref(@NotNull Integer numberOfWordsInUrl) {
 
-        String TITLE_SEPARATOR = "-";
+        
         // Use title (minus non-alphanumeric characters)
         StringBuilder base = new StringBuilder();
         if (!this.subject.isEmpty()) {
