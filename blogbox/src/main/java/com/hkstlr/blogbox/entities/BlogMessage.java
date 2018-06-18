@@ -209,7 +209,7 @@ public class BlogMessage {
                     //get the contentType ensure no attachment name                    
                     String contentType = dh.getContentType().split(";")[0];
                     
-                    String template = "<div><img src=\"data:{0};base64, {1} \" /></div>";
+                    String template = "<div class=\"blgmsgimg\"><img src=\"data:{0};base64, {1} \" /></div>";
                     String imgTag = MessageFormat.format(template, 
                     		new Object[]{contentType, imageString});
                     imgStr = Optional.of(imgTag);

@@ -36,7 +36,9 @@
     height: 100%;
 }
 
-
+.blgmsgimg > img {
+	width: 100%;
+}
 
 input:focus::-webkit-input-placeholder{
     color: transparent!important;
