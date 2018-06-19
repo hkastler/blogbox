@@ -305,5 +305,14 @@ public class BlogMessage {
 
         return base.toString();
     }
+       
+    public void makeHrefUnique() {
+    	
+        StringBuilder tmpHref = new StringBuilder(this.href);
+		tmpHref.append(BlogMessage.TITLE_SEPARATOR)
+		       .append(new DateFormatter(createDate).formatjsFormat());
+		this.href = tmpHref.toString();
+    	
+    }
 
 }

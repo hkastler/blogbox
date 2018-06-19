@@ -160,10 +160,7 @@ public class EmailReader {
 				BlogMessage bmsg = new BlogMessage(msg, hrefMaxWords);
 			
 				if( hrefs.contains(bmsg.getHref()) ){
-					StringBuilder tmpHref = new StringBuilder(bmsg.getHref());
-					tmpHref.append(BlogMessage.TITLE_SEPARATOR)
-					.append(Integer.toString(bmsg.getMessageNumber()));
-					bmsg.setHref(tmpHref.toString());
+					bmsg.makeHrefUnique();
 				}
 				hrefs.add(bmsg.getHref());
 				bmsgs.add(bmsg);
