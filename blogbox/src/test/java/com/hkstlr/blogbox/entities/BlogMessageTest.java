@@ -36,7 +36,7 @@ public class BlogMessageTest {
     @Before
     public void setUp() throws IOException, MessagingException {
         Session session = Session.getDefaultInstance(System.getProperties(), null);
-        Path eml = Paths.get("src","test","resources","email-img.eml");
+        Path eml = Paths.get("src","test","resources","multiattach.eml");
         
         try (InputStream is = Files.newInputStream(eml)) {
             message = new MimeMessage(session, is);
@@ -72,7 +72,7 @@ public class BlogMessageTest {
      */
     @Test
     public void testGetSubject() {
-        assertEquals("The Case for 10 Minute Exercise",cut.getSubject());
+        assertEquals("Workout status report",cut.getSubject());
     }
 
     
@@ -82,7 +82,7 @@ public class BlogMessageTest {
     @Test
     public void testGetBody() {
     	assertTrue(cut.getBody().contains("image/jpeg"));
-    	//log.info(cut.getBody().substring(0, 1000));
+    	log.info(cut.getBody());
     }
 
    
@@ -92,7 +92,7 @@ public class BlogMessageTest {
     @Test
     public void testGetHref() {
         
-        assertEquals("the-case-for-10-minute-exercise",cut.getHref());
+        assertEquals("workout-status-report",cut.getHref());
     }
 
     /**

@@ -3,10 +3,12 @@ package com.hkstlr.blogbox.entities;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Optional;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
@@ -170,7 +172,7 @@ public class BlogMessage {
         BodyPart part;   
         Optional<BodyPart> textPart = Optional.empty();
         Optional<BodyPart> htmlPart = Optional.empty();
-        Optional<String> imgStr = Optional.empty();
+        Optional<List<String>> imgs = Optional.empty();
         
         for (int i = 0; i < multipart.getCount(); i++) {
         	       	
@@ -213,7 +215,13 @@ public class BlogMessage {
                     String template = "<div class=\"blgmsgimg\"><img src=\"data:{0};base64, {1} \" /></div>";
                     String imgTag = MessageFormat.format(template, 
                     		new Object[]{contentType, imageString});
-                    imgStr = Optional.of(imgTag);
+                    if(imgs.isPresent()) {
+                    	imgs.get().add(imgTag);
+                    }else {
+                    	List<String> is = new ArrayList<>();
+                    	is.add(imgTag);
+                    	imgs = Optional.of(is);
+                    }
                 }   
                 
             }
@@ -224,8 +232,11 @@ public class BlogMessage {
         }else if(textPart.isPresent()) {
         	content.append((String) textPart.get().getContent());
         }
-        if(imgStr.isPresent()) {
-        	content.append(imgStr.get());
+        if(imgs.isPresent()) {
+        	for(String img : imgs.get()) {
+        		content.append(img);
+        	}
+        	
         }
         
 
