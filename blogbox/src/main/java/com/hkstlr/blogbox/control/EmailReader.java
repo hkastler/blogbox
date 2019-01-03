@@ -68,7 +68,7 @@ public class EmailReader {
 			
 			this.blogBox = store.getFolder(this.folderName);
 
-			this.blogBox.open(Folder.READ_ONLY);			
+			this.blogBox.open(Folder.READ_ONLY);	
 
 		} catch (MessagingException e) {
 			log.log(Level.SEVERE, "init()", e);

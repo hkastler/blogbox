@@ -24,7 +24,7 @@ public class Setup {
     Config config;
     
     @Inject
-    private Event<FetchEvent> event;    
+    private Event<FetchEvent> event;
 
     public Setup() {
         super();

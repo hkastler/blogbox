@@ -59,16 +59,13 @@ public class BlogMessage {
     
     public BlogMessage(Message msg, Integer hrefWordMax ) throws MessagingException, IOException {
         super();
-        setBlogMessage(msg, DEFAULT_SUBJECTREGEX, hrefWordMax);       
+        setBlogMessage(msg, DEFAULT_SUBJECTREGEX, hrefWordMax);
     }
     
     public BlogMessage(Message msg, String subjectRegex, Integer hrefWordMax ) throws MessagingException, IOException {
         super();
-        setBlogMessage(msg, subjectRegex, hrefWordMax);       
+        setBlogMessage(msg, subjectRegex, hrefWordMax);
     }
-
-
-    
     
     public void setBlogMessage(Message msg, String subjectRegex, Integer hrefWordMax) throws MessagingException, IOException {
     	this.messageId = Optional.ofNullable(msg.getHeader("Message-ID")[0])
@@ -167,6 +164,10 @@ public class BlogMessage {
 
     private String processMultipart(Message msg) throws IOException, MessagingException {
 
+        if("java.lang.String".equals(msg.getContent().getClass().getCanonicalName())){
+            return msg.getContent().toString();
+        }
+
         Multipart multipart = (Multipart) msg.getContent();
         StringBuilder content = new StringBuilder();
         BodyPart part;   
@@ -176,25 +177,25 @@ public class BlogMessage {
         
         for (int i = 0; i < multipart.getCount(); i++) {
         	       	
-            part = multipart.getBodyPart(i);     
+            part = multipart.getBodyPart(i);
             
-            if (part.getContentType().contains(MediaType.TEXT_PLAIN)){            	
-            	textPart = Optional.of(part);         
+            if (part.getContentType().contains(MediaType.TEXT_PLAIN)){
+            	textPart = Optional.of(part);
                 
-            }else if (part.getContentType().contains(MediaType.TEXT_HTML)){   
-            	htmlPart = Optional.of(part);               
+            }else if (part.getContentType().contains(MediaType.TEXT_HTML)){
+            	htmlPart = Optional.of(part);
 
             }else if (part.getContentType().contains("multipart/alternative")){
             	
-            	DataHandler mh = part.getDataHandler();           	
+            	DataHandler mh = part.getDataHandler();
                 MimeMultipart mm = (MimeMultipart) mh.getContent();
                 
-                for (int m = 0; m < mm.getCount(); m++) {                   
+                for (int m = 0; m < mm.getCount(); m++) {
             	   BodyPart p = mm.getBodyPart(m);
             	   if(p.getContentType().contains(MediaType.TEXT_HTML)) {
             		   htmlPart = Optional.of(p);
             	   }
-                }        
+                }
                 
             }  
                             
@@ -209,7 +210,7 @@ public class BlogMessage {
                     String imageString = Base64.getEncoder().encodeToString(attBytes);
                     baos.close();
 
-                    //get the contentType ensure no attachment name                    
+                    //get the contentType ensure no attachment name
                     String contentType = dh.getContentType().split(";")[0];
                     
                     String template = "<div class=\"blgmsgimg\"><img src=\"data:{0};base64, {1} \" /></div>";
@@ -238,8 +239,6 @@ public class BlogMessage {
         	}
         	
         }
-        
-
         return content.toString();
     }
     

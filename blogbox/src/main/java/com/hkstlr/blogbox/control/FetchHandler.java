@@ -1,6 +1,5 @@
 package com.hkstlr.blogbox.control;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -16,8 +15,6 @@ import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
-import javax.mail.Message;
-import javax.mail.MessagingException;
 
 import com.hkstlr.blogbox.entities.BlogMessage;
 
@@ -25,7 +22,7 @@ import com.hkstlr.blogbox.entities.BlogMessage;
 @Stateless
 public class FetchHandler implements Serializable {
  
-    private static final Logger log = Logger.getLogger(FetchHandler.class.getCanonicalName());
+    private static final Logger LOG = Logger.getLogger(FetchHandler.class.getCanonicalName());
     
     @Inject
     Config config;
@@ -39,6 +36,7 @@ public class FetchHandler implements Serializable {
 
 	@Asynchronous
     public void goFetch(@Observes FetchEvent event) {
+        LOG.log(Level.INFO, "FetchHandler.goFetch:{0}", event.getEvent());
         if(config.isSetup()) {
         	fetchAndSetBlogMessages();
         }	
@@ -48,8 +46,6 @@ public class FetchHandler implements Serializable {
     @Asynchronous  
     public void fetchAndSetBlogMessages(){
         
-        log.log(Level.INFO, "fetching");    
-        
 		try {
 			Optional<ArrayList<BlogMessage>> fm = Optional.ofNullable(getBlogMessages().get());
 			
@@ -58,15 +54,10 @@ public class FetchHandler implements Serializable {
 			}
 			
 		} catch (InterruptedException | ExecutionException e) {
-			log.log(Level.SEVERE, "error",e);
+			LOG.log(Level.SEVERE, "error",e);
 		}
 		
-		
-		log.log(Level.INFO, "fetched");
-        
     }
-    
-
     
     @Asynchronous
     @AccessTimeout(value=45000)
@@ -85,7 +76,7 @@ public class FetchHandler implements Serializable {
                 
         bmsgs = er.setBlogMessages(bmsgs, hrefMaxWords);
         
-        er.storeClose();       
+        er.storeClose();
         
         completableFuture.complete(bmsgs);
         return completableFuture;

@@ -33,7 +33,7 @@ public class BlogBoxService {
     @GET
     @Produces("application/json")
     @Path("/msgs")
-    public List<BlogMessage> getMsgs() {    	
+    public List<BlogMessage> getMsgs() {
         return index.getMsgs();
     }
     
