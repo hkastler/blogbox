@@ -5,9 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.NoSuchFileException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,20 +38,20 @@ public class Config {
     void init() {
 
         try {
-        	
-        	InputStream is = null;
-        	is = new FileInputStream(new File("/etc/config/blogbox_app_properties"));
-        	props.load(is);
-        	is.close();
+
+            InputStream is = null;
+            is = new FileInputStream(new File("/etc/config/blogbox/blogbox.properties"));
+            props.load(is);
+            is.close();
         } catch (FileNotFoundException ne) {
-        	 try {
-				props.load(this.getClass().getClassLoader().getResourceAsStream("app.properties"));
-			} catch (IOException e) {
-				log.log(Level.SEVERE, null, e);
-			}
+            try {
+                props.load(this.getClass().getClassLoader().getResourceAsStream("app.properties"));
+            } catch (IOException e) {
+                log.log(Level.SEVERE, null, e);
+            }
         } catch (Exception e) {
-        	log.log(Level.SEVERE, null, e);
-		}
+            log.log(Level.SEVERE, null, e);
+        }
 
     }
 
@@ -66,11 +63,10 @@ public class Config {
         this.props = props;
     }
 
-    
     public boolean isSetup() {
         try {
-            return this.getProps().containsKey(EmailReaderPropertyKeys.USERNAME) 
-            		&& this.getProps().containsKey(EmailReaderPropertyKeys.PASSWORD)
+            return this.getProps().containsKey(EmailReaderPropertyKeys.USERNAME)
+                    && this.getProps().containsKey(EmailReaderPropertyKeys.PASSWORD)
                     && this.getProps().containsKey(EmailReaderPropertyKeys.FOLDER_NAME)
                     && this.getProps().containsKey(EmailReaderPropertyKeys.MAIL_IMAP_HOST);
         } catch (Exception e) {
