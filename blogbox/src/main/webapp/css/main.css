@@ -61,3 +61,11 @@ nav{
 .paginator > ul{
     margin-top: 1rem;
 }
+
+#entries{
+    margin-left: 2rem;
+}
+
+#content{
+    margin-left: 2rem;
+}

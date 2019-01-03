@@ -2,6 +2,7 @@ package com.hkstlr.blogbox.control;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -46,27 +47,34 @@ public class FetchHandler implements Serializable {
     @Asynchronous  
     public void fetchAndSetBlogMessages(){
         
+    
+        Optional<List<BlogMessage>> fm = Optional.empty();
 		try {
-			Optional<ArrayList<BlogMessage>> fm = Optional.ofNullable(getBlogMessages().get());
+			fm = Optional.ofNullable(getBlogMessages().get());
+		} catch (InterruptedException ie) {
+			LOG.log(Level.WARNING, "InterruptedException!", ie);
+            // Restore interrupted state...
+            Thread.currentThread().interrupt();
+		} catch (ExecutionException e) {
+            LOG.log(Level.WARNING, "ExecutionException!", e);
+        }
+        
+        if(fm.isPresent()) {
+            event.fire(new IndexEvent("setIndexMsgs",fm.get()));
+        }
 			
-			if(fm.isPresent()) {
-				event.fire(new IndexEvent("setIndexMsgs",fm.get()));
-			}
-			
-		} catch (InterruptedException | ExecutionException e) {
-			LOG.log(Level.SEVERE, "error",e);
-		}
+	
 		
     }
     
     @Asynchronous
     @AccessTimeout(value=45000)
-    public Future<ArrayList<BlogMessage>> getBlogMessages() throws InterruptedException {
+    public Future<List<BlogMessage>> getBlogMessages() {
     	
-        CompletableFuture<ArrayList<BlogMessage>> completableFuture 
+        CompletableFuture<List<BlogMessage>> completableFuture 
           = new CompletableFuture<>();
         
-        ArrayList<BlogMessage> bmsgs = new ArrayList<>();
+        List<BlogMessage> bmsgs = new ArrayList<>();
         
         Integer hrefMaxWords = Optional.ofNullable(Integer.parseInt(config.getProps()
         		.getProperty("bmgs.hrefWordMax")))

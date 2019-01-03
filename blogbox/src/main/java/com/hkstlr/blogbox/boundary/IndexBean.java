@@ -1,11 +1,8 @@
 package com.hkstlr.blogbox.boundary;
 
-import java.awt.PageAttributes;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
@@ -13,7 +10,6 @@ import javax.ejb.Asynchronous;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
-import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -28,8 +24,6 @@ import com.hkstlr.blogbox.entities.BlogMessage;
 @RequestScoped
 @Named("index")
 public class IndexBean {
-
-    private static Logger log = Logger.getLogger(IndexBean.class.getName());
 
     Paginator paginator;
 

@@ -2,18 +2,17 @@
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions"
     xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:ps="http://xmlns.jcp.org/jsf/passthrough">
 
-    <ui:fragment rendered="#{index.paginator.page gt 1}">
-        <div class="row">
-            <div class="col-md-12" id="top-paginatorContainer">
-                <ui:include src="/templates/paginator.xhtml">
-                    <ui:param name="paginator" value="#{index.paginator}" />
-                    <ui:param name="outcome" value="#{request.contextPath}" />
-                    <ui:param name="fragment" value="topPaginator" />
-                    <ui:param name="position" value="top" />
-                </ui:include>
-            </div>
+
+    <div class="row">
+        <div class="col-md-12" id="top-paginatorContainer">
+            <ui:include src="/templates/paginator.xhtml">
+                <ui:param name="paginator" value="#{index.paginator}" />
+                <ui:param name="outcome" value="#{request.contextPath}" />
+                <ui:param name="fragment" value="topPaginator" />
+                <ui:param name="position" value="top" />
+            </ui:include>
         </div>
-    </ui:fragment>
+    </div>
     <ui:repeat value="#{index.currentList()}" var="msg">
         <ui:include src="blogrow.xhtml" />
     </ui:repeat>

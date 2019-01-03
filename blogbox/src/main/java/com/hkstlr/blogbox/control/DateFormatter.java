@@ -54,7 +54,7 @@ public class DateFormatter {
     	String[] aryDate = this.date.toString().trim().split(" ");
     	return DateFormatter.format8chars.format(
 				LocalDateTime.ofInstant(this.dateInstant, 
-						ZoneId.of(TimeZone.getTimeZone(aryDate[aryDate.length-2].toString().trim()).getID())
+						ZoneId.of(TimeZone.getTimeZone(aryDate[aryDate.length-2].trim()).getID())
 				));
     }
     
@@ -70,7 +70,7 @@ public class DateFormatter {
 	    	String[] aryDate = this.date.toString().trim().split(" ");
 	    	return DateFormatter.jsFormat.format(
 					LocalDateTime.ofInstant(this.dateInstant, 
-							ZoneId.of(TimeZone.getTimeZone(aryDate[aryDate.length-2].toString().trim()).getID())
+							ZoneId.of(TimeZone.getTimeZone(aryDate[aryDate.length-2].trim()).getID())
 					));
 	    }
     

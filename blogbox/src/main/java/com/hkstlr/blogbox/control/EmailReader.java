@@ -22,18 +22,18 @@ public class EmailReader {
 
 	public class EmailReaderPropertyKeys {
 
-		public final static String FOLDER_NAME = "folderName";
-		public final static String MAIL_IMAP_HOST = "mail.imap.host";
-		public final static String USERNAME = "username";
-		public final static String PASSWORD = "password";
-		public final static String STORE_PROTOCOL = "mail.store.protocol";
+		public static final String FOLDER_NAME = "folderName";
+		public static final String MAIL_IMAP_HOST = "mail.imap.host";
+		public static final String USERNAME = "username";
+		public static final String PASSWORD = "password";
+		public static final String STORE_PROTOCOL = "mail.store.protocol";
 
 		private EmailReaderPropertyKeys() {
 			// strings
 		}
 	}
 
-	public final static String DEFAULT_PROTOCOL = "imaps";
+	public static final String DEFAULT_PROTOCOL = "imaps";
 	Properties props = new Properties();
 	Session session;
 	Store store;
@@ -58,8 +58,8 @@ public class EmailReader {
 	void init() {
 		this.mailhost = props.getProperty(EmailReaderPropertyKeys.MAIL_IMAP_HOST, "hostname");
 		this.protocol = props.getProperty(EmailReaderPropertyKeys.STORE_PROTOCOL, DEFAULT_PROTOCOL);
-		this.username = props.getProperty(EmailReaderPropertyKeys.USERNAME, "username");
-		this.password = props.getProperty(EmailReaderPropertyKeys.PASSWORD, "password");
+		this.username = props.getProperty(EmailReaderPropertyKeys.USERNAME, EmailReaderPropertyKeys.USERNAME);
+		this.password = props.getProperty(EmailReaderPropertyKeys.PASSWORD, EmailReaderPropertyKeys.PASSWORD);
 		this.folderName = props.getProperty(EmailReaderPropertyKeys.FOLDER_NAME);
 
 		try {
@@ -80,7 +80,7 @@ public class EmailReader {
 
 		try {
 			
-			Message msgs[] = blogBox.getMessages();
+			Message[] msgs = blogBox.getMessages();
 			FetchProfile fp = new FetchProfile();
 			fp.add(IMAPFolder.FetchProfileItem.MESSAGE);
 			blogBox.fetch(msgs, fp);
@@ -91,7 +91,7 @@ public class EmailReader {
 			log.log(Level.WARNING, "", e);
 		}
 
-		return null;
+		return new Message[0];
 
 	}
 
@@ -141,7 +141,7 @@ public class EmailReader {
 		return this.store.isConnected();
 	}
 
-	public ArrayList<BlogMessage> setBlogMessages(ArrayList<BlogMessage> bmsgs, Integer hrefMaxWords) {
+	public List<BlogMessage> setBlogMessages(List<BlogMessage> bmsgs, Integer hrefMaxWords) {
 
 		
 		List<String> hrefs = new ArrayList<>();

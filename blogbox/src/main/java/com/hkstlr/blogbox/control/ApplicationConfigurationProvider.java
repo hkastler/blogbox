@@ -1,5 +1,3 @@
-package com.hkstlr.blogbox.control;
-
 /*
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,13 +12,13 @@ package com.hkstlr.blogbox.control;
  * limitations under the License.
  * 
  */
+package com.hkstlr.blogbox.control;
+
 import javax.servlet.ServletContext;
 
-import org.ocpsoft.logging.Logger.Level;
 import org.ocpsoft.rewrite.annotation.RewriteConfiguration;
 import org.ocpsoft.rewrite.config.Configuration;
 import org.ocpsoft.rewrite.config.ConfigurationBuilder;
-import org.ocpsoft.rewrite.config.Log;
 import org.ocpsoft.rewrite.servlet.config.HttpConfigurationProvider;
 import org.ocpsoft.rewrite.servlet.config.Path;
 import org.ocpsoft.rewrite.servlet.config.rule.Join;
@@ -34,7 +32,7 @@ public class ApplicationConfigurationProvider extends HttpConfigurationProvider 
     
     public Configuration getConfiguration(ServletContext context) {
         return ConfigurationBuilder.begin()
-                .addRule().perform(Log.message(Level.DEBUG, "rewrite in the app"))
+                
                 .addRule(Join.path("/index").to(INDEX_PATH))
                 .addRule(Join.path("/").to(INDEX_PATH))
                 .addRule(Join.path("/page/{page}").to(INDEX_PATH))

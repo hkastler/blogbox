@@ -1,21 +1,23 @@
 package com.hkstlr.blogbox.control;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.hkstlr.blogbox.entities.BlogMessage;
+
+
 
 public class IndexEvent {
 
 	String name = "";
-	ArrayList<BlogMessage> msgs;
+	List<BlogMessage> msgs;
 	public IndexEvent() {
 		super();
 	}
 	
-	public IndexEvent(String name, ArrayList<BlogMessage> msgs) {
+	public IndexEvent(String name, List<BlogMessage> msgs) {
 		super();
 		this.name = name;
-		this.msgs = msgs;
+		this.msgs =  msgs;
 	}
 	public String getName() {
 		return name;
@@ -23,10 +25,10 @@ public class IndexEvent {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public ArrayList<BlogMessage> getMsgs() {
+	public List<BlogMessage> getMsgs() {
 		return msgs;
 	}
-	public void setMsgs(ArrayList<BlogMessage> msgs) {
+	public void setMsgs(List<BlogMessage> msgs) {
 		this.msgs = msgs;
 	}
 	

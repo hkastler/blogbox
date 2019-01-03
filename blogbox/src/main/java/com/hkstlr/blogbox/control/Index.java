@@ -83,10 +83,8 @@ public class Index {
         this.event = event;
     }
 
-    public void setIndexMsgs(ArrayList<BlogMessage> fm) {
+    public void setIndexMsgs(List<BlogMessage> fm) {
 
-        //Collections.sort(fm, (BlogMessage o1, BlogMessage o2)
-        //        -> o2.getCreateDate().compareTo(o1.getCreateDate()));
         List<BlogMessage> smsgs = fm.stream()
                 .sorted(Comparator.comparing(BlogMessage::getMessageNumber).reversed())
                 .collect(Collectors.toList());

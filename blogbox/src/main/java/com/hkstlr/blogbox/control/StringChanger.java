@@ -2,7 +2,7 @@ package com.hkstlr.blogbox.control;
 
 public class StringChanger {
 
-    public StringChanger() {
+    private StringChanger() {
     	//
     }
 

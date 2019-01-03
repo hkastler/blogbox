@@ -118,7 +118,7 @@ public class Setup {
     	private String password;
 
     	public User() {
-
+            super();
     	}
 
     	public String getUsername() {

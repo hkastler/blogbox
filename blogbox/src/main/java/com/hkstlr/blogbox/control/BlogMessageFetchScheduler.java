@@ -23,7 +23,7 @@ public class BlogMessageFetchScheduler {
     @Schedule(second = "0", minute = "0", hour = "*/2", persistent = false)
     public void fetchMessages() {
         try {
-            log.log(Level.INFO, "new FetchEvent(\"{0}\")","fetchMessages()");            
+            log.log(Level.INFO, "new FetchEvent(\"{0}\")","fetchMessages()");
             event.fire(new FetchEvent("fetchMessages()"));
             
             
