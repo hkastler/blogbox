@@ -1,0 +1,15 @@
+version: '3'
+
+networks:
+  blogboxnet:
+    driver: bridge
+
+services:
+  wildfly:
+    build: .
+    ports:
+      - "8080:8080"
+      - "9990:9990"
+    networks:
+    - blogboxnet
+    hostname: "blogbox"
