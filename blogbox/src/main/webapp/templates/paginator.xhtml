@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ps="http://xmlns.jcp.org/jsf/passthrough"
+      >
+    <c:if test="#{paginator == null}">
+        <c:set var="paginator" value="#{index.paginator}"/>
+    </c:if>
+        
+    <c:if test="#{outcome == null}">
+        <c:set var="outcome" value="#{bean.defaultOutcome}"/>
+    </c:if>
+       
+    <f:view>        
+    <input type="hidden" id="numberOfPages" value="#{paginator.numberOfPages}"/>
+    <ul class="pagination justify-content-center" id="paginator-#{position}">
+            
+            <ui:fragment rendered="#{paginator.numberOfPages gt 1}" >
+               <li jsf:class="previous #{paginator.hasPreviousPage? '': 'hidden' } page-item" >
+                    <a 
+                       id="navBack-Arrow_#{position}" 
+                       href="#{outcome}/page/#{paginator.page-1}/pageSize/#{paginator.pageSize}" 
+                       data-disabled="#{paginator.hasPreviousPage eq false}"
+                       fragment="#{fragment}"
+                       data-page="#{paginator.page-1}"
+                       data-pageSize="#{paginator.pageSize}"
+                       class="page-link"
+                       >
+                        &larr;
+                    </a>   
+                </li>
+
+                <li jsf:class="previous #{paginator.hasPreviousPage? '':'hidden'} page-item"   >
+                        <a 
+                           id="navBack-Text_#{position}" 
+                           href="#{outcome}/page/#{paginator.page-1}/pageSize/#{paginator.pageSize}" 
+                           data-disabled="#{paginator.hasPreviousPage eq false}"
+                           fragment="#{fragment}"
+                           data-page="#{paginator.page-1}"
+                           data-pageSize="#{paginator.pageSize}"
+                           class="page-link d-none d-sm-block"
+                           >
+                            #{messages.previous}
+                        </a>   
+                </li>
+            </ui:fragment>
+
+            
+        <c:forEach begin="1" end="#{paginator.numberOfPages }" var="i">
+            <c:set var="showLinkedLi" value="#{paginator.numberOfPages lt 13
+                                               or
+                                               (
+                                               (i eq 1) 
+                                               or (i eq paginator.numberOfPages)
+                                               or (i eq paginator.page) 
+                                               or (i eq paginator.page-1)
+                                               or (i eq paginator.page+1)
+                                               )}"/>
+            
+            <ui:fragment rendered="#{showLinkedLi}">
+            <li class="#{paginator.page eq i ? 'active': ''} page-item" id="paginatorPage#{i}">
+               <a href="#{outcome}/page/#{i}/pageSize/#{paginator.pageSize}"
+                  fragment="#{fragment}"
+                  data-page="#{i}"
+                  data-pageSize="#{paginator.pageSize}"
+                  class="page-link">
+                    #{i} 
+                </a>   
+            </li>
+            </ui:fragment>
+            <ui:fragment rendered="#{paginator.numberOfPages gt 12 and                                     
+                                     ((!showLinkedLi and i eq 2)
+                                       or
+                                      (!showLinkedLi and ((i == paginator.numberOfPages-1))))}">
+                
+            <li class="disabled page-item" id="paginatorPage#{i}">
+                <a>
+                .. 
+                </a>
+            </li>
+                
+            </ui:fragment>
+        </c:forEach>
+
+            <c:set var="nextLink" value="#{outcome}/page/#{paginator.page+1}/pageSize/#{paginator.pageSize}"/>
+            
+            <c:if test="#{paginator.hasNextPage eq false}">
+                <c:set var="nextLink" value="javascript:void(0);"/>
+            </c:if>
+            <ui:fragment rendered="#{paginator.numberOfPages gt 1}">
+                <li class="next page-item">
+                    <a  
+                       id="navForward-Text_#{position}" 
+                       href="#{nextLink}" 
+                       data-disabled="#{paginator.hasNextPage eq false}"
+                       fragment="#{fragment}"
+                       data-page="#{paginator.page+1}"
+                       data-pageSize="#{paginator.pageSize}"
+                       class="page-link d-none d-sm-block">
+
+                        #{messages.next}
+                    </a>                                            
+                </li>
+
+                <li class="next page-item">
+                    <a  
+                       id="navForward-Arrow_#{position}" 
+                       href="#{nextLink}" 
+                       data-disabled="#{paginator.hasNextPage eq false}"
+                       fragment="#{fragment}"
+                       data-page="#{paginator.page+1}"
+                       data-pageSize="#{paginator.pageSize}"
+                       class="page-link">
+                        &rarr;
+                    </a>
+                </li>
+            </ui:fragment>
+    </ul>
+    </f:view>  
+</ui:composition>
+

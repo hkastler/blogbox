@@ -37,7 +37,7 @@
 }
 
 .blgmsgimg > img {
-	width: 100%;
+	width: 75%;
 }
 
 input:focus::-webkit-input-placeholder{
@@ -48,4 +48,16 @@ input:focus::-moz-placeholder{
 }
 input:focus:-moz-placeholder{
     color: transparent!important;
+}
+
+article{
+    margin-bottom: 10px;
+}
+
+nav{
+    margin-bottom: 16px;
+}
+
+.paginator > ul{
+    margin-top: 1rem;
 }

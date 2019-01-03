@@ -40,9 +40,13 @@ $(document).on(
 							var html = $.parseHTML(response);
 							var newcontent = $(html).filter('#content').html();
 							$('#content').html(newcontent);
-
+							$('html, body').animate({
+								scrollTop: $("#top").offset().top
+							}, 0);
+							return false
 						} catch (err) {
-							// do nothing
+							console.log(err);
+							window.location.href = myHref;
 						}
 					},
 					error : function() {

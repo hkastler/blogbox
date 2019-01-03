@@ -1,25 +1,21 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-                xmlns:jsf="http://xmlns.jcp.org/jsf"
-                xmlns:ps="http://xmlns.jcp.org/jsf/passthrough"
-                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:jsf="http://xmlns.jcp.org/jsf"
+    xmlns:ps="http://xmlns.jcp.org/jsf/passthrough" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
 
 
     <div class="panel panel-primary" id="entries">
-		<ui:fragment rendered="#{index.msgs.isEmpty() or request.getParameter('loading') eq true}">
-			<meta http-equiv="refresh" content="10" />
-			<div>
-			<div class="text-center">Loading...</div>
-			<div class="loader"   ></div>
-			</div>
-			
-		</ui:fragment>
-        <ui:repeat value="#{index.msgs}" var="msg">
-            <ui:include src="blogrow.xhtml"/>
-        </ui:repeat>
+        <ui:fragment rendered="#{index.msgs.isEmpty() or request.getParameter('loading') eq true}">
+            <meta http-equiv="refresh" content="10" />
+            <div>
+                <div class="text-center">Loading...</div>
+                <div class="loader"></div>
+            </div>
+        </ui:fragment>
+
+        <ui:fragment rendered="#{not index.msgs.isEmpty()}">
+            <ui:include src="entries.xhtml"/>
+        </ui:fragment>
 
     </div>
 </ui:composition>

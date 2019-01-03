@@ -1,0 +1,30 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:ps="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:fragment rendered="#{index.paginator.page gt 1}">
+        <div class="row">
+            <div class="col-md-12" id="top-paginatorContainer">
+                <ui:include src="/templates/paginator.xhtml">
+                    <ui:param name="paginator" value="#{index.paginator}" />
+                    <ui:param name="outcome" value="#{request.contextPath}" />
+                    <ui:param name="fragment" value="topPaginator" />
+                    <ui:param name="position" value="top" />
+                </ui:include>
+            </div>
+        </div>
+    </ui:fragment>
+    <ui:repeat value="#{index.currentList()}" var="msg">
+        <ui:include src="blogrow.xhtml" />
+    </ui:repeat>
+    <div class="row">
+        <div class="col-md-12" id="bottom-paginatorContainer">
+            <ui:include src="/templates/paginator.xhtml">
+                <ui:param name="paginator" value="#{index.paginator}" />
+                <ui:param name="outcome" value="#{request.contextPath}" />
+                <ui:param name="fragment" value="topPaginator" />
+                <ui:param name="position" value="bottom" />
+            </ui:include>
+        </div>
+    </div>
+</ui:composition>

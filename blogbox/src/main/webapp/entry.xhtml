@@ -10,7 +10,7 @@
 	<ui:param name="msgIndex" value="#{index.msgMap[msgKey]}" />
 	<ui:param name="msg" value="#{index.msgs.get(msgIndex)}" />
 	<ui:param name="baseHref"
-		value="#{null ne request.getParameter('href') ? '/entry/': 'entry.xhtml?'}" />
+		value="#{null ne request.getParameter('href') ? '/entry/': '/entry.xhtml?'}" />
 
 	<!-- Page Content -->
 	<ui:define name="title">#{index.config.props["site.name"]} - #{msg.subject}</ui:define>
@@ -19,6 +19,7 @@
 		<div id="content">
 		
 			<ui:include src="blogpost.xhtml" />
+			<hr/>
 
 			<nav aria-label="Navigation" itemscope="itemscope"
 				itemtype="https://schema.org/SiteNavigationElement">
@@ -26,7 +27,7 @@
 					<ui:fragment rendered="#{msgIndex gt 0}">
 
 						<ui:param name="aMsg" value="#{index.msgs.get(msgIndex-1)}" />
-						<a href="#{baseHref}#{aMsg.href}" class="btn btn-info"
+						<a href="#{request.contextPath}#{baseHref}#{aMsg.href}" class="btn btn-primary"
 							id="nav-prev" title="#{aMsg.subject}"> <h:outputText
 								value="&lt; #{aMsg.subject.substring(0, index.min(10,aMsg.subject.length()))}..." />
 						</a>
@@ -35,7 +36,7 @@
 					<ui:fragment rendered="#{msgIndex lt index.msgs.size()-1}">
 
 						<ui:param name="aMsg" value="#{index.msgs.get(msgIndex+1)}" />
-						<a href="#{baseHref}#{aMsg.href}" class="btn btn-info"
+						<a href="#{request.contextPath}#{baseHref}#{aMsg.href}" class="btn btn-primary"
 							id="nav-next"  title="#{aMsg.subject}"> <h:outputText
 								value="#{aMsg.subject.substring(0, index.min(10,aMsg.subject.length()))}... &gt;" />
 						</a>
@@ -49,6 +50,11 @@
 
 	<ui:define name="postBody">
 		<script src="#{request.contextPath}/js/entry.js"></script>
+		<script>
+			if (location.hash) {
+				location.href = location.hash;
+			}
+		</script>
 	</ui:define>
 
 	<!-- /.container -->

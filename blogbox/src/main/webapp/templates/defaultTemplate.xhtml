@@ -13,11 +13,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
         <ui:insert name="meta"></ui:insert>
         <title><ui:insert name="title">#{index.config.props["site.name"]}</ui:insert></title>
+       
         <!-- Bootstrap Core CSS -->
-        <link rel="stylesheet" 
-        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" 
-        integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" 
-        crossorigin="anonymous"/>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+         rel="stylesheet" 
+         integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" 
+         crossorigin="anonymous"/>
 
         
         <link rel="stylesheet" href="#{request.contextPath}/css/main.css"/>
@@ -45,7 +46,7 @@
     <h:body>
         <ui:insert name="topBody"></ui:insert>
         <!-- Navigation -->
-        <ui:insert name="navigation">                
+        <ui:insert name="navigation">
             <ui:include src="navigation.xhtml" />  
         </ui:insert>
         <!-- Page Content -->
@@ -55,7 +56,7 @@
                     <div class="col-lg-8">
                         <div class="panel panel-primary">
                             <div class="panel-body">
-                                <ui:insert name="content">                   
+                                <ui:insert name="content">
 
                                 </ui:insert>
                             </div>
@@ -84,8 +85,9 @@
         <!-- Tether -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous" async="async"></script>
         <!-- Bootstrap Core JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous" async="async"></script>
-        <script src="#{request.contextPath}/js/main.js" async="async"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" 
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" 
+        crossorigin="anonymous"></script>
         <ui:insert name="postBody"><!-- hello --> </ui:insert>
 
     </h:body>

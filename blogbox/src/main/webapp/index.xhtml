@@ -1,12 +1,20 @@
-<ui:composition template="/templates/defaultTemplate.xhtml"
-                xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition template="/templates/defaultTemplate.xhtml" 
+    xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <f:metadata>
+        <f:viewParam id="pageSize" name="pageSize" value="#{index.paginator.pageSize}" />
+        <f:viewParam id="page" name="page" value="#{index.paginator.page}" />
+        <f:viewAction action="#{index.viewAction}"/>
+    </f:metadata>
+    <!-- define title -->
+    <ui:define name="title">
+        #{index.config.props["site.name"]}
+    </ui:define>
     <!-- Page Content -->
     <ui:define name="content">
-    	
-            <ui:include src="#{index.view()}"/>
-       
-    </ui:define>    
+        <ui:include src="#{index.view()}" />
+    </ui:define>
     <!-- /.container -->
 </ui:composition>

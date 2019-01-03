@@ -37,9 +37,10 @@ public class ApplicationConfigurationProvider extends HttpConfigurationProvider 
                 .addRule().perform(Log.message(Level.DEBUG, "rewrite in the app"))
                 .addRule(Join.path("/index").to(INDEX_PATH))
                 .addRule(Join.path("/").to(INDEX_PATH))
+                .addRule(Join.path("/page/{page}").to(INDEX_PATH))
+                .addRule(Join.path("/page/{page}/pageSize/{pageSize}").to(INDEX_PATH))
+
                 .addRule(Join.path("/entry/{href}").to(ENTRY_PATH ))
-                .addRule(Join.path("/entry-m/{href}").to("/weblogger/pages/entryMustache.xhtml"))
-                
                 .addRule(TrailingSlash.append())
                 .when(Path.matches("/{x}"))
                 .where("x").matches("^(?!.*\\.xhtml.*).*$");

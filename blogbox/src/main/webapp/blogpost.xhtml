@@ -1,34 +1,39 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html"
+ xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    
-	<article itemprop="blogPost" itemscope="itemscope"
-		itemtype="https://schema.org/BlogPosting">		
-			<ui:fragment rendered="#{isInList}">
-				<a href="entry/#{msg.href}" itemprop="mainEntityOfPage url">
-					<div itemprop="name headline">
-						<h4 class="mt-4" id="msgSubject"><h:outputText value="#{msg.subject}" /></h4>
-					</div>
-				</a>
-			</ui:fragment>
-			<ui:fragment rendered="#{!isInList}">
-				<meta itemprop="mainEntityOfPage" content="/#{msg.href}" />
-						
-				<div itemprop="name headline">
-					<h3 class="mt-4" id="msgSubject"><h:outputText value="#{msg.subject}" /></h3>
-				</div>				
-			</ui:fragment>
-		
-		<div id="msgCreateDate">
-			<!-- Date/Time -->
-			<time datetime="#{index.jsFormat(msg.createDate)}Z"
-				itemprop="datePublished">#{msg.createDate}</time>
-				
-		</div>
+
+	<article itemprop="blogPost" itemscope="itemscope" itemtype="https://schema.org/BlogPosting">
 		<ui:fragment rendered="#{isInList}">
-			<div id="msgBodyBegin">
+			<a href="#{request.contextPath}/entry/#{msg.href}" itemprop="mainEntityOfPage url">
+				<div itemprop="name headline">
+					<h4 class="mt-4" id="msgSubject-#{msg.messageNumber}">
+						<h:outputText value="#{msg.subject}" />
+					</h4>
+				</div>
+			</a>
+		</ui:fragment>
+		<ui:fragment rendered="#{!isInList}">
+			<meta itemprop="mainEntityOfPage" content="/#{msg.href}" />
+			<a name="top" id="top"></a>
+			<div itemprop="name headline">
+				<h3 class="mt-4" id="msgSubject">
+					<h:outputText value="#{msg.subject}" />
+				</h3>
+			</div>
+		</ui:fragment>
+		<ui:fragment rendered="#{isInList}">
+			<div id="msgCreateDate-#{msg.messageNumber}">
+				<time datetime="#{index.jsFormat(msg.createDate)}Z" itemprop="datePublished">#{msg.createDate}</time>
+			</div>
+		</ui:fragment>
+		<ui:fragment rendered="#{!isInList}">
+			<div id="msgCreateDate">
+				<time datetime="#{index.jsFormat(msg.createDate)}Z" itemprop="datePublished">#{msg.createDate}</time>
+			</div>
+		</ui:fragment>
+
+		<ui:fragment rendered="#{isInList}">
+			<div id="msgBodyBegin-#{msg.messageNumber}">
 				<h:outputText value="#{msg.body}" escape="false" />
 			</div>
 		</ui:fragment>
@@ -37,10 +42,6 @@
 			<div id="msgBody" itemprop="articleBody">
 				<h:outputText value="#{msg.body}" escape="false" />
 			</div>
-		</ui:fragment>	
-			
-		
+		</ui:fragment>
 	</article>
-	
-	
 </ui:composition>
