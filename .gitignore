@@ -1,5 +1,7 @@
 .project
 .classpath
 .settings/
+target/**
 blogbox/nb-configuration.xml
 blogbox-st/nbactions.xml
+blogbox/.factorypath
