@@ -10,6 +10,8 @@ services:
     ports:
       - "8080:8080"
       - "9990:9990"
+    volumes:
+      - C:\etc\config:/etc/config
     networks:
     - blogboxnet
     hostname: "blogbox"
