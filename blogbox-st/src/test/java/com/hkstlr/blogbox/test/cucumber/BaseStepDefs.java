@@ -29,6 +29,8 @@ public class BaseStepDefs {
 
     @PostConstruct
     public void setUp() {
+        // turn off htmlunit warnings
+        java.util.logging.Logger.getLogger("com.gargoylesoftware.htmlunit").setLevel(java.util.logging.Level.OFF);
         driver = new HtmlUnitDriver();
         envURL = TestUtils.getTestURL();
         //System.out.println("myURL:" + myURL);

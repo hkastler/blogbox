@@ -9,14 +9,14 @@ import org.openqa.selenium.support.ui.LoadableComponent;
 import com.hkstlr.blogbox.test.util.TestUtils;
 
 public class SetupPage extends LoadableComponent<SetupPage> {
-	
-	public WebDriver driver;
-	   
+
+    public WebDriver driver;
+
     public final String pageURL;
 
     @FindBy(id = "setupForm")
     public WebElement setupForm;
-    
+
     @FindBy(id = "siteName")
     public WebElement siteName;
     @FindBy(id = "imapHost")
@@ -24,33 +24,28 @@ public class SetupPage extends LoadableComponent<SetupPage> {
     @FindBy(id = "username")
     public WebElement usernameField;
     @FindBy(id = "password")
-    public WebElement passwordField;   
-    
+    public WebElement passwordField;
+
     @FindBy(id = "folderName")
-    public WebElement folderNameField;    
+    public WebElement folderNameField;
 
     public SetupPage(WebDriver aDriver) {
-        this.pageURL = TestUtils.getTestURL()
-                .concat("/index.xhtml");
-                
+        this.pageURL = TestUtils.getTestURL().concat("/blog/");
+
         driver = aDriver;
         PageFactory.initElements(driver, this);
-        driver.get(pageURL);       
+        driver.get(pageURL);
     }
 
-
-
-	@Override
+    @Override
     protected void load() {
         this.driver.get(pageURL);
     }
 
+    @Override
+    protected void isLoaded() throws Error {
+        // do something
 
-
-	@Override
-	protected void isLoaded() throws Error {
-		// do something
-		
-	}
+    }
 
 }
