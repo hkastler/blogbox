@@ -69,3 +69,11 @@ nav{
 #content{
     margin-left: 2rem;
 }
+
+.show{
+    display: block;
+}
+
+.hide{
+    display: none;
+}

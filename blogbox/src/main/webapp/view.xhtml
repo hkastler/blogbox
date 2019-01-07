@@ -2,15 +2,23 @@
     xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:jsf="http://xmlns.jcp.org/jsf"
     xmlns:ps="http://xmlns.jcp.org/jsf/passthrough" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 
-
-
     <div class="panel panel-primary" id="entries">
         <ui:fragment rendered="#{index.msgs.isEmpty() or request.getParameter('loading') eq true}">
-            <meta http-equiv="refresh" content="10" />
-            <div>
+            <script>
+                setTimeout(function(){ 
+                    var lw = document.getElementById("loaderWrapper"); 
+                    lw.classList.add("hide");
+                    var ew = document.getElementById("errorWrapper");
+                    ew.classList.remove("hide");
+                    }, 60000);
+            </script>
+            <div id="loaderWrapper">
                 <div class="text-center">Loading...</div>
                 <div class="loader"></div>
             </div>
+            <div id="errorWrapper" class="hide text-danger text-center">
+                <div>An error occurred loading the blog.</div>
+             </div>
         </ui:fragment>
 
         <ui:fragment rendered="#{not index.msgs.isEmpty()}">
