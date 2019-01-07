@@ -2,12 +2,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.hkstlr</groupId>
+        <artifactId>blogbox-pom</artifactId>
+        <version>${revision}</version>
+    </parent>
     <groupId>com.hkstlr.blogbox.test</groupId>
     <artifactId>blogbox-st</artifactId>
     <packaging>jar</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>${revision}</version>
     <name>blogbox-st</name>
-    <url>http://maven.apache.org</url>
+    
 
     <dependencies>
         <dependency>
@@ -27,8 +32,6 @@
             <artifactId>selenium-java</artifactId>
             <version>3.6.0</version>
         </dependency>
-        
-
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-server</artifactId>
@@ -58,7 +61,7 @@
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
-            <version>7.0</version>
+            <version>8.0</version>
             <scope>test</scope>
             <type>jar</type>
         </dependency>
@@ -104,7 +107,7 @@
                 <env>dev</env>
                 <hostName>localhost</hostName>
                 <protocol>http</protocol>
-                <port>8080</port>		        	        
+                <port>8080</port>
             </properties>
         </profile>
         <profile>
@@ -116,7 +119,7 @@
                 <env>local-docker</env>
                 <hostName>localhost</hostName>
                 <protocol>http</protocol>
-                <port>80</port>		        	        
+                <port>80</port>
             </properties>
         </profile>
         <profile>
@@ -128,7 +131,7 @@
                 <env>qa</env>
                 <hostName>staging.hkstlr.com</hostName>
                 <protocol>http</protocol>
-                <port>80</port>		                
+                <port>80</port>
             </properties>
         </profile>
         <profile>
