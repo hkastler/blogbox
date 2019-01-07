@@ -46,7 +46,6 @@ public class FetchHandler implements Serializable {
     
     @Asynchronous  
     public void fetchAndSetBlogMessages(){
-        
     
         Optional<List<BlogMessage>> fm = Optional.empty();
 		try {
@@ -62,13 +61,10 @@ public class FetchHandler implements Serializable {
         if(fm.isPresent()) {
             event.fire(new IndexEvent("setIndexMsgs",fm.get()));
         }
-			
-	
 		
     }
     
     @Asynchronous
-    @AccessTimeout(value=45000)
     public Future<List<BlogMessage>> getBlogMessages() {
     	
         CompletableFuture<List<BlogMessage>> completableFuture 
