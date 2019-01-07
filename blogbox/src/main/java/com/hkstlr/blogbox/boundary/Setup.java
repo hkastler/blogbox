@@ -37,7 +37,7 @@ public class Setup {
         		this.folderName);
         config.getProps().put(EmailReader.EmailReaderPropertyKeys.USERNAME, 
         		this.user.getUsername());
-        config.getProps().put(EmailReader.EmailReaderPropertyKeys.MAIL_IMAP_HOST, 
+        config.getProps().put(EmailReader.EmailReaderPropertyKeys.MAIL_IMAPS_HOST, 
         		this.imapHost);
         config.getProps().put("site.name", this.siteName);
         
