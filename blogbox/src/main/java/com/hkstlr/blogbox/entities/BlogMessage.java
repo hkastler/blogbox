@@ -42,7 +42,6 @@ public class BlogMessage {
     private String subject;
     private String body;
     private String href;
-    private String headers;
     private static final Logger LOG = Logger.getLogger(BlogMessage.class.getName());
     private static final String DEFAULT_SUBJECTREGEX = "[Bb]log";
     public static final Integer DEFAULT_HREFWORDMAX = 10;
@@ -75,7 +74,7 @@ public class BlogMessage {
         this.subject = createSubject(msg.getSubject(),subjectRegex);
         this.body = processMultipart(msg);
         this.href = createHref(hrefWordMax);
-        this.headers = messageHeadersToKeyValue(msg);
+        
     }
 
     public String getMessageId() {
@@ -132,20 +131,6 @@ public class BlogMessage {
         this.href = href;
     }
 
-    /**
-     * @return the headers
-     */
-    public String getHeaders() {
-        return headers;
-    }
-
-    /**
-     * @param headers the headers to set
-     */
-    public void setHeaders(String headers) {
-        this.headers = headers;
-    }
-    
 
 	@SuppressWarnings("unchecked")
     private String messageHeadersToKeyValue(Message message) {
