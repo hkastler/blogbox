@@ -10,7 +10,6 @@ import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.ejb.AccessTimeout;
 import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
@@ -18,6 +17,7 @@ import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
 import com.hkstlr.blogbox.entities.BlogMessage;
+import com.hkstlr.blogbox.entities.BlogMessage.BlogMessageBuilder;
 
 @SuppressWarnings("serial")
 @Stateless
@@ -74,7 +74,7 @@ public class FetchHandler implements Serializable {
         
         Integer hrefMaxWords = Optional.ofNullable(Integer.parseInt(config.getProps()
         		.getProperty("bmgs.hrefWordMax")))
-        		.orElse(BlogMessage.DEFAULT_HREFWORDMAX);
+        		.orElse(BlogMessageBuilder.DEFAULT_HREFWORDMAX);
         
         EmailReader er = new EmailReader(config.getProps());
                 
