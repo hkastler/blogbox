@@ -41,7 +41,7 @@ public class BlogMessageTest {
         try (InputStream is = Files.newInputStream(eml)) {
             message = new MimeMessage(session, is);
         }
-        cut = new BlogMessage(message);
+        cut = new BlogMessage.BlogMessageBuilder(message).build();
         
     }
 
