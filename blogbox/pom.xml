@@ -12,7 +12,6 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
-        <revision>LATEST</revision>
         <build.finalName>blogbox</build.finalName>
         
         <javaee-api.version>8.0</javaee-api.version>
