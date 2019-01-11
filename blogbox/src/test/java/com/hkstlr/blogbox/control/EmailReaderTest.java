@@ -16,13 +16,15 @@ import java.util.Properties;
 import javax.mail.MessagingException;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
  *
  * @author henry.kastler
  */
-public class EmailReaderTest {
+@Ignore 
+ public class EmailReaderTest {
     
     EmailReader cut;
     Config config;

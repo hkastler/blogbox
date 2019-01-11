@@ -2,6 +2,7 @@ package com.hkstlr.blogbox.control;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -12,13 +13,14 @@ import javax.mail.FetchProfile;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
 import com.hkstlr.blogbox.entities.BlogMessage;
 import com.sun.mail.imap.IMAPFolder;
 import com.sun.mail.imap.IMAPSSLStore;
 
 public class EmailReader {
-
 
 	public static final String SUPPORTED_PROTOCOL = "imaps";
 	Properties props = new Properties();
@@ -43,15 +45,39 @@ public class EmailReader {
 
 	@PostConstruct
 	void init() {
-		this.mailhost = props.getProperty(EmailReaderPropertyKeys.MAIL_IMAPS_HOST, EmailReaderPropertyKeys.MAIL_IMAPS_HOST);
-		this.protocol = SUPPORTED_PROTOCOL;
-		this.username = props.getProperty(EmailReaderPropertyKeys.USERNAME, EmailReaderPropertyKeys.USERNAME);
-		this.password = props.getProperty(EmailReaderPropertyKeys.PASSWORD, EmailReaderPropertyKeys.PASSWORD);
 		this.folderName = props.getProperty(EmailReaderPropertyKeys.FOLDER_NAME);
 
+		InitialContext ctx;
 		try {
+			ctx = new InitialContext();
+			session = (Session) ctx.lookup("java:/mail/BlogboxIMAPS");
+		} catch (NamingException e1) {
+			log.log(Level.INFO, "java:/mail/BlogboxIMAPS not found");
+		}
+		
+		if (null == session) {
+			log.log(Level.INFO, "getting mail session from local client");
+			this.mailhost = props.getProperty(EmailReaderPropertyKeys.MAIL_IMAPS_HOST,
+					EmailReaderPropertyKeys.MAIL_IMAPS_HOST);
+			this.protocol = SUPPORTED_PROTOCOL;
+			this.username = props.getProperty(EmailReaderPropertyKeys.USERNAME, EmailReaderPropertyKeys.USERNAME);
+			this.password = props.getProperty(EmailReaderPropertyKeys.PASSWORD, EmailReaderPropertyKeys.PASSWORD);
 			storeConnect();
-			this.blogBox = (IMAPFolder)store.getFolder(this.folderName);
+		} else {
+			log.log(Level.INFO, "getting mail session from container");
+			try {
+				session.setDebug(false);
+				this.store = (IMAPSSLStore) session.getStore(SUPPORTED_PROTOCOL);
+				store.connect(session.getProperty(EmailReaderPropertyKeys.MAIL_IMAPS_HOST),
+						session.getProperty("mail.imaps.user"), session.getProperty("mail.imaps.password"));
+				
+			} catch (MessagingException e) {
+				log.log(Level.INFO, "init", e);
+			}
+
+		}
+		try {
+			this.blogBox = (IMAPFolder) store.getFolder(this.folderName);
 			this.blogBox.open(IMAPFolder.READ_ONLY);
 		} catch (MessagingException e) {
 			log.log(Level.SEVERE, "init()", e);
@@ -60,9 +86,10 @@ public class EmailReader {
 	}
 
 	public boolean storeConnect() {
-		this.session = Session.getDefaultInstance(this.props, null);
+		this.session = Session.getInstance(this.props, null);
+		session.setDebug(false);
 		try {
-			this.store = (IMAPSSLStore)session.getStore(this.protocol);
+			this.store = (IMAPSSLStore) session.getStore(this.protocol);
 			store.connect(this.mailhost, this.username, this.password);
 		} catch (MessagingException e) {
 			log.log(Level.SEVERE, "storeConnect()", e);
@@ -80,7 +107,7 @@ public class EmailReader {
 	}
 
 	public Message[] getImapEmails() {
-		
+
 		try {
 			Message[] msgs = blogBox.getMessages();
 			FetchProfile fp = new FetchProfile();
@@ -89,7 +116,7 @@ public class EmailReader {
 			return msgs;
 
 		} catch (MessagingException e) {
-			storeClose();
+			// storeClose();
 			log.log(Level.WARNING, "getImapEmails()", e);
 		}
 
@@ -98,7 +125,7 @@ public class EmailReader {
 
 	public int getMessageCount() {
 		int msgCount = 0;
-		
+
 		try {
 
 			if (!blogBox.isOpen()) {
@@ -122,24 +149,18 @@ public class EmailReader {
 	}
 
 	public List<BlogMessage> setBlogMessages(List<BlogMessage> bmsgs, Integer hrefMaxWords) {
-		log.log(Level.INFO, "{0} bmgs setBlogMessages", new Object[]{Integer.toString(bmsgs.size())});
+		// log.log(Level.INFO, "{0} bmgs setBlogMessages", new
+		// Object[]{Integer.toString(bmsgs.size())});
 		List<String> hrefs = new ArrayList<>();
-		log.log(Level.INFO, "getImapEmails");
 		
-		for (Message msg : getImapEmails()) {
-			log.log(Level.INFO, "{0} msg.number", new Object[]{Integer.toString(msg.getMessageNumber())});
-			if (!blogBox.isOpen()) {
-				try {
-					blogBox.open(IMAPFolder.READ_ONLY);
-				} catch (MessagingException e) {
-					log.log(Level.WARNING, "setBlogMessages:blogBox.open", e);
-				}
-			}
-
-			try {
-				BlogMessage bmsg = new BlogMessage(msg, hrefMaxWords);
+		Arrays.asList(getImapEmails()).parallelStream().forEach(msg -> {
 			
-				if( hrefs.contains(bmsg.getHref()) ){
+			try {
+				if (!blogBox.isOpen()) {
+					blogBox.open(IMAPFolder.READ_ONLY);
+				}
+				BlogMessage bmsg = new BlogMessage(msg, hrefMaxWords);
+				if (hrefs.contains(bmsg.getHref())) {
 					bmsg.makeHrefUnique();
 				}
 				hrefs.add(bmsg.getHref());
@@ -147,17 +168,15 @@ public class EmailReader {
 
 			} catch (IOException | MessagingException e) {
 				log.log(Level.WARNING, "bmsg", e);
-				continue;
 			} finally {
-				storeClose();
+				// storeClose();
 			}
-		}
-		
-		log.log(Level.INFO, "{0} bmgs returned}", new Object[]{Integer.toString(bmsgs.size())});
+		});
+
+		log.log(Level.INFO, "{0} bmgs returned}", new Object[] { Integer.toString(bmsgs.size()) });
 		return bmsgs;
 	}
 
-	
 	public class EmailReaderPropertyKeys {
 
 		public static final String FOLDER_NAME = "folderName";

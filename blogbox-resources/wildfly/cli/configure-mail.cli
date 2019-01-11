@@ -1,0 +1,10 @@
+/subsystem=mail/mail-session=BlogboxIMAPS:add(jndi-name=java:/mail/BlogboxIMAPS, debug=false)
+/subsystem=mail/mail-session=BlogboxIMAPS/custom=BlogboxMailSession:add( \
+properties={"mail.imaps.user" => "username-here", \
+"mail.imaps.password" => "password-here" ,\
+"mail.imaps.fetchsize" => "1048576", \
+"mail.imaps.partialfetch" => "false", \
+"mail.imaps.connectionpoolsize" =>"10", \
+"mail.imaps.host" => "imaps-host-here", \
+"mail.store.protocol" => "imaps"})
+
