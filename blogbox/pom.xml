@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.hkstlr</groupId>
+        <artifactId>blogbox-pom</artifactId>
+        <version>${revision}${sha1}${changelist}</version>
+    </parent>
     <groupId>com.hkstlr</groupId>
     <artifactId>blogbox</artifactId>
-    <version>${revision}</version>
+    <version>${revision}${sha1}${changelist}</version>
     <packaging>war</packaging>
     <name>blogbox</name>
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.version>3.5.2</maven.version>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-
         <build.finalName>blogbox</build.finalName>
         
         <javaee-api.version>8.0</javaee-api.version>
@@ -47,7 +47,7 @@
                         <artifactItem>
                             <groupId>com.hkstlr</groupId>
                             <artifactId>hkstlr.com-webtemplates</artifactId>
-                            <version>${revision}</version>
+                            <version>LATEST</version>
                             <type>jar</type>
                         </artifactItem>
                     </artifactItems>
@@ -99,13 +99,13 @@
     </dependencies>
     <profiles>
         <profile>
-            <id>dev</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
+            <id>aws</id>
+            <properties>
+                <build.finalName>blogbox</build.finalName>
+            </properties>
         </profile>
         <profile>
-            <id>aws</id>
+            <id>openshift</id>
             <properties>
                 <build.finalName>blogbox</build.finalName>
             </properties>

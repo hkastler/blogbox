@@ -16,13 +16,50 @@ limitations under the License.
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.hkstlr</groupId>
     <artifactId>blogbox-pom</artifactId>
-    <version>${revision}</version>
+    <version>${revision}${sha1}${changelist}</version>
     <packaging>pom</packaging>
     <properties>
-        <revision>LATEST</revision>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.version>3.5.2</maven.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <revision>1.0.2</revision>
+        <changelist>-SNAPSHOT</changelist>
+        <sha1 />
+        <tag>${revision}${sha1}${changelist}</tag>
     </properties>
     <modules>
         <module>blogbox</module>
         <module>blogbox-st</module>
     </modules>
+    <scm>
+        <connection>scm:git:https://github.com/hkastler/blogbox.git</connection>
+        <url>https://github.com/hkastler/blogbox</url>
+    </scm>
+    <distributionManagement>
+        <repository>
+            <uniqueVersion>false</uniqueVersion>
+            <id>nexus</id>
+            <url>http://nexus:8081/repository/maven-snapshots/</url>
+            <layout>default</layout>
+        </repository>
+        <snapshotRepository>
+            <id>nexus</id>
+            <url>http://nexus:8081/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+    <profiles>
+        <profile>
+            <id>release</id>
+            <properties>
+                <changelist></changelist>
+            </properties>
+            <distributionManagement>
+                <repository>
+                    <id>nexus</id>
+                    <url>http://nexus:8081/repository/maven-releases/</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+    </profiles>
 </project>

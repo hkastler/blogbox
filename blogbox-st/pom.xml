@@ -5,15 +5,13 @@
     <parent>
         <groupId>com.hkstlr</groupId>
         <artifactId>blogbox-pom</artifactId>
-        <version>${revision}</version>
+        <version>${revision}${sha1}${changelist}</version>
     </parent>
     <groupId>com.hkstlr.blogbox.test</groupId>
     <artifactId>blogbox-st</artifactId>
     <packaging>jar</packaging>
-    <version>${revision}</version>
+    <version>${revision}${sha1}${changelist}</version>
     <name>blogbox-st</name>
-    
-
     <dependencies>
         <dependency>
             <groupId>info.cukes</groupId>
