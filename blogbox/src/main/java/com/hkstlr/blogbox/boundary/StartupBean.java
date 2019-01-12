@@ -18,6 +18,5 @@ public class StartupBean{
     public void eagerInit() {
         Logger.getLogger(StartupBean.class.getCanonicalName())
         .log(Level.INFO,"StartupBean.eagerInit.isSetup:{0}",index.getConfig().isSetup());
-       ;
     }
 }
