@@ -8,10 +8,10 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.annotation.PostConstruct;
 import javax.mail.FetchProfile;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.NoSuchProviderException;
 import javax.mail.Session;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -20,82 +20,93 @@ import com.hkstlr.blogbox.entities.BlogMessage;
 import com.sun.mail.imap.IMAPFolder;
 import com.sun.mail.imap.IMAPSSLStore;
 
+
 public class EmailReader {
 
 	public static final String SUPPORTED_PROTOCOL = "imaps";
 	Properties props = new Properties();
 	Session session;
 	IMAPSSLStore store;
-	String mailhost;
+	
 	String folderName;
-
 	IMAPFolder blogBox;
-	String username;
-	String password;
-
-	String protocol;
 
 	private final Logger log = Logger.getLogger(this.getClass().getName());
+
+	public EmailReader(){
+		super();
+	}
 
 	public EmailReader(Properties props) {
 		super();
 		this.props = props;
 		init();
 	}
-
-	@PostConstruct
+	
 	void init() {
-		this.folderName = props.getProperty(EmailReaderPropertyKeys.FOLDER_NAME);
-
-		InitialContext ctx;
-		try {
-			ctx = new InitialContext();
-			session = (Session) ctx.lookup("java:/mail/BlogboxIMAPS");
-		} catch (NamingException e1) {
-			log.log(Level.INFO, "java:/mail/BlogboxIMAPS not found");
-		}
 		
-		if (null == session) {
-			log.log(Level.INFO, "getting mail session from local client");
-			this.mailhost = props.getProperty(EmailReaderPropertyKeys.MAIL_IMAPS_HOST,
-					EmailReaderPropertyKeys.MAIL_IMAPS_HOST);
-			this.protocol = SUPPORTED_PROTOCOL;
-			this.username = props.getProperty(EmailReaderPropertyKeys.USERNAME, EmailReaderPropertyKeys.USERNAME);
-			this.password = props.getProperty(EmailReaderPropertyKeys.PASSWORD, EmailReaderPropertyKeys.PASSWORD);
-			storeConnect();
-		} else {
+		this.folderName = props.getProperty(EmailReaderPropertyKeys.FOLDER_NAME);
+		
+		setSessionFromContext(props.getProperty(EmailReaderPropertyKeys.JNDI_NAME,"java:/mail/BlogboxIMAPS"));
+		
+		if (this.session != null) {
 			log.log(Level.INFO, "getting mail session from container");
-			try {
-				session.setDebug(false);
-				this.store = (IMAPSSLStore) session.getStore(SUPPORTED_PROTOCOL);
-				store.connect(session.getProperty(EmailReaderPropertyKeys.MAIL_IMAPS_HOST),
-						session.getProperty("mail.imaps.user"), session.getProperty("mail.imaps.password"));
-				
-			} catch (MessagingException e) {
-				log.log(Level.INFO, "init", e);
-			}
-
+			storeConnectContainer();
+		} else {
+			log.log(Level.INFO, "getting mail session from local client");	
+			storeConnectLocalClient();
 		}
+
 		try {
 			this.blogBox = (IMAPFolder) store.getFolder(this.folderName);
 			this.blogBox.open(IMAPFolder.READ_ONLY);
+			
 		} catch (MessagingException e) {
 			log.log(Level.SEVERE, "init()", e);
 		}
 
 	}
 
-	public boolean storeConnect() {
-		this.session = Session.getInstance(this.props, null);
-		session.setDebug(false);
+	public void setSessionFromContext(String jndiName){
 		try {
-			this.store = (IMAPSSLStore) session.getStore(this.protocol);
-			store.connect(this.mailhost, this.username, this.password);
+			InitialContext ctx = new InitialContext();
+			this.session = (Session) ctx.lookup(jndiName);
+		} catch (NamingException e1) {
+			log.log(Level.WARNING, "jndiName not found", e1);
+		}
+	}
+
+	public boolean storeConnectContainer(){
+		try {
+			setStore();
+			this.store.connect(this.session.getProperty(EmailReaderPropertyKeys.MAIL_IMAPS_HOST),
+					this.session.getProperty("mail.imaps.user"), this.session.getProperty("mail.imaps.password"));
+			
 		} catch (MessagingException e) {
-			log.log(Level.SEVERE, "storeConnect()", e);
+			log.log(Level.INFO, "storeConnectContainer()", e);
+		}
+		return this.store.isConnected();
+	}
+
+	public boolean storeConnectLocalClient() {
+		this.session = Session.getInstance(this.props, null);
+		this.session.setDebug(false);
+		String mailhost = props.getProperty(EmailReaderPropertyKeys.MAIL_IMAPS_HOST,
+					EmailReaderPropertyKeys.MAIL_IMAPS_HOST);	
+		String username = props.getProperty(EmailReaderPropertyKeys.USERNAME, EmailReaderPropertyKeys.USERNAME);
+		String password = props.getProperty(EmailReaderPropertyKeys.PASSWORD, EmailReaderPropertyKeys.PASSWORD);
+		try {
+			setStore();
+			this.store.connect(mailhost, username, password);
+		} catch (MessagingException e) {
+			log.log(Level.SEVERE, "storeConnectLocalClient()", e);
 		}
 
 		return this.store.isConnected();
+	}
+
+	public void setStore() throws NoSuchProviderException{
+		this.store = (IMAPSSLStore) this.session.getStore();
 	}
 
 	public void storeClose() {
@@ -109,14 +120,13 @@ public class EmailReader {
 	public Message[] getImapEmails() {
 
 		try {
-			Message[] msgs = blogBox.getMessages();
+			Message[] msgs = this.blogBox.getMessages();
 			FetchProfile fp = new FetchProfile();
 			fp.add(IMAPFolder.FetchProfileItem.MESSAGE);
-			blogBox.fetch(msgs, fp);
+			this.blogBox.fetch(msgs, fp);
 			return msgs;
 
 		} catch (MessagingException e) {
-			// storeClose();
 			log.log(Level.WARNING, "getImapEmails()", e);
 		}
 
@@ -149,8 +159,7 @@ public class EmailReader {
 	}
 
 	public List<BlogMessage> setBlogMessages(List<BlogMessage> bmsgs, Integer hrefMaxWords) {
-		// log.log(Level.INFO, "{0} bmgs setBlogMessages", new
-		// Object[]{Integer.toString(bmsgs.size())});
+		
 		List<String> hrefs = new ArrayList<>();
 		
 		Arrays.asList(getImapEmails()).parallelStream().forEach(msg -> {
@@ -169,11 +178,11 @@ public class EmailReader {
 			} catch (IOException | MessagingException e) {
 				log.log(Level.WARNING, "bmsg", e);
 			} finally {
-				// storeClose();
+				//do nothing
 			}
 		});
 
-		log.log(Level.INFO, "{0} bmgs returned}", new Object[] { Integer.toString(bmsgs.size()) });
+		log.log(Level.INFO, "{0} bmgs returned", new Object[] {Integer.toString(bmsgs.size())});
 		return bmsgs;
 	}
 
@@ -184,6 +193,7 @@ public class EmailReader {
 		public static final String USERNAME = "username";
 		public static final String PASSWORD = "password";
 		public static final String STORE_PROTOCOL = "mail.store.protocol";
+		public static final String JNDI_NAME = "jndiName";
 
 		private EmailReaderPropertyKeys() {
 			// strings
