@@ -26,7 +26,7 @@ public class BlogBoxService {
     @GET
     @Produces("application/json")
     @Path("/entry/{href}")
-    public BlogMessage getHref(@PathParam("href") String href) {    	
+    public BlogMessage getHref(@PathParam("href") String href) {	
         return index.getMsgs().get(index.getMsgMap().get(href));
     }
     
