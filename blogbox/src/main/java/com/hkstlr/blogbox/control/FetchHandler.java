@@ -10,8 +10,8 @@ import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.ejb.AccessTimeout;
 import javax.ejb.Asynchronous;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
@@ -77,10 +77,7 @@ public class FetchHandler implements Serializable {
         		.orElse(BlogMessage.DEFAULT_HREFWORDMAX);
         
         EmailReader er = new EmailReader(config.getProps());
-                
-        bmsgs = er.setBlogMessages(bmsgs, hrefMaxWords);
-        
-        er.storeClose();
+        bmsgs = er.setBlogMessages(bmsgs, hrefMaxWords);        
         
         completableFuture.complete(bmsgs);
         return completableFuture;
