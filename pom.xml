@@ -39,8 +39,8 @@ limitations under the License.
     <distributionManagement>
         <repository>
             <uniqueVersion>false</uniqueVersion>
-            <id>nexus</id>
-            <url>http://nexus:8081/repository/maven-snapshots/</url>
+            <id>local</id>
+            <url>file:///~/.m2</url>
             <layout>default</layout>
         </repository>
         <snapshotRepository>
