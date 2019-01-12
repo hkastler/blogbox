@@ -3,7 +3,6 @@ package com.hkstlr.blogbox.boundary;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Asynchronous;
@@ -69,12 +68,10 @@ public class IndexBean {
     }
 
     public String view() {
-
         String template = "view.xhtml";
         if (!index.getConfig().isSetup()) {
             template = "setup/index.xhtml";
         }
-
         return template;
     }
 
