@@ -10,7 +10,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.Startup;
 import javax.enterprise.context.ApplicationScoped;
 
 import com.hkstlr.blogbox.control.EmailReader.EmailReaderPropertyKeys;
@@ -19,7 +18,6 @@ import com.hkstlr.blogbox.control.EmailReader.EmailReaderPropertyKeys;
  *
  * @author henry.kastler
  */
-@Startup
 @ApplicationScoped
 public class Config {
 
@@ -64,6 +62,7 @@ public class Config {
     }
 
     public boolean isSetup() {
+        
         try {
             return this.getProps().containsKey(EmailReaderPropertyKeys.USERNAME)
                     && this.getProps().containsKey(EmailReaderPropertyKeys.PASSWORD)

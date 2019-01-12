@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.DependsOn;
-import javax.ejb.Startup;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
@@ -23,15 +22,12 @@ import com.hkstlr.blogbox.entities.BlogMessage;
 
 @ApplicationScoped
 @DependsOn(value = "config")
-@Startup
 public class Index {
 
     private List<BlogMessage> msgs = new CopyOnWriteArrayList<>();
     private ConcurrentMap<String, Integer> msgMap = new ConcurrentHashMap<>();
 
     private static Logger log = Logger.getLogger(Index.class.getName());
-
-    
 
     @Inject
     Config config;
