@@ -7,8 +7,15 @@ package com.hkstlr.blogbox.control;
  * @author henry.kastler
  */
 public final class Paginator {
+
+    private int pageSize = 24;
+    private int page = 1;
+    private int numberOfPages = 1;
+    private int numberOfItems = 0;
 	
-	public Paginator(){};
+	public Paginator(){
+        super();
+    }
     
     public Paginator(int pageSize, int page, int numberOfItems, int numberOfPages){
         setPageSize(pageSize);
@@ -23,14 +30,6 @@ public final class Paginator {
         setNumberOfItems(numberOfItems);
         setNumberOfPages();
     }
-    
-    private int pageSize = 24;
-    //pages have a 1 based index
-    //list elements have 0 based index
-    private int page = 1;
-    private int numberOfPages = 1;
-    private int numberOfItems = 0;
-    
     
     public int getPageSize() {
         return pageSize;
@@ -68,7 +67,7 @@ public final class Paginator {
         this.numberOfItems = numberOfItems;
     }
     
-    public int getPageFirstItem() {       
+    public int getPageFirstItem() {
         return getPageFirstItem(this.page ,this.pageSize);
     }
     
@@ -88,9 +87,9 @@ public final class Paginator {
     
     public int getPageLastItem(int firstPageItem, int pageSize, int numberOfItems) {
     	
-    	int lastItemIndex = (firstPageItem-1) + pageSize;        
+    	int lastItemIndex = (firstPageItem-1) + pageSize;
         int count = numberOfItems;
-        //log.log(Level.INFO,"count:{0}",Integer.toString(count));
+        
         if (lastItemIndex > count) {
         	lastItemIndex = count;
         }
@@ -98,11 +97,10 @@ public final class Paginator {
         	lastItemIndex = 0;
         }
         
-        //System.out.println(itemIndex);
         return lastItemIndex;
     }
 
-    public boolean isHasNextPage() {        
+    public boolean isHasNextPage() {
         return (page * pageSize)  + 1 <= numberOfItems;
     }
 
