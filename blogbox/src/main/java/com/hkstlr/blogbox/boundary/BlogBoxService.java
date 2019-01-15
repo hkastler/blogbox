@@ -11,6 +11,7 @@ import javax.ws.rs.Produces;
 
 import com.hkstlr.blogbox.control.EmailReader;
 import com.hkstlr.blogbox.control.Index;
+import com.hkstlr.blogbox.control.Paginator;
 import com.hkstlr.blogbox.entities.BlogMessage;
 
 @Path("/srvc")
@@ -28,6 +29,14 @@ public class BlogBoxService {
     @Path("/entry/{href}")
     public BlogMessage getHref(@PathParam("href") String href) {	
         return index.getMsgs().get(index.getMsgMap().get(href));
+    }
+
+    @GET
+    @Produces("application/json")
+    @Path("/entries/page/{page}/pageSize/{pageSize}")
+    public List<BlogMessage> getEntries(@PathParam("page") Integer page, @PathParam("pageSize") Integer pageSize) {	
+        Paginator paginator = new Paginator(pageSize, page, index.getMsgs().size());
+        return index.getMsgs().subList(paginator.getPageFirstItem() - 1, paginator.getPageLastItem());
     }
     
     @GET
