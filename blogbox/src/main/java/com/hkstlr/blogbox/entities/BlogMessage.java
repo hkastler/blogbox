@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
@@ -48,33 +49,33 @@ public class BlogMessage {
     public static final String TITLE_SEPARATOR = "-";
 
     public BlogMessage() {
-    	super();
+        super();
     }
 
     public BlogMessage(Message msg) throws MessagingException, IOException {
         super();
         setBlogMessage(msg, DEFAULT_SUBJECTREGEX, DEFAULT_HREFWORDMAX);
     }
-    
-    public BlogMessage(Message msg, Integer hrefWordMax ) throws MessagingException, IOException {
+
+    public BlogMessage(Message msg, Integer hrefWordMax) throws MessagingException, IOException {
         super();
         setBlogMessage(msg, DEFAULT_SUBJECTREGEX, hrefWordMax);
     }
-    
-    public BlogMessage(Message msg, String subjectRegex, Integer hrefWordMax ) throws MessagingException, IOException {
+
+    public BlogMessage(Message msg, String subjectRegex, Integer hrefWordMax) throws MessagingException, IOException {
         super();
         setBlogMessage(msg, subjectRegex, hrefWordMax);
     }
-    
-    public void setBlogMessage(Message msg, String subjectRegex, Integer hrefWordMax) throws MessagingException, IOException {
-    	this.messageId = Optional.ofNullable(msg.getHeader("Message-ID")[0])
-    			.orElse(Double.toHexString(Math.random()));
+
+    public void setBlogMessage(Message msg, String subjectRegex, Integer hrefWordMax)
+            throws MessagingException, IOException {
+        this.messageId = Optional.ofNullable(msg.getHeader("Message-ID")[0]).orElse(Double.toHexString(Math.random()));
         this.messageNumber = msg.getMessageNumber();
         this.createDate = msg.getReceivedDate();
-        this.subject = createSubject(msg.getSubject(),subjectRegex);
+        this.subject = createSubject(msg.getSubject(), subjectRegex);
         this.body = processMultipart(msg);
         this.href = createHref(hrefWordMax);
-        
+
     }
 
     public String getMessageId() {
@@ -131,109 +132,107 @@ public class BlogMessage {
         this.href = href;
     }
 
-
-	@SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
     private String messageHeadersToKeyValue(Message message) {
 
         Enumeration<Header> allHeaders = null;
         try {
             allHeaders = message.getAllHeaders();
         } catch (MessagingException e) {
-           LOG.log(Level.WARNING,"headers error",e);
+            LOG.log(Level.WARNING, "headers error", e);
         }
         StringBuilder hdrs = new StringBuilder();
-        Collections.list(allHeaders).stream()
-                .forEach(h -> hdrs.append(h.getName().toString()).append(": ").append(h.getValue().toString()).append("\n"));
+        Collections.list(allHeaders).stream().forEach(
+                h -> hdrs.append(h.getName().toString()).append(": ").append(h.getValue().toString()).append("\n"));
         return hdrs.toString();
     }
 
     private String processMultipart(Message msg) throws IOException, MessagingException {
 
-        if("java.lang.String".equals(msg.getContent().getClass().getCanonicalName())){
+        if ("java.lang.String".equals(msg.getContent().getClass().getCanonicalName())) {
             return msg.getContent().toString();
         }
 
         Multipart multipart = (Multipart) msg.getContent();
         StringBuilder content = new StringBuilder();
-        BodyPart part;   
+        BodyPart part;
         Optional<BodyPart> textPart = Optional.empty();
         Optional<BodyPart> htmlPart = Optional.empty();
         Optional<List<String>> imgs = Optional.empty();
-        
-        for (int i = 0; i < multipart.getCount(); i++) {
-        	       	
-            part = multipart.getBodyPart(i);
-            
-            if (part.getContentType().contains(MediaType.TEXT_PLAIN)){
-            	textPart = Optional.of(part);
-                
-            }else if (part.getContentType().contains(MediaType.TEXT_HTML)){
-            	htmlPart = Optional.of(part);
 
-            }else if (part.getContentType().contains("multipart/alternative")){
-            	
-            	DataHandler mh = part.getDataHandler();
+        for (int i = 0; i < multipart.getCount(); i++) {
+
+            part = multipart.getBodyPart(i);
+
+            if (part.getContentType().contains(MediaType.TEXT_PLAIN)) {
+                textPart = Optional.of(part);
+
+            } else if (part.getContentType().contains(MediaType.TEXT_HTML)) {
+                htmlPart = Optional.of(part);
+
+            } else if (part.getContentType().contains("multipart/alternative")) {
+
+                DataHandler mh = part.getDataHandler();
                 MimeMultipart mm = (MimeMultipart) mh.getContent();
-                
+
                 for (int m = 0; m < mm.getCount(); m++) {
-            	   BodyPart p = mm.getBodyPart(m);
-            	   if(p.getContentType().contains(MediaType.TEXT_HTML)) {
-            		   htmlPart = Optional.of(p);
-            	   }
+                    BodyPart p = mm.getBodyPart(m);
+                    if (p.getContentType().contains(MediaType.TEXT_HTML)) {
+                        htmlPart = Optional.of(p);
+                    }
                 }
-                
-            }  
-                            
+
+            }
+
             if (part.getContent() instanceof BASE64DecoderStream) {
-            	
+
                 DataHandler dh = part.getDataHandler();
-                if(dh.getContentType().contains("image/")) {
-                	ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                if (dh.getContentType().contains("image/")) {
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     dh.writeTo(baos);
 
                     byte[] attBytes = baos.toByteArray();
                     String imageString = Base64.getEncoder().encodeToString(attBytes);
                     baos.close();
 
-                    //get the contentType ensure no attachment name
+                    // get the contentType ensure no attachment name
                     String contentType = dh.getContentType().split(";")[0];
-                    
+
                     String template = "<div class=\"blgmsgimg\"><img src=\"data:{0};base64, {1} \" /></div>";
-                    String imgTag = MessageFormat.format(template, 
-                    		new Object[]{contentType, imageString});
-                    if(imgs.isPresent()) {
-                    	imgs.get().add(imgTag);
-                    }else {
-                    	List<String> is = new ArrayList<>();
-                    	is.add(imgTag);
-                    	imgs = Optional.of(is);
+                    String imgTag = MessageFormat.format(template, new Object[] { contentType, imageString });
+                    if (imgs.isPresent()) {
+                        imgs.get().add(imgTag);
+                    } else {
+                        List<String> is = new ArrayList<>();
+                        is.add(imgTag);
+                        imgs = Optional.of(is);
                     }
-                }   
-                
+                }
+
             }
         }
-        
-        if(htmlPart.isPresent()) {
-        	content.append(processHtml((String) htmlPart.get().getContent()));
-        }else if(textPart.isPresent()) {
-        	content.append((String) textPart.get().getContent());
+
+        if (htmlPart.isPresent()) {
+            content.append(processHtml((String) htmlPart.get().getContent()));
+        } else if (textPart.isPresent()) {
+            content.append((String) textPart.get().getContent());
         }
-        if(imgs.isPresent()) {
-        	for(String img : imgs.get()) {
-        		content.append(img);
-        	}
-        	
+        if (imgs.isPresent()) {
+            for (String img : imgs.get()) {
+                content.append(img);
+            }
+
         }
         return content.toString();
     }
-    
+
     private String processHtml(String html) {
-    	Document doc = Jsoup.parse(html);
+        Document doc = Jsoup.parse(html);
         Element htmlBody = doc.body();
-        
-        Optional<Element> sig = Optional.ofNullable(doc.select("div:contains(Sent from Yahoo Mail)").first()) ;
-        if(sig.isPresent()) {
-        	sig.get().remove();
+
+        Optional<Element> sig = Optional.ofNullable(doc.select("div:contains(Sent from Yahoo Mail)").first());
+        if (sig.isPresent()) {
+            sig.get().remove();
         }
 
         Whitelist wl = Whitelist.relaxed();
@@ -245,17 +244,17 @@ public class BlogMessage {
         String safe = Jsoup.clean(htmlBody.html(), wl);
         return StringUtil.normaliseWhitespace(safe);
     }
-    
-    private String createSubject(String msgSubject, String rfRegex ) {
-    	
-    	String lsub = msgSubject;
-    	lsub = lsub.replaceFirst(rfRegex, "");
-    	lsub = lsub.trim();
-    	if(lsub.length()==0) {
-    		lsub = msgSubject;
-    	}
-    	return lsub;
-    	
+
+    private String createSubject(String msgSubject, String rfRegex) {
+
+        String lsub = msgSubject;
+        lsub = lsub.replaceFirst(rfRegex, "");
+        lsub = lsub.trim();
+        if (lsub.length() == 0) {
+            lsub = msgSubject;
+        }
+        return lsub;
+
     }
 
     /**
@@ -263,7 +262,6 @@ public class BlogMessage {
      */
     private String createHref(@NotNull Integer numberOfWordsInUrl) {
 
-        
         // Use title (minus non-alphanumeric characters)
         StringBuilder base = new StringBuilder();
         if (!this.subject.isEmpty()) {
@@ -292,7 +290,7 @@ public class BlogMessage {
             }
             base = tmp;
         } // No title or text, so instead we will use the items date
-        // in YYYYMMDD format as the base anchor
+          // in YYYYMMDD format as the base anchor
         else {
 
             base.append(new DateFormatter(this.createDate).format8chars());
@@ -300,14 +298,27 @@ public class BlogMessage {
 
         return base.toString();
     }
-       
+
     public void makeHrefUnique() {
-    	
+
         StringBuilder tmpHref = new StringBuilder(this.href);
-		tmpHref.append(BlogMessage.TITLE_SEPARATOR)
-		       .append(new DateFormatter(createDate).formatjsFormat());
-		this.href = tmpHref.toString();
-    	
+        tmpHref.append(BlogMessage.TITLE_SEPARATOR).append(new DateFormatter(createDate).formatjsFormat());
+        this.href = tmpHref.toString();
+
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        boolean response = false;
+        if (o instanceof BlogMessage) {
+            response = (((BlogMessage) o).messageId).equals(this.messageId);
+        }
+        return response;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.messageId,this.href);
     }
 
 }
