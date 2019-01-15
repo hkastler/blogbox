@@ -21,7 +21,12 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.internet.MimeMultipart;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.ws.rs.core.MediaType;
 
 import org.jsoup.Jsoup;
@@ -34,14 +39,43 @@ import com.hkstlr.blogbox.control.DateFormatter;
 import com.hkstlr.blogbox.control.StringChanger;
 import com.sun.mail.util.BASE64DecoderStream;
 
+@Entity
 public class BlogMessage {
 
+    @Id
+    @Basic(optional = false)
+    @NotNull(message = "{BlogMessage.messageId.NotNull}")
+    @Size(min = 1, max = 255, message="{BlogMessage.messageId.NotNull}")
+    @Column(name = "messageId", nullable = false, length = 255)
     private String messageId;
+
+    @Basic(optional = false)
+    @NotNull(message = "{BlogMessage.messageNumber.NotNull}")
+    @Size(min = 1, max = 255, message="{BlogMessage.messageNumber.NotNull}")
+    @Column(name = "messageNumber", nullable = false, length = 255)
     private int messageNumber;
-    private Date createDate;
-    private String subject;
-    private String body;
+
+    @Basic(optional = false)
+    @NotNull(message = "{BlogMessage.href.NotNull}")
+    @Size(min = 1, max = 255, message="{BlogMessage.href.NotNull}")
+    @Column(name = "href", nullable = false, length = 255)
     private String href;
+
+    @Basic(optional = false)
+    @NotNull(message = "{BlogMessage.subject.NotNull}")
+    @Size(min = 1, max = 255, message="{BlogMessage.subject.NotNull}")
+    @Column(name = "subject", nullable = false, length = 255)
+    private String subject;
+
+    @Basic(optional = false)
+    @NotNull(message = "{BlogMessage.body.NotNull}")
+    @Size(min = 1, max = 255, message="{BlogMessage.body.NotNull}")
+    @Column(name = "body", nullable = false, length = 255)
+    private String body;
+
+    @Column(name = "createDate")
+    private Date createDate;
+   
     private static final Logger LOG = Logger.getLogger(BlogMessage.class.getName());
     private static final String DEFAULT_SUBJECTREGEX = "[Bb]log";
     public static final Integer DEFAULT_HREFWORDMAX = 10;
