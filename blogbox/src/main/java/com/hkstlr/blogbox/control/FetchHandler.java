@@ -11,7 +11,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ejb.Asynchronous;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
@@ -30,6 +29,9 @@ public class FetchHandler implements Serializable {
      
     @Inject
     Event<IndexEvent> event;
+
+    @Inject
+    EmailReader er;
     
     public FetchHandler() {
 		super();
@@ -76,8 +78,9 @@ public class FetchHandler implements Serializable {
         		.getProperty("bmgs.hrefWordMax")))
         		.orElse(BlogMessage.DEFAULT_HREFWORDMAX);
         
-        EmailReader er = new EmailReader(config.getProps());
-        bmsgs = er.setBlogMessages(bmsgs, hrefMaxWords);        
+        er.setProps(config.getProps());
+        er.init();
+        bmsgs = er.setBlogMessages(bmsgs, hrefMaxWords);
         
         completableFuture.complete(bmsgs);
         return completableFuture;

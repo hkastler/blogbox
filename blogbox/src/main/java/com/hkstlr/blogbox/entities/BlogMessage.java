@@ -23,12 +23,17 @@ import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.internet.MimeMultipart;
 import javax.persistence.Basic;
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.ws.rs.core.MediaType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.jsoup.Jsoup;
 import org.jsoup.helper.StringUtil;
@@ -41,6 +46,13 @@ import com.hkstlr.blogbox.control.StringChanger;
 import com.sun.mail.util.BASE64DecoderStream;
 
 @Entity
+@Cacheable
+@Table(name = "BlogMessage", uniqueConstraints={@UniqueConstraint(columnNames = "href")})
+@NamedQuery(name="BlogMessage.findAll", query="SELECT b FROM BlogMessage b")
+@NamedQuery(name="BlogMessage.findByHref", query="SELECT b FROM BlogMessage b WHERE b.href = :href")
+@NamedQuery(name="BlogMessage.findByMessageNumber", query="SELECT b FROM BlogMessage b WHERE b.messageNumber = :messageNumber")
+@NamedQuery(name="BlogMessage.findMessageNumberRange", query="SELECT b FROM BlogMessage b WHERE b.messageNumber BETWEEN :messageNumberStart AND :messageNumberEnd")
+@XmlRootElement
 public class BlogMessage {
 
     @Id
@@ -52,9 +64,8 @@ public class BlogMessage {
 
     @Basic(optional = false)
     @NotNull(message = "{BlogMessage.messageNumber.NotNull}")
-    @Size(min = 1, max = 255, message="{BlogMessage.messageNumber.NotNull}")
-    @Column(name = "messageNumber", nullable = false, length = 255)
-    private int messageNumber;
+    @Column(name = "messageNumber", nullable = false)
+    private Integer messageNumber;
 
     @Basic(optional = false)
     @NotNull(message = "{BlogMessage.href.NotNull}")
@@ -70,8 +81,8 @@ public class BlogMessage {
 
     @Basic(optional = false)
     @NotNull(message = "{BlogMessage.body.NotNull}")
-    @Size(min = 1, max = 255, message="{BlogMessage.body.NotNull}")
-    @Column(name = "body", nullable = false, length = 255)
+    @Size(min = 1, message="{BlogMessage.body.NotNull}")
+    @Column(name = "body", nullable = false, length=10485760)
     private String body;
 
     @Column(name = "createDate")
@@ -109,7 +120,6 @@ public class BlogMessage {
         this.subject = createSubject(msg.getSubject(), subjectRegex);
         this.body = processMultipart(msg);
         this.href = createHref(hrefWordMax);
-
     }
 
     public String getMessageId() {
