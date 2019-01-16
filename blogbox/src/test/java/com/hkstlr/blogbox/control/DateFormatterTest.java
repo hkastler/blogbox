@@ -45,11 +45,9 @@ public class DateFormatterTest {
     @Test
     public void testFormatjsFormat() {
         System.out.println("testFormatjsFormat()");
-        //System.out.println(cut.getDate());
-        //System.out.println(cut.formatjsFormat());
+        System.out.println(cut.getDate());
+        System.out.println(cut.formatjsFormat());
         assertEquals("2015-04-10T00:00:00", cut.formatjsFormat());
     }
 
-    
-    
 }

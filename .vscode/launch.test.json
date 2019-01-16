@@ -1,0 +1,48 @@
+{
+    "run": {
+        "default": "",
+        "items": [
+            {
+                "name": "blogbox",
+                "projectName": "blogbox",
+                "workingDirectory": "c:\\Users\\henry.kastler\\Documents\\GitHub\\blogbox\\blogbox",
+                "args": [],
+                "vmargs": [],
+                "env": {},
+                "preLaunchTask": ""
+            },
+            {
+                "name": "blogbox-st",
+                "projectName": "blogbox-st",
+                "workingDirectory": "c:\\Users\\henry.kastler\\Documents\\GitHub\\blogbox\\blogbox-st",
+                "args": [],
+                "vmargs": [],
+                "env": {},
+                "preLaunchTask": ""
+            }
+        ]
+    },
+    "debug": {
+        "default": "",
+        "items": [
+            {
+                "name": "blogbox",
+                "projectName": "blogbox",
+                "workingDirectory": "c:\\Users\\henry.kastler\\Documents\\GitHub\\blogbox\\blogbox",
+                "args": [],
+                "vmargs": [],
+                "env": {},
+                "preLaunchTask": ""
+            },
+            {
+                "name": "blogbox-st",
+                "projectName": "blogbox-st",
+                "workingDirectory": "c:\\Users\\henry.kastler\\Documents\\GitHub\\blogbox\\blogbox-st",
+                "args": [],
+                "vmargs": [],
+                "env": {},
+                "preLaunchTask": ""
+            }
+        ]
+    }
+}
