@@ -23,6 +23,8 @@ import java.util.TimeZone;
 
 import javax.inject.Named;
 
+import org.ocpsoft.logging.Logger;
+
 /**
  *
  * @author henry.kastler
@@ -66,11 +68,11 @@ public class DateFormatter {
      */
     public static final DateTimeFormatter jsFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 	public String formatjsFormat() {
-	    	
-	    	String[] aryDate = this.date.toString().trim().split(" ");
+			
+			Logger.getLogger(DateFormatter.class.getCanonicalName()).info(this.dateInstant.toString());
 	    	return DateFormatter.jsFormat.format(
 					LocalDateTime.ofInstant(this.dateInstant, 
-							ZoneId.of(TimeZone.getTimeZone(aryDate[aryDate.length-2].trim()).getID())
+							ZoneId.of("UTC")
 					));
 	    }
     
@@ -81,7 +83,7 @@ public class DateFormatter {
     private Instant dateInstant;
     
     public DateFormatter() {
-        
+        super();
     }
 
     public DateFormatter(Date date) {
