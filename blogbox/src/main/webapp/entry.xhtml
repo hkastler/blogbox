@@ -7,8 +7,9 @@
 
 	<ui:param name="msgKey"
 		value="#{null ne request.getParameter('href') ? request.getParameter('href'): request.getQueryString()}" />
+	
+	<ui:param name="msg" value="#{index.getMsgByHref(request.getParameter('href'))}" />
 	<ui:param name="msgIndex" value="#{index.msgMap[msgKey]}" />
-	<ui:param name="msg" value="#{index.msgs.get(msgIndex)}" />
 	<ui:param name="baseHref"
 		value="#{null ne request.getParameter('href') ? '/entry/': '/entry.xhtml?'}" />
 
@@ -17,35 +18,31 @@
 
 	<ui:define name="content">
 		<div id="content">
-		
 			<ui:include src="blogpost.xhtml" />
 			<hr/>
-
 			<nav aria-label="Navigation" itemscope="itemscope"
 				itemtype="https://schema.org/SiteNavigationElement">
+				
 				<div id="nav">
-					<ui:fragment rendered="#{msgIndex gt 0}">
-
-						<ui:param name="aMsg" value="#{index.msgs.get(msgIndex-1)}" />
-						<a href="#{request.contextPath}#{baseHref}#{aMsg.href}" class="btn btn-primary"
-							id="nav-prev" title="#{aMsg.subject}"> <h:outputText
-								value="&lt; #{aMsg.subject.substring(0, index.min(10,aMsg.subject.length()))}..." />
-						</a>
-
+					<ui:fragment rendered="#{msgIndex ne 0}">
+							<ui:param name="aMsg" value="#{index.getMsgByMessageNumber(msg.messageNumber+1)}" />
+							<a href="#{request.contextPath}#{baseHref}#{aMsg.href}" class="btn btn-primary"
+								id="nav-prev" title="#{aMsg.subject}"> <h:outputText
+									value="&lt; #{aMsg.subject.substring(0, index.min(10,aMsg.subject.length()))}..." />
+							</a>
 					</ui:fragment>
-					<ui:fragment rendered="#{msgIndex lt index.msgs.size()-1}">
 
-						<ui:param name="aMsg" value="#{index.msgs.get(msgIndex+1)}" />
+					<ui:fragment rendered="#{msgIndex le index.getMsgMap().size() 
+						and msg.messageNumber ne 1}">
+						<ui:param name="aMsg" value="#{index.getMsgByMessageNumber(msg.messageNumber-1)}" />
 						<a href="#{request.contextPath}#{baseHref}#{aMsg.href}" class="btn btn-primary"
 							id="nav-next"  title="#{aMsg.subject}"> <h:outputText
 								value="#{aMsg.subject.substring(0, index.min(10,aMsg.subject.length()))}... &gt;" />
 						</a>
-
 					</ui:fragment>
 				</div>
 			</nav>
 		</div>
-
 	</ui:define>
 
 	<ui:define name="postBody">

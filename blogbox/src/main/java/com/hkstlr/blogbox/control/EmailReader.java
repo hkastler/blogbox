@@ -8,7 +8,6 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
@@ -20,7 +19,6 @@ import javax.mail.Session;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import com.hkstlr.blogbox.boundary.jpa.BlogMessageManager;
 import com.hkstlr.blogbox.entities.BlogMessage;
 import com.sun.mail.imap.IMAPFolder;
 import com.sun.mail.imap.IMAPSSLStore;
@@ -167,27 +165,25 @@ public class EmailReader {
 		this.props = props;
 	}
 
-	public List<BlogMessage> setBlogMessages(List<BlogMessage> bmsgs, Integer hrefMaxWords) {
+	public void setBlogMessages(Integer hrefMaxWords) {
 		
 		List<String> hrefs = new ArrayList<>();
 		
 		Arrays.asList(getImapEmails()).parallelStream().forEach(msg -> {
-			try {
-				Logger.getLogger(EmailReader.class.getCanonicalName()).info((msg.getReceivedDate().toString()));
-			} catch (MessagingException e1) {
-				e1.printStackTrace();
-			}
+			
 			try {
 				if (!blogBox.isOpen()) {
 					blogBox.open(IMAPFolder.READ_ONLY);
 				}
 				BlogMessage bmsg = new BlogMessage(msg, hrefMaxWords);
+				//log.info(bmsg.getMessageNumber() +":"+ bmsg.getHref());
 				if (hrefs.contains(bmsg.getHref())) {
+					//log.info(bmsg.getHref() + " exists, making unique href");
 					bmsg.makeHrefUnique();
+					//log.info("new href: " + bmsg.getHref() );
 				}
 				hrefs.add(bmsg.getHref());
-				bmsgs.add(bmsg);
-				log.info("event.fire");
+				
 				event.fire( new BlogMessageEvent("save", bmsg) );
 
 			} catch (IOException | MessagingException e) {
@@ -197,8 +193,8 @@ public class EmailReader {
 			}
 		});
 
-		log.log(Level.INFO, "{0} bmgs returned", new Object[] {Integer.toString(bmsgs.size())});
-		return bmsgs;
+		log.log(Level.INFO, "{0} bmgs returned", new Object[] {Integer.toString(hrefs.size())});
+		
 	}
 
 	public class EmailReaderPropertyKeys {

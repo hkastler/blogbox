@@ -6,12 +6,13 @@ import java.util.logging.Logger;
 
 import javax.ejb.Asynchronous;
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.enterprise.event.Observes;
 
 import com.hkstlr.blogbox.boundary.jpa.BlogMessageManager;
 import com.hkstlr.blogbox.entities.BlogMessage;
 
-
+@Stateless
 public class BlogMessageHandler{
     Logger LOG = Logger.getLogger(BlogMessageHandler.class.getCanonicalName());
 
@@ -24,9 +25,8 @@ public class BlogMessageHandler{
 
     @Asynchronous
     public void handle(@Observes BlogMessageEvent event) {
-        LOG.log(Level.INFO, "BlogMessageHandler.handle:{0}", event.getName());
+        
         if("save".equals(event.getName())){
-            LOG.log(Level.INFO, "BlogMessageHandler.save:{0}", event.getName());
             save(event.getBmsg());
         }
     }

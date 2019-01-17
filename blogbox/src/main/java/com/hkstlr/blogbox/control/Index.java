@@ -13,17 +13,19 @@ import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.DependsOn;
+import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 
+import com.hkstlr.blogbox.boundary.jpa.BlogMessageManager;
 import com.hkstlr.blogbox.entities.BlogMessage;
 
 @ApplicationScoped
 @DependsOn(value = "config")
 public class Index {
 
-    private List<BlogMessage> msgs = new CopyOnWriteArrayList<>();
+    //private List<BlogMessage> msgs = new CopyOnWriteArrayList<>();
     private ConcurrentMap<String, Integer> msgMap = new ConcurrentHashMap<>();
 
     private static Logger log = Logger.getLogger(Index.class.getName());
@@ -34,6 +36,9 @@ public class Index {
     @Inject
     private Event<FetchEvent> event;
 
+    @EJB
+    BlogMessageManager bman;
+
     @PostConstruct
     void init() {
 
@@ -42,14 +47,6 @@ public class Index {
             getEvent().fire(new FetchEvent(this.getClass().getCanonicalName()
                     .concat(".init()")));
         }
-    }
-
-    public List<BlogMessage> getMsgs() {
-        return msgs;
-    }
-
-    public void setMsgs(List<BlogMessage> msgs) {
-        this.msgs = msgs;
     }
 
     public Map<String, Integer> getMsgMap() {
@@ -78,16 +75,11 @@ public class Index {
         this.event = event;
     }
 
-    public void setIndexMsgs(List<BlogMessage> fm) {
+    public void setIndexMsgs() {
 
-        List<BlogMessage> smsgs = fm.stream()
-                .sorted(Comparator.comparing(BlogMessage::getMessageNumber).reversed())
-                .collect(Collectors.toList());
-        this.getMsgs().clear();
-        this.setMsgs(smsgs);
         this.getMsgMap().clear();
         AtomicInteger i = new AtomicInteger(0);
-        this.getMsgs().forEach(bmsg
+        bman.allBlogMessages().forEach(bmsg
                 -> getMsgMap().put(bmsg.getHref(), i.getAndIncrement()));
 
     }

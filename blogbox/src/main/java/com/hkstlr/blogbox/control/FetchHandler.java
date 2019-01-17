@@ -80,7 +80,7 @@ public class FetchHandler implements Serializable {
         
         er.setProps(config.getProps());
         er.init();
-        bmsgs = er.setBlogMessages(bmsgs, hrefMaxWords);
+        er.setBlogMessages(hrefMaxWords);
         
         completableFuture.complete(bmsgs);
         return completableFuture;

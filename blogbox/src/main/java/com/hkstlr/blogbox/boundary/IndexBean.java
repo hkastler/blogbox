@@ -12,6 +12,7 @@ import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.hkstlr.blogbox.boundary.jpa.BlogMessageManager;
 import com.hkstlr.blogbox.control.Config;
 import com.hkstlr.blogbox.control.DateFormatter;
 import com.hkstlr.blogbox.control.FetchEvent;
@@ -27,6 +28,9 @@ public class IndexBean {
     Paginator paginator;
 
     @Inject
+    BlogMessageManager bmm;
+
+    @Inject
     Index index;
 
     @Inject
@@ -39,15 +43,11 @@ public class IndexBean {
     @PostConstruct
     void init() {
         String itemsPerPage = (String) index.getConfig().getProps().getOrDefault("blog.itemsPerPage", "4");
-        setPaginator(new Paginator(Integer.parseInt(itemsPerPage), 1, getMsgs().size()));
+        setPaginator(new Paginator(Integer.parseInt(itemsPerPage), 1, index.getMsgMap().size()));
     }
 
     public void viewAction() {
         paginator.setNumberOfPages();
-    }
-
-    public List<BlogMessage> getMsgs() {
-        return index.getMsgs();
     }
 
     public Map<String, Integer> getMsgMap() {
@@ -62,9 +62,23 @@ public class IndexBean {
         return Math.min(a, b);
     }
 
+    public Boolean hasMessages(){
+        Integer msgCount = bmm.count();
+        return (msgCount > 0);
+    }
+
     public List<BlogMessage> currentList() {
-        //expectation here is that viewAction() has already been called
-        return index.getMsgs().subList(paginator.getPageFirstItem() - 1, paginator.getPageLastItem());
+
+         return bmm.getBlogMessageRange(paginator.getPageFirstItem() - 1, paginator.getPageLastItem() - 1);
+        
+    }
+
+    public BlogMessage getMsgByHref(String href){
+        return bmm.getBlogMessageByHref(href);
+    }
+
+    public BlogMessage getMsgByMessageNumber(Integer msgNum){
+        return bmm.getBlogMessageByMessageNumber(msgNum);
     }
 
     public String view() {
@@ -97,7 +111,7 @@ public class IndexBean {
     public void processIndexEvent(@Observes IndexEvent event) {
 
         if ("setIndexMsgs".equals(event.getName())) {
-            index.setIndexMsgs(event.getMsgs());
+            index.setIndexMsgs();
         }
 
     }
