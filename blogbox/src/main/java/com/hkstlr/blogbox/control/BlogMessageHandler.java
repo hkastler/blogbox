@@ -1,7 +1,6 @@
 package com.hkstlr.blogbox.control;
 
 import java.util.Optional;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ejb.Asynchronous;
@@ -25,19 +24,26 @@ public class BlogMessageHandler{
 
     @Asynchronous
     public void handle(@Observes BlogMessageEvent event) {
-        
+        Object payload = event.getPayload();
         if("save".equals(event.getName())){
-            save(event.getBmsg());
+            save( (BlogMessage) payload );
+        }else if ("deleteByHref".equals(event.getName())){
+            deleteByHref( (String[]) payload );
         }
+    }
+
+    void deleteByHref(String[] hrefs){
+        bman.deleteByHrefNotIn(hrefs);
     }
 
     void save(BlogMessage b){
         String messageId = b.getMessageId();
         Optional<BlogMessage> bmsg = Optional.ofNullable(bman.getEm().find(BlogMessage.class, messageId));
         if(bmsg.isPresent()){
+            //if present, update, in case of change of message number
             bman.getEm().merge(b);
         }else{
-            bman.saveBlogMessage(b);
+            bman.getEm().persist(b);
         }
         
     }

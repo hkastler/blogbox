@@ -165,7 +165,7 @@ public class EmailReader {
 		this.props = props;
 	}
 
-	public void setBlogMessages(Integer hrefMaxWords) {
+	public Boolean setBlogMessages(Integer hrefMaxWords) {
 		
 		List<String> hrefs = new ArrayList<>();
 		
@@ -176,14 +176,11 @@ public class EmailReader {
 					blogBox.open(IMAPFolder.READ_ONLY);
 				}
 				BlogMessage bmsg = new BlogMessage(msg, hrefMaxWords);
-				//log.info(bmsg.getMessageNumber() +":"+ bmsg.getHref());
+				
 				if (hrefs.contains(bmsg.getHref())) {
-					//log.info(bmsg.getHref() + " exists, making unique href");
 					bmsg.makeHrefUnique();
-					//log.info("new href: " + bmsg.getHref() );
 				}
 				hrefs.add(bmsg.getHref());
-				
 				event.fire( new BlogMessageEvent("save", bmsg) );
 
 			} catch (IOException | MessagingException e) {
@@ -193,8 +190,11 @@ public class EmailReader {
 			}
 		});
 
+		storeClose();
+		//convert to String array for payload type safety
+		event.fire( new BlogMessageEvent ("deleteByHref", hrefs.toArray(new String[hrefs.size()])));
 		log.log(Level.INFO, "{0} bmgs returned", new Object[] {Integer.toString(hrefs.size())});
-		
+		return true;
 	}
 
 	public class EmailReaderPropertyKeys {

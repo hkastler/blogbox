@@ -1,5 +1,6 @@
 package com.hkstlr.blogbox.boundary.jpa;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -24,6 +25,7 @@ public class BlogMessageManager{
     public BlogMessageManager(){
         super();
     }
+    
 
     public List<BlogMessage> allBlogMessages() {
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -35,18 +37,39 @@ public class BlogMessageManager{
         return q.getResultList();
     }
 
+    
+    public List<BlogMessage> findRange(Integer[] range) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<BlogMessage> cq = cb.createQuery(BlogMessage.class);
+        Root<BlogMessage> t = cq.from(BlogMessage.class);
+        CriteriaQuery<BlogMessage> all = cq.select(t);
+        all.orderBy(cb.desc(t.get(BlogMessage_.MESSAGE_NUMBER)));
+        TypedQuery<BlogMessage> q = em.createQuery(all);
+        q.setMaxResults(range[1] - range[0] + 1);
+        q.setFirstResult(range[0]);
+        return q.getResultList();
+    }
+
+    public Integer count() {
+        CriteriaQuery<Object> cq = em.getCriteriaBuilder().createQuery();
+        javax.persistence.criteria.Root<BlogMessage> rt = cq.from(BlogMessage.class);
+        cq.select(em.getCriteriaBuilder().count(rt));
+        javax.persistence.Query q = em.createQuery(cq);
+        return ((Long) q.getSingleResult()).intValue();
+    }
+
     public BlogMessage getBlogMessageByHref(String href) {
         TypedQuery<BlogMessage> q = em.createNamedQuery("BlogMessage.findByHref", BlogMessage.class);
         q.setParameter(BlogMessage_.HREF, href)
         .setMaxResults(1);
-        return (BlogMessage) q.getSingleResult();
+        return q.getSingleResult();
     }
 
     public BlogMessage getBlogMessageByMessageNumber(Integer msgNum) {
         TypedQuery<BlogMessage> q = em.createNamedQuery("BlogMessage.findByMessageNumber", BlogMessage.class);
         q.setParameter(BlogMessage_.MESSAGE_NUMBER, msgNum)
         .setMaxResults(1);
-        return (BlogMessage) q.getSingleResult();
+        return q.getSingleResult();
     }
 
     public List<BlogMessage> getBlogMessageRange(Integer start, Integer end) {
@@ -56,8 +79,10 @@ public class BlogMessageManager{
         return findRange(range);
     }
 
-    public void saveBlogMessage(BlogMessage bmsg){
-        em.persist(bmsg);
+    public void deleteByHrefNotIn(String[] hrefs){
+        Query query = em.createQuery("DELETE BlogMessage b WHERE b.href NOT IN (:hrefs)");
+        query.setParameter("hrefs", Arrays.asList(hrefs));
+        query.executeUpdate();
     }
 
     /**
@@ -72,27 +97,6 @@ public class BlogMessageManager{
      */
     public void setEm(EntityManager em) {
         this.em = em;
-    }
-
-    public List<BlogMessage> findRange(Integer[] range) {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Object> cq = cb.createQuery();
-        Root<BlogMessage> t = cq.from(BlogMessage.class);
-        cq.select(t);
-        cq.orderBy(cb.desc(t.get(BlogMessage_.MESSAGE_NUMBER)));
-        
-        Query q = em.createQuery(cq);
-        q.setMaxResults(range[1] - range[0] + 1);
-        q.setFirstResult(range[0]);
-        return q.getResultList();
-    }
-
-    public Integer count() {
-        CriteriaQuery<Object> cq = em.getCriteriaBuilder().createQuery();
-        javax.persistence.criteria.Root<BlogMessage> rt = cq.from(BlogMessage.class);
-        cq.select(em.getCriteriaBuilder().count(rt));
-        javax.persistence.Query q = em.createQuery(cq);
-        return ((Long) q.getSingleResult()).intValue();
     }
 
 }

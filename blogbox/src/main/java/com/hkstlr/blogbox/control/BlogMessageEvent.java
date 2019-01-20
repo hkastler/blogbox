@@ -1,20 +1,23 @@
 package com.hkstlr.blogbox.control;
 
-import com.hkstlr.blogbox.entities.BlogMessage;
-
 public class BlogMessageEvent {
 
     String name = "";
-    BlogMessage bmsg;
+    Object payload;
     
 	public BlogMessageEvent() {
 		super();
     }
 
-    public BlogMessageEvent(String name, BlogMessage bmsg) {
+    public BlogMessageEvent(String name, Object payload) {
         super();
         this.name = name;
-        this.bmsg = bmsg;
+        this.payload = payload;
+    }
+
+    public BlogMessageEvent(String name) {
+        super();
+        this.name = name;
     }
 
     /**
@@ -32,18 +35,20 @@ public class BlogMessageEvent {
     }
 
     /**
-     * @return the bmsg
+     * @return the payload
      */
-    public BlogMessage getBmsg() {
-        return bmsg;
+    public Object getPayload() {
+        return payload;
     }
 
     /**
-     * @param bmsg the bmsg to set
+     * @param payload the payload to set
      */
-    public void setBmsg(BlogMessage bmsg) {
-        this.bmsg = bmsg;
+    public void setPayload(Object payload) {
+        this.payload = payload;
     }
+
+    
     
 
 

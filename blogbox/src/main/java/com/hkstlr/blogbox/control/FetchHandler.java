@@ -49,9 +49,9 @@ public class FetchHandler implements Serializable {
     @Asynchronous  
     public void fetchAndSetBlogMessages(){
     
-        Optional<List<BlogMessage>> fm = Optional.empty();
+        Optional<Boolean> fm = Optional.empty();
 		try {
-			fm = Optional.ofNullable(getBlogMessages().get());
+            fm = Optional.ofNullable( getBlogMessages().get() );
 		} catch (InterruptedException ie) {
 			LOG.log(Level.WARNING, "InterruptedException!", ie);
             // Restore interrupted state...
@@ -60,29 +60,25 @@ public class FetchHandler implements Serializable {
             LOG.log(Level.WARNING, "ExecutionException!", e);
         }
         
-        if(fm.isPresent()) {
-            event.fire(new IndexEvent("setIndexMsgs",fm.get()));
+        if(fm.isPresent() && fm.get()) {
+            event.fire(new IndexEvent("setIndexMsgs"));
         }
 		
     }
     
     @Asynchronous
-    public Future<List<BlogMessage>> getBlogMessages() {
+    public Future<Boolean> getBlogMessages() {
     	
-        CompletableFuture<List<BlogMessage>> completableFuture 
+        CompletableFuture<Boolean> completableFuture 
           = new CompletableFuture<>();
-        
-        List<BlogMessage> bmsgs = new ArrayList<>();
-        
+         
         Integer hrefMaxWords = Optional.ofNullable(Integer.parseInt(config.getProps()
         		.getProperty("bmgs.hrefWordMax")))
         		.orElse(BlogMessage.DEFAULT_HREFWORDMAX);
         
         er.setProps(config.getProps());
         er.init();
-        er.setBlogMessages(hrefMaxWords);
-        
-        completableFuture.complete(bmsgs);
+        completableFuture.complete( er.setBlogMessages(hrefMaxWords) );
         return completableFuture;
     }
 }

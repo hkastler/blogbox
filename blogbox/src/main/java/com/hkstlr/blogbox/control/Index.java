@@ -1,15 +1,11 @@
 package com.hkstlr.blogbox.control;
 
-import java.util.Comparator;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.DependsOn;
@@ -19,7 +15,6 @@ import javax.enterprise.event.Event;
 import javax.inject.Inject;
 
 import com.hkstlr.blogbox.boundary.jpa.BlogMessageManager;
-import com.hkstlr.blogbox.entities.BlogMessage;
 
 @ApplicationScoped
 @DependsOn(value = "config")
