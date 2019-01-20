@@ -2,7 +2,7 @@
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions"
     xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:ps="http://xmlns.jcp.org/jsf/passthrough">
 
-
+    <f:view transient="true">
     <div class="row">
         <div class="col-md-12" id="top-paginatorContainer">
             <ui:include src="/templates/paginator.xhtml">
@@ -26,4 +26,6 @@
             </ui:include>
         </div>
     </div>
+</f:view>
+
 </ui:composition>
