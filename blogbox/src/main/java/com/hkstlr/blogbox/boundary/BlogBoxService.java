@@ -11,7 +11,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import com.hkstlr.blogbox.boundary.jpa.BlogMessageManager;
-import com.hkstlr.blogbox.control.BlogMessageHandler;
 import com.hkstlr.blogbox.control.EmailReader;
 import com.hkstlr.blogbox.control.Index;
 import com.hkstlr.blogbox.control.Paginator;
