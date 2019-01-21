@@ -19,7 +19,7 @@ import com.hkstlr.blogbox.entities.BlogMessage_;
 @Stateless
 public class BlogMessageManager{
 
-    @PersistenceContext
+    @PersistenceContext(unitName = "com.hkstlr.blogbox")
     protected EntityManager em;
 
     public BlogMessageManager(){
