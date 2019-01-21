@@ -40,4 +40,10 @@
     <welcome-file-list>
         <welcome-file>index.xhtml</welcome-file>
     </welcome-file-list>
+    <!-- need this at startup, so it's in web.xml -->
+    <data-source>
+        <name>java:app/blogbox/BlogBoxDS</name>
+        <class-name>org.h2.jdbcx.JdbcDataSource</class-name>
+        <url>jdbc:h2:mem:blogbox</url>
+    </data-source>
 </web-app>
