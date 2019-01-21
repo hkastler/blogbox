@@ -1,15 +1,10 @@
 package com.hkstlr.blogbox.control;
 
-import com.hkstlr.blogbox.control.Config;
-import com.hkstlr.blogbox.control.EmailReader;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Properties;
 
@@ -37,8 +32,8 @@ import org.junit.Test;
   
     @Before
     public void setUp() throws IOException {
-    	Path propsPath = Paths.get("src","test","resources","app.properties");
-    	try (InputStream is = Files.newInputStream(propsPath)) {
+    	
+    	try (InputStream is = ClassLoader.getSystemResourceAsStream("app.properties")) {
         	Properties props = new Properties();
         	props.load(is);
         	config = new Config(props);
@@ -85,7 +80,7 @@ import org.junit.Test;
      */
     @Test
     public void testStoreClose() {
-        cut = new EmailReader(config.getProps());        
+       cut = new EmailReader(config.getProps());
        assertTrue(cut.store.isConnected());
        cut.storeClose();
        assertTrue(!cut.store.isConnected());

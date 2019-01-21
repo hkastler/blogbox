@@ -30,26 +30,28 @@ public class BlogMessageTest {
     Logger log = Logger.getLogger(BlogMessageTest.class.getName());
     
     public BlogMessageTest() {
+        super();
     }
     
     
     @Before
     public void setUp() throws IOException, MessagingException {
         Session session = Session.getDefaultInstance(System.getProperties(), null);
-        Path eml = Paths.get("src","test","resources","multiattach.eml");
         
-        try (InputStream is = Files.newInputStream(eml)) {
+        try (InputStream is = ClassLoader.getSystemResourceAsStream("multiattach.eml")) {
             message = new MimeMessage(session, is);
-        }
+        } 
         cut = new BlogMessage(message);
-        
     }
 
     /**
      * Test of getMessageId method, of class BlogMessage.
+     * 
+     * @throws IOException
+     * @throws MessagingException
      */
     @Test
-    public void testGetMessageId() {
+    public void testGetMessageId(){
         assertNotNull(cut.getMessageId());
     }
 
