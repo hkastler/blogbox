@@ -55,39 +55,41 @@ import com.sun.mail.util.BASE64DecoderStream;
 @XmlRootElement
 public class BlogMessage {
 
+    private static final String STRING = "";
+
     @Id
     @Basic(optional = false)
     @NotNull(message = "{BlogMessage.messageId.NotNull}")
-    @Size(min = 1, max = 255, message="{BlogMessage.messageId.NotNull}")
+    @Size(min = 1, max = 255, message = "{BlogMessage.messageId.NotNull}")
     @Column(name = "messageId", nullable = false, length = 255)
-    private String messageId;
+    private String messageId = STRING;
 
     @Basic(optional = false)
     @NotNull(message = "{BlogMessage.messageNumber.NotNull}")
     @Column(name = "messageNumber", nullable = false)
-    private Integer messageNumber;
+    private Integer messageNumber = 0;
 
     @Basic(optional = false)
     @NotNull(message = "{BlogMessage.href.NotNull}")
-    @Size(min = 1, max = 255, message="{BlogMessage.href.NotNull}")
+    @Size(min = 1, max = 255, message = "{BlogMessage.href.NotNull}")
     @Column(name = "href", nullable = false, length = 255)
-    private String href;
+    private String href = STRING;
 
     @Basic(optional = false)
     @NotNull(message = "{BlogMessage.subject.NotNull}")
-    @Size(min = 1, max = 255, message="{BlogMessage.subject.NotNull}")
+    @Size(min = 1, max = 255, message = "{BlogMessage.subject.NotNull}")
     @Column(name = "subject", nullable = false, length = 255)
-    private String subject;
+    private String subject = STRING;
 
     @Basic(optional = false)
     @NotNull(message = "{BlogMessage.body.NotNull}")
-    @Size(min = 1, message="{BlogMessage.body.NotNull}")
-    @Column(name = "body", nullable = false, length=10485760)
-    private String body;
+    @Size(min = 1, message = "{BlogMessage.body.NotNull}")
+    @Column(name = "body", nullable = false, length = 10485760)
+    private String body = STRING;
 
     @Column(name = "createDate")
     private Date createDate;
-   
+
     private static final Logger LOG = Logger.getLogger(BlogMessage.class.getName());
     private static final String DEFAULT_SUBJECTREGEX = "[Bb]log";
     public static final Integer DEFAULT_HREFWORDMAX = 10;
@@ -99,21 +101,26 @@ public class BlogMessage {
 
     public BlogMessage(Message msg) throws MessagingException, IOException {
         super();
-        setBlogMessage(msg, DEFAULT_SUBJECTREGEX, DEFAULT_HREFWORDMAX);
+        this.messageId = Optional.ofNullable(msg.getHeader("Message-ID")[0]).orElse(Double.toHexString(Math.random()));
+        this.messageNumber = msg.getMessageNumber();
+        this.createDate = msg.getReceivedDate();
+        this.subject = createSubject(msg.getSubject(), DEFAULT_SUBJECTREGEX);
+        this.body = processMultipart(msg);
+        this.href = createHref(DEFAULT_HREFWORDMAX);
     }
 
     public BlogMessage(Message msg, Integer hrefWordMax) throws MessagingException, IOException {
         super();
-        setBlogMessage(msg, DEFAULT_SUBJECTREGEX, hrefWordMax);
+        this.messageId = Optional.ofNullable(msg.getHeader("Message-ID")[0]).orElse(Double.toHexString(Math.random()));
+        this.messageNumber = msg.getMessageNumber();
+        this.createDate = msg.getReceivedDate();
+        this.subject = createSubject(msg.getSubject(), DEFAULT_SUBJECTREGEX);
+        this.body = processMultipart(msg);
+        this.href = createHref(hrefWordMax);
     }
 
     public BlogMessage(Message msg, String subjectRegex, Integer hrefWordMax) throws MessagingException, IOException {
         super();
-        setBlogMessage(msg, subjectRegex, hrefWordMax);
-    }
-
-    public void setBlogMessage(Message msg, String subjectRegex, Integer hrefWordMax)
-            throws MessagingException, IOException {
         this.messageId = Optional.ofNullable(msg.getHeader("Message-ID")[0]).orElse(Double.toHexString(Math.random()));
         this.messageNumber = msg.getMessageNumber();
         this.createDate = msg.getReceivedDate();
@@ -292,7 +299,7 @@ public class BlogMessage {
     private String createSubject(String msgSubject, String rfRegex) {
 
         String lsub = msgSubject;
-        lsub = lsub.replaceFirst(rfRegex, "");
+        lsub = lsub.replaceFirst(rfRegex, STRING);
         lsub = lsub.trim();
         if (lsub.length() == 0) {
             lsub = msgSubject;
