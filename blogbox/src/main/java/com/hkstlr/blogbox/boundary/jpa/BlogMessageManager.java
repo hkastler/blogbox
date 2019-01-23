@@ -44,6 +44,7 @@ public class BlogMessageManager{
         Root<BlogMessage> t = cq.from(BlogMessage.class);
         CriteriaQuery<BlogMessage> all = cq.select(t);
         all.orderBy(cb.desc(t.get(BlogMessage_.MESSAGE_NUMBER)));
+        
         TypedQuery<BlogMessage> q = em.createQuery(all);
         q.setMaxResults(range[1] - range[0] + 1);
         q.setFirstResult(range[0]);
