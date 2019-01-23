@@ -19,14 +19,15 @@ limitations under the License.
     <version>${revision}${sha1}${changelist}</version>
     <packaging>pom</packaging>
     <properties>
+        <revision>1.1.6</revision>
+        <changelist>-SNAPSHOT</changelist>
+        <sha1 />
+        <tag>${revision}${sha1}${changelist}</tag>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.version>3.5.2</maven.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <revision>1.1.5</revision>
-        <changelist>-SNAPSHOT</changelist>
-        <sha1 />
-        <tag>${revision}${sha1}${changelist}</tag>
+        
 
         <version.jacoco>0.8.2</version.jacoco>
         <!-- sonar props -->
