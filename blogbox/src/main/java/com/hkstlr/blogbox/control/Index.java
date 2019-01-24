@@ -19,27 +19,26 @@ import com.hkstlr.blogbox.boundary.jpa.BlogMessageManager;
 @ApplicationScoped
 @DependsOn(value = "config")
 public class Index {
-
-    //private List<BlogMessage> msgs = new CopyOnWriteArrayList<>();
-    private ConcurrentMap<String, Integer> msgMap = new ConcurrentHashMap<>();
-
+    
     private static Logger log = Logger.getLogger(Index.class.getName());
 
     @Inject
     Config config;
 
     @Inject
-    private Event<FetchEvent> event;
+    Event<FetchEvent> event;
 
     @EJB
     BlogMessageManager bman;
+
+    ConcurrentMap<String, Integer> msgMap = new ConcurrentHashMap<>();
 
     @PostConstruct
     void init() {
 
         log.log(Level.INFO, "setup:{0}", config.isSetup());
         if (config.isSetup()) {
-            getEvent().fire(new FetchEvent(this.getClass().getCanonicalName()
+            event.fire(new FetchEvent(this.getClass().getCanonicalName()
                     .concat(".init()")));
         }
     }
@@ -56,6 +55,15 @@ public class Index {
         return config;
     }
 
+    public void setIndexMsgs() {
+
+        this.getMsgMap().clear();
+        AtomicInteger i = new AtomicInteger(0);
+        bman.allBlogMessages().forEach(bmsg
+                -> getMsgMap().put(bmsg.getHref(), i.getAndIncrement()));
+
+    }
+
     /**
      * @return the event
      */
@@ -68,15 +76,6 @@ public class Index {
      */
     public void setEvent(Event<FetchEvent> event) {
         this.event = event;
-    }
-
-    public void setIndexMsgs() {
-
-        this.getMsgMap().clear();
-        AtomicInteger i = new AtomicInteger(0);
-        bman.allBlogMessages().forEach(bmsg
-                -> getMsgMap().put(bmsg.getHref(), i.getAndIncrement()));
-
     }
 
 }

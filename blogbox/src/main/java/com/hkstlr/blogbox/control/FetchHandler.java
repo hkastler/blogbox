@@ -53,11 +53,11 @@ public class FetchHandler implements Serializable {
 		try {
             fm = Optional.ofNullable( getBlogMessages().get() );
 		} catch (InterruptedException ie) {
-			LOG.log(Level.WARNING, "InterruptedException!", ie);
+			LOG.log(Level.WARNING, "InterruptedException", ie);
             // Restore interrupted state...
             Thread.currentThread().interrupt();
 		} catch (ExecutionException e) {
-            LOG.log(Level.WARNING, "ExecutionException!", e);
+            LOG.log(Level.WARNING, "ExecutionException", e);
         }
         
         if(fm.isPresent() && fm.get()) {

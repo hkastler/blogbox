@@ -26,7 +26,6 @@ public class BlogMessageFetchScheduler {
             log.log(Level.INFO, "new FetchEvent(\"{0}\")","fetchMessages()");
             event.fire(new FetchEvent("fetchMessages()"));
             
-            
         } catch (Exception ex) {
             log.log(Level.SEVERE, "error", ex);
         }
