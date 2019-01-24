@@ -68,7 +68,8 @@ public class Config {
                 && this.getProps().containsKey(EmailReaderPropertyKeys.FOLDER_NAME)
                 && this.getProps().containsKey(EmailReaderPropertyKeys.MAIL_IMAPS_HOST);
         
-        Boolean hasContainerConfig = this.props.containsKey(EmailReaderPropertyKeys.JNDI_NAME);
+        Boolean hasContainerConfig = this.props.containsKey(EmailReaderPropertyKeys.JNDI_NAME)
+                && this.getProps().containsKey(EmailReaderPropertyKeys.FOLDER_NAME);
         
         return hasContainerConfig || hasLocalClientConfig;
     }
