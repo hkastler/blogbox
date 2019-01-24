@@ -36,12 +36,12 @@ public class Config {
     void init() {
 
         try {
-
             InputStream is = null;
-            is = new FileInputStream(new File("/etc/config/blogbox/blogbox.properties"));
+            is = new FileInputStream(new File("/etc/opt/blogbox/blogbox.properties"));
             props.load(is);
             is.close();
         } catch (FileNotFoundException ne) {
+            log.info("/etc/opt/blogbox/blogbox.properties not found");
             try {
                 props.load(this.getClass().getClassLoader().getResourceAsStream("app.properties"));
             } catch (IOException e) {
@@ -62,15 +62,15 @@ public class Config {
     }
 
     public boolean isSetup() {
+
+        Boolean hasLocalClientConfig = this.getProps().containsKey(EmailReaderPropertyKeys.USERNAME)
+                && this.getProps().containsKey(EmailReaderPropertyKeys.PASSWORD)
+                && this.getProps().containsKey(EmailReaderPropertyKeys.FOLDER_NAME)
+                && this.getProps().containsKey(EmailReaderPropertyKeys.MAIL_IMAPS_HOST);
         
-        try {
-            return this.getProps().containsKey(EmailReaderPropertyKeys.USERNAME)
-                    && this.getProps().containsKey(EmailReaderPropertyKeys.PASSWORD)
-                    && this.getProps().containsKey(EmailReaderPropertyKeys.FOLDER_NAME)
-                    && this.getProps().containsKey(EmailReaderPropertyKeys.MAIL_IMAPS_HOST);
-        } catch (Exception e) {
-            return false;
-        }
+        Boolean hasContainerConfig = this.props.containsKey(EmailReaderPropertyKeys.JNDI_NAME);
+        
+        return hasContainerConfig || hasLocalClientConfig;
     }
 
 }
