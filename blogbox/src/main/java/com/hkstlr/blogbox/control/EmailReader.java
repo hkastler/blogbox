@@ -54,7 +54,7 @@ public class EmailReader {
 		
 		this.folderName = props.getProperty(EmailReaderPropertyKeys.FOLDER_NAME);
 		
-		setSessionFromContext(props.getProperty(EmailReaderPropertyKeys.JNDI_NAME,"java:global/mail/BlogboxIMAPS"));
+		setSessionFromContext(props.getProperty(EmailReaderPropertyKeys.JNDI_NAME,"java:/mail/BlogboxIMAPS"));
 		
 		if (this.session != null) {
 			log.log(Level.INFO, "getting mail session from container");
