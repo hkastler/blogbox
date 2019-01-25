@@ -1,6 +1,7 @@
 package com.hkstlr.blogbox.boundary;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 
 import javax.ejb.EJB;
@@ -34,6 +35,21 @@ public class BlogBoxService {
     @Path("/entry/{href}")
     public BlogMessage getHref(@PathParam("href") String href) {	
         return bman.getBlogMessageByHref(href);
+    }
+
+    @GET
+    @Produces("application/json")
+    @Path("/entry/{href}/refs")
+    public Object[] getEntryAndNavRefs(@PathParam("href") String href) {
+        Object[] rtn = new Object[3];
+        BlogMessage entry = bman.getBlogMessageByHref(href);
+        rtn[0] = entry;
+        Integer msgNumber = entry.getMessageNumber();
+        Object prev = Optional.ofNullable(bman.findRefsByMessageNumber(msgNumber - 1)).orElse(new String[0]);
+        rtn[1] = prev;
+        Object next = Optional.ofNullable(bman.findRefsByMessageNumber(msgNumber + 1)).orElse(new String[0]);
+        rtn[2] = next;
+        return rtn;
     }
 
     @GET

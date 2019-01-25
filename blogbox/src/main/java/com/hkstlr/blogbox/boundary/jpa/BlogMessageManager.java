@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -76,6 +77,20 @@ public class BlogMessageManager{
         q.setParameter(BlogMessage_.MESSAGE_NUMBER, msgNum)
         .setMaxResults(1);
         return q.getSingleResult();
+    }
+
+    public Object findRefsByMessageNumber(Integer msgNum) {
+        Object obj = null;
+        
+        try{ 
+            Query q = em.createQuery("SELECT b.href, b.subject FROM BlogMessage b WHERE b.messageNumber = :messageNumber");
+            q.setParameter(BlogMessage_.MESSAGE_NUMBER, msgNum)
+            .setMaxResults(1);
+            obj = q.getSingleResult();
+        }catch(NoResultException nre){
+            //
+        }
+        return obj;
     }
 
     public void deleteByHrefNotIn(String[] hrefs){

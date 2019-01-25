@@ -1,4 +1,4 @@
-package com.hkstlr.blogbox.boundary;
+package com.hkstlr.blogbox.boundary.jax;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
