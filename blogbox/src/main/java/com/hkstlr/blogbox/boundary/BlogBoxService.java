@@ -50,6 +50,13 @@ public class BlogBoxService {
     public List<BlogMessage> getMsgs() {
         return bman.allBlogMessages();
     }
+
+    @GET
+    @Produces("application/json")
+    @Path("/count")
+    public Integer getCount() {
+        return bman.count();
+    }
     
     @GET
     @Produces("application/json")
