@@ -30,9 +30,7 @@ function processBlogJson() {
 
 function writeBlogListings(data){
     let container = document.querySelector("#blogListings");
-    
     container.classList.add('blogs');
-    console.log(data);
     // loop through the data
     data.forEach((msg, idx) => {
         let listing =  document.createElement("div");

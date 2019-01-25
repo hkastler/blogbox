@@ -17,6 +17,4 @@ if (isNaN(pageSize)) {
 if (isNaN(page)) {
     page = 4;
 }
-
-
 var context = "/".concat(pathArray[1]);
