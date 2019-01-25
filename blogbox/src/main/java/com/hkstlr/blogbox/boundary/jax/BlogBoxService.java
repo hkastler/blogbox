@@ -1,4 +1,4 @@
-package com.hkstlr.blogbox.boundary;
+package com.hkstlr.blogbox.boundary.jax;
 
 import java.util.List;
 import java.util.Optional;
@@ -56,7 +56,7 @@ public class BlogBoxService {
     @Produces("application/json")
     @Path("/entries/page/{page}/pageSize/{pageSize}")
     public List<BlogMessage> getEntries(@PathParam("page") Integer page, @PathParam("pageSize") Integer pageSize) {	
-        Paginator paginator = new Paginator(pageSize, page, index.getMsgMap().size());
+        Paginator paginator = new Paginator(pageSize, page, index.getBlogMessageCount());
         return bman.getBlogMessageRange(paginator.getPageFirstItem()-1, paginator.getPageLastItem()-1 );
     }
     
@@ -71,7 +71,7 @@ public class BlogBoxService {
     @Produces("application/json")
     @Path("/count")
     public Integer getCount() {
-        return bman.count();
+        return index.getBlogMessageCount();
     }
     
     @GET

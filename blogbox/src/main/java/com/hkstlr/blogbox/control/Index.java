@@ -1,17 +1,15 @@
 package com.hkstlr.blogbox.control;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.Asynchronous;
 import javax.ejb.DependsOn;
 import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
 import com.hkstlr.blogbox.boundary.jpa.BlogMessageManager;
@@ -31,11 +29,11 @@ public class Index {
     @EJB
     BlogMessageManager bman;
 
-    ConcurrentMap<String, Integer> msgMap = new ConcurrentHashMap<>();
+    Integer blogMessageCount;
 
     @PostConstruct
     void init() {
-
+        blogMessageCount = 0;
         log.log(Level.INFO, "setup:{0}", config.isSetup());
         if (config.isSetup()) {
             event.fire(new FetchEvent(this.getClass().getCanonicalName()
@@ -43,25 +41,8 @@ public class Index {
         }
     }
 
-    public Map<String, Integer> getMsgMap() {
-        return msgMap;
-    }
-
-    public void setMsgMap(ConcurrentMap<String, Integer> msgMap) {
-        this.msgMap = msgMap;
-    }
-
     public Config getConfig() {
         return config;
-    }
-
-    public void setIndexMsgs() {
-
-        this.getMsgMap().clear();
-        AtomicInteger i = new AtomicInteger(0);
-        bman.allBlogMessages().forEach(bmsg
-                -> getMsgMap().put(bmsg.getHref(), i.getAndIncrement()));
-
     }
 
     /**
@@ -76,6 +57,39 @@ public class Index {
      */
     public void setEvent(Event<FetchEvent> event) {
         this.event = event;
+    }
+
+    /**
+     * @param config the config to set
+     */
+    public void setConfig(Config config) {
+        this.config = config;
+    }
+
+	public void updateBlogMessageCount() {
+        log.info("updating blogMessageCount");
+        this.blogMessageCount = bman.count();
+	}
+
+    /**
+     * @return the blogMessageCount
+     */
+    public Integer getBlogMessageCount() {
+        return blogMessageCount;
+    }
+
+    /**
+     * @param blogMessageCount the blogMessageCount to set
+     */
+    public void setBlogMessageCount(Integer blogMessageCount) {
+        this.blogMessageCount = blogMessageCount;
+    }
+
+    @Asynchronous
+    public void handle(@Observes IndexEvent event) {
+        if("updateBlogMessageCount".equals(event.getName())){
+            updateBlogMessageCount();
+        }
     }
 
 }

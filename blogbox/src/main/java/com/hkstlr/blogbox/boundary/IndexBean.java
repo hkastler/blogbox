@@ -2,7 +2,6 @@ package com.hkstlr.blogbox.boundary;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Asynchronous;
@@ -43,15 +42,11 @@ public class IndexBean {
     @PostConstruct
     void init() {
         String itemsPerPage = (String) index.getConfig().getProps().getOrDefault("blog.itemsPerPage", "4");
-        setPaginator(new Paginator(Integer.parseInt(itemsPerPage), 1, index.getMsgMap().size()));
+        setPaginator(new Paginator(Integer.parseInt(itemsPerPage), 1, index.getBlogMessageCount()));
     }
 
     public void viewAction() {
         paginator.setNumberOfPages();
-    }
-
-    public Map<String, Integer> getMsgMap() {
-        return index.getMsgMap();
     }
 
     public Config getConfig() {
@@ -68,9 +63,7 @@ public class IndexBean {
     }
 
     public List<BlogMessage> currentList() {
-
          return bmm.getBlogMessageRange(paginator.getPageFirstItem() - 1, paginator.getPageLastItem() - 1);
-        
     }
 
     public BlogMessage getMsgByHref(String href){
@@ -111,7 +104,8 @@ public class IndexBean {
     public void processIndexEvent(@Observes IndexEvent event) {
 
         if ("setIndexMsgs".equals(event.getName())) {
-            index.setIndexMsgs();
+            
+            index.updateBlogMessageCount();
         }
 
     }
