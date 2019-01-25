@@ -27,7 +27,7 @@ import org.ocpsoft.rewrite.servlet.config.rule.TrailingSlash;
 @RewriteConfiguration
 public class ApplicationConfigurationProvider extends HttpConfigurationProvider {
 
-    private static final String INDEX_PATH = "/index.xhtml";
+    private static final String INDEX_PATH = "/index-js.xhtml";
     private static final String ENTRY_PATH = "/entry.xhtml";
     
     public Configuration getConfiguration(ServletContext context) {
