@@ -25,7 +25,6 @@ public class BlogMessageManager{
     public BlogMessageManager(){
         super();
     }
-    
 
     public List<BlogMessage> allBlogMessages() {
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -36,7 +35,6 @@ public class BlogMessageManager{
         TypedQuery<BlogMessage> q = em.createQuery(all);
         return q.getResultList();
     }
-
     
     public List<BlogMessage> findRange(Integer[] range) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -49,6 +47,13 @@ public class BlogMessageManager{
         q.setMaxResults(range[1] - range[0] + 1);
         q.setFirstResult(range[0]);
         return q.getResultList();
+    }
+    
+    public List<BlogMessage> getBlogMessageRange(Integer start, Integer end) {
+        Integer[] range = new Integer[2];
+        range[0] = start;
+        range[1] = end;
+        return findRange(range);
     }
 
     public Integer count() {
@@ -71,13 +76,6 @@ public class BlogMessageManager{
         q.setParameter(BlogMessage_.MESSAGE_NUMBER, msgNum)
         .setMaxResults(1);
         return q.getSingleResult();
-    }
-
-    public List<BlogMessage> getBlogMessageRange(Integer start, Integer end) {
-        Integer[] range = new Integer[2];
-        range[0] = start;
-        range[1] = end;
-        return findRange(range);
     }
 
     public void deleteByHrefNotIn(String[] hrefs){
