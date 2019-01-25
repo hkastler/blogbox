@@ -1,7 +1,9 @@
-var baseHref = "/entry/";
+var baseHref = pathArray[paLen-2];
 var href = pathArray[paLen-1];
+var entryRequest;
+var data = [];
+
 function entryHtml(msg){
-    
     return `<article itemprop="blogPost" itemscope="itemscope" itemtype="https://schema.org/BlogPosting">
                 <meta itemprop="mainEntityOfPage" content="/${msg.href}" />
                 <a name="top" id="top"></a>
@@ -20,8 +22,8 @@ function entryHtml(msg){
 }
 
 function navHtml(prev, next){
-    var navHtml = `<nav aria-label="Navigation" itemscope="itemscope"
-    itemtype="https://schema.org/SiteNavigationElement"><div id="nav">`
+    var navHtml = `<nav aria-label="Navigation" itemscope="itemscope" itemtype="https://schema.org/SiteNavigationElement">
+    <div id="nav">`
     if(prev.length != 0){
         navHtml += navLink(prev[0],prev[1],"prev");
         navHtml += `&lt; ${prev[1].substring(0, 10)}...</a>`;
@@ -34,11 +36,11 @@ function navHtml(prev, next){
      return navHtml;
 }
 function navLink(href, title, pos){
-    return `<a href="${ctx}${baseHref}${href}" class="btn btn-primary" id="nav-${pos}"  title="${title}">`;
+    return `<a href="${ctx}/${baseHref}/${href}" class="btn btn-primary" id="nav-${pos}" title="${title}">`;
 }
-var entryRequest;
+
 function getRequestUrl() {
-    var restUrl = `//${location.host}${ctx}/rest/srvc/entry/${href}/refs`;
+    let restUrl = `//${location.host}${ctx}/rest/srvc/entry/${href}/refs`;
     return restUrl;
 }
 
@@ -52,12 +54,11 @@ function get(url) {
     entryRequest.open('GET', url);
     entryRequest.send();
 }
-var data = [];
+
 function processResponse() {
     if (entryRequest.readyState === XMLHttpRequest.DONE) {
         if (entryRequest.status === 200) {
             data = JSON.parse(entryRequest.responseText);
-            console.log(data);
             entry(data[0],data[1], data[2]);
         } else {
             console.log('There was a problem with the request.');
@@ -66,7 +67,6 @@ function processResponse() {
 }
 
 function entry(msg, next, prev) {
-    
     let container = document.querySelector("#entry");
     container.innerHTML = entryHtml(msg);
 
