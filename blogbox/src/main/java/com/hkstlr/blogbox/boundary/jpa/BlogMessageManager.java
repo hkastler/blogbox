@@ -80,7 +80,7 @@ public class BlogMessageManager{
     }
 
     public Object findRefsByMessageNumber(Integer msgNum) {
-        Object obj = null;
+        Object obj;
         
         try{ 
             Query q = em.createQuery("SELECT b.href, b.subject FROM BlogMessage b WHERE b.messageNumber = :messageNumber");
@@ -88,7 +88,7 @@ public class BlogMessageManager{
             .setMaxResults(1);
             obj = q.getSingleResult();
         }catch(NoResultException nre){
-            //
+            obj = null;
         }
         return obj;
     }
