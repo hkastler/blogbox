@@ -92,7 +92,7 @@ public class BlogMessageManager{
         }
         return obj;
     }
-
+    
     public void deleteByHrefNotIn(String[] hrefs){
         Query query = em.createQuery("DELETE BlogMessage b WHERE b.href NOT IN (:hrefs)");
         query.setParameter("hrefs", Arrays.asList(hrefs));

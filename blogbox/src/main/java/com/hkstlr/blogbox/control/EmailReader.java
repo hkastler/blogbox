@@ -192,7 +192,7 @@ public class EmailReader {
 
 		storeClose();
 		//convert to String array for payload type safety
-		event.fire( new BlogMessageEvent ("deleteByHref", hrefs.toArray(new String[hrefs.size()])));
+		event.fire( new BlogMessageEvent ("deleteByHrefNotIn", hrefs.toArray(new String[hrefs.size()])));
 		log.log(Level.INFO, "{0} bmgs returned", new Object[] {Integer.toString(hrefs.size())});
 		return true;
 	}

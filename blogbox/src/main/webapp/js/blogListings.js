@@ -34,12 +34,12 @@ function writeBlogListings(data){
     // loop through the data
     data.forEach((msg, idx) => {
         let listing =  document.createElement("div");
-        listing.innerHTML = createBlogListing(msg, idx);
+        listing.innerHTML = blogListingHtml(msg, idx);
         container.appendChild(listing);
     });
 }
 
-function createBlogListing(msg, idx) {
+function blogListingHtml(msg, idx) {
     return `
     <h4 class="mt-4" id="msgSubject-${msg.messageNumber}">
     <a href="${ctx}/entry/${msg.href}">${msg.subject}</a></h4>
