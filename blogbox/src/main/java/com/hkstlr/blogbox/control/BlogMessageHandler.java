@@ -27,12 +27,12 @@ public class BlogMessageHandler{
         Object payload = event.getPayload();
         if("save".equals(event.getName())){
             save( (BlogMessage) payload );
-        }else if ("deleteByHref".equals(event.getName())){
-            deleteByHref( (String[]) payload );
+        }else if ("deleteByHrefNotIn".equals(event.getName())){
+            deleteByHrefNotIn( (String[]) payload );
         }
     }
 
-    void deleteByHref(String[] hrefs){
+    void deleteByHrefNotIn(String[] hrefs){
         bman.deleteByHrefNotIn(hrefs);
     }
 
