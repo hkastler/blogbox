@@ -59,7 +59,7 @@ function processResponse() {
     if (entryRequest.readyState === XMLHttpRequest.DONE) {
         if (entryRequest.status === 200) {
             data = JSON.parse(entryRequest.responseText);
-            entry(data[0],data[1], data[2]);
+            entry(data[0], data[1], data[2]);
         } else {
             console.log('There was a problem with the request.');
         }
@@ -71,7 +71,6 @@ function entry(msg, next, prev) {
     container.innerHTML = entryHtml(msg);
 
     container = document.querySelector("#navContainer");
-    paginatorDiv = document.createElement("div");
     container.innerHTML = navHtml(prev,next);
 }
 document.querySelector("#content").addEventListener('load', get(getRequestUrl()));

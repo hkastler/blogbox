@@ -105,8 +105,6 @@ public class Setup {
         this.user = user;
     }
     
-    
-    
     @Produces
     public boolean isSetup() {
     	return config.isSetup();

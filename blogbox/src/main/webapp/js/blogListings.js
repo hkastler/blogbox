@@ -47,5 +47,4 @@ function createBlogListing(msg, idx) {
     <div id="msgBodyBegin-${msg.messageNumber}">${msg.body}</div>
     `;
 }
-
 document.querySelector('#content').addEventListener('load', makeRequest());
