@@ -44,6 +44,7 @@ import org.jsoup.safety.Whitelist;
 import com.hkstlr.blogbox.control.DateFormatter;
 import com.hkstlr.blogbox.control.StringChanger;
 import com.sun.mail.util.BASE64DecoderStream;
+import javax.persistence.Temporal;
 
 @Entity
 @Cacheable
@@ -88,6 +89,7 @@ public class BlogMessage {
     private String body = STRING;
 
     @Column(name = "createDate")
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date createDate;
 
     private static final Logger LOG = Logger.getLogger(BlogMessage.class.getName());
