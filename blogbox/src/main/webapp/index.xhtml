@@ -1,19 +1,16 @@
-<ui:composition template="/templates/defaultTemplate.xhtml" xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-    xmlns:f="http://xmlns.jcp.org/jsf/core">
-
-        <f:metadata>
-            <f:viewParam id="pageSize" name="pageSize" value="#{index.paginator.pageSize}" />
-            <f:viewParam id="page" name="page" value="#{index.paginator.page}" />
-            <f:viewAction action="#{index.viewAction}" />
-        </f:metadata>
-        <!-- define title -->
-        <ui:define name="title">
-            #{index.config.props["site.name"]}
-        </ui:define>
-        <!-- Page Content -->
+<ui:composition template="/templates/defaultTemplate.xhtml" 
+    xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
         <ui:define name="content">
-            <ui:include src="#{index.view()}" />
+            <div class="panel panel-primary" id="content">
+               <div id="paginator_top"></div>
+               <div id="blogListings"></div>
+               <div id="paginator_bottom"></div>
+             </div>
         </ui:define>
-        <!-- /.container -->
-
+        <ui:define name="postBody">
+            <script src="#{request.contextPath}/js/setvars.js"></script>
+            <script src="#{request.contextPath}/js/blogListings.js"></script>
+            <script src="#{request.contextPath}/js/paginator.js"></script>
+        </ui:define>
 </ui:composition>

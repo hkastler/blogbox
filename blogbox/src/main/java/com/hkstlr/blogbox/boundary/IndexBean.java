@@ -72,14 +72,6 @@ public class IndexBean {
         return bmm.getBlogMessageByMessageNumber(msgNum);
     }
 
-    public String view() {
-        String template = "view.xhtml";
-        if (!index.getConfig().isSetup()) {
-            template = "setup/index.xhtml";
-        }
-        return template;
-    }
-
     public Paginator getPaginator() {
         return paginator;
     }
