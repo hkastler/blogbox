@@ -10,37 +10,6 @@ let Paginator = class {
         return this.numberOfPages = Math.ceil(this.numberOfItems / this.pageSize);
     }
 
-    getPageFirstItem() {
-        return this.calcPageFirstItem(this.page, this.pageSize);
-    }
-
-    calcPageFirstItem(page, pageSize) {
-        var pageFirstItem = ((page * pageSize) - pageSize) + 1;
-        if (pageFirstItem < 0) {
-            pageFirstItem = 1;
-        };
-        return pageFirstItem;
-    }
-
-    getPageLastItem() {
-        return this.calcPageLastItem(this.getPageFirstItem(), this.pageSize, this.numberOfItems);
-    }
-
-    calcPageLastItem(firstPageItem, pageSize, numberOfItems) {
-
-        var lastItemIndex = (firstPageItem - 1) + pageSize;
-        var count = numberOfItems;
-
-        if (lastItemIndex > count) {
-            lastItemIndex = count;
-        }
-        if (lastItemIndex < 0) {
-            lastItemIndex = 0;
-        }
-
-        return lastItemIndex;
-    }
-
     hasNextPage() {
         return (this.page * this.pageSize) + 1 <= this.numberOfItems;
     }
@@ -49,104 +18,97 @@ let Paginator = class {
         return this.page - 1 > 0;
     }
 
+    paginatorLiHtml(liClazz, id, href, dataPage, dataPageSize, aClazz, label){
+        return `<li class="${liClazz}"><a id="${id}" href="${href}"
+            data-page="${dataPage}"
+            data-pageSize="${dataPageSize}" 
+            class="${aClazz}">${label}</a></li>`;
+    }
 
-    getPaginatorHtml(position, fragment, outcome) {
-        var paginatorString = `<ul class="pagination justify-content-center" id="paginator-${position}">`
+    getPaginatorHtml(position, outcome) {
+        let paginatorHtml = `<ul class="pagination justify-content-center" id="paginator-${position}">`
 
-        var thisPage = parseInt(this.page);
-        var prevPage = thisPage - 1;
-        var nextPage = thisPage + 1;
+        let thisPage = parseInt(this.page);
+        let prevPage = thisPage - 1;
+        let nextPage = thisPage + 1;
 
         //previous
         if (this.numberOfPages > 1) {
-            var prevLink = `${outcome}/page/${prevPage}/pageSize/${this.pageSize}`
+            let prevLink = `${outcome}/page/${prevPage}/pageSize/${this.pageSize}`
             if (this.hasPreviousPage() === false) {
-                var prevLink = `javascript:void(0);`;
+                prevLink = `javascript:void(0);`;
             }
-            paginatorString += `
-                <li class="previous page-item">
-                    <a id="navBack-Arrow-${position}" href="${prevLink}"
-                        data-disabled="${this.hasPreviousPage() === false}" 
-                        data-fragment="${fragment}" 
-                        data-page="${prevPage}"
-                        data-pageSize="${this.pageSize}" class="page-link">
-                        &larr;
-                    </a>
-                </li>
-                <li class="previous page-item">
-                    <a id="navBack-Text-${position}" href="${prevLink}"
-                        data-disabled="${this.hasPreviousPage() === false}"
-                        data-fragment="${fragment}"
-                        data-page="${prevPage}"
-                        data-pageSize="${this.pageSize}" class="page-link d-none d-sm-block">
-                        Previous
-                    </a>
-                </li>`
+            paginatorHtml += this.paginatorLiHtml("previous page-item", 
+                                                    `navBack-Arrow-${position}`,
+                                                    `${prevLink}`,
+                                                    `${prevPage}`,
+                                                    `${this.pageSize}`,
+                                                    "page-link",
+                                                    "&larr;" );
+             paginatorHtml += this.paginatorLiHtml("previous page-item", 
+                                                    `navBack-Text-${position}`,
+                                                    `${prevLink}`,
+                                                    `${prevPage}`,
+                                                    `${this.pageSize}`,
+                                                    "page-link d-none d-sm-block",
+                                                    "Previous" );
         }//previous
 
-        for (var i = 1; i <= this.numberOfPages; i++) {
+        let dotThreshold = 12;
+        //pages or dots
+        for (let i = 1; i <= this.numberOfPages; i++) {
 
-            var iIsPageOrAdjacent = (i === thisPage) || (i === prevPage) || (i === nextPage);
+            let iIsPageOrAdjacent = (i === thisPage) || (i === prevPage) || (i === nextPage);
 
-            var showLinkedLi = (this.numberOfPages < 13) || (
+            let showLinkedLi = (this.numberOfPages < dotThreshold) || (
                 (i === 1) || (i === this.numberOfPages) || iIsPageOrAdjacent
             );
-            var idField = `paginatorPage-${i}`;
+            let idField = `paginatorPage-${i}`;
 
             if (showLinkedLi) {
-                paginatorString += `<li class="${thisPage === i ? 'active' : ''} page-item" id="${idField}">
-                                        <a href="${outcome}/page/${i}/pageSize/${this.pageSize}"
-                                            data-fragment="${fragment}" 
-                                            data-page="${i}"
-                                            data-pageSize="${this.pageSize}" 
-                                            class="page-link">
-                                            ${i}
-                                        </a>
-                                    </li>`;
+                paginatorHtml += this.paginatorLiHtml(`${thisPage === i ? 'active' : ''} page-item`, 
+                                    `${idField}`,
+                                    `${outcome}/page/${i}/pageSize/${this.pageSize}`,
+                                    `${i}`,
+                                    `${this.pageSize}`,
+                                    "page-link",
+                                    `${i}` );
             }
-            var dotThreshold = this.numberOfPages > 12;
-            var dotShow = (!showLinkedLi && (i === 2 || i === this.numberOfPages - 1));
-            if ( dotThreshold && dotShow ){
-                paginatorString += `<li class="disabled page-item" id="${idField}">
+            let isDotThreshold = this.numberOfPages > dotThreshold;
+            let isDotShow = (!showLinkedLi && (i === 2 || i === this.numberOfPages - 1));
+            if ( isDotThreshold && isDotShow ){
+                paginatorHtml += `<li class="disabled page-item" id="${idField}">
                                             <a>
                                                 ..
                                             </a>
                                         </li>`
             }
-        }
+        }//pages
 
+        //next
         if (this.numberOfPages > 1) {
-
-            var nextLink = `${outcome}/page/${this.page + 1}/pageSize/${this.pageSize}`;
+            let nextLink = `${outcome}/page/${this.page + 1}/pageSize/${this.pageSize}`;
             if (this.hasNextPage() === false) {
                 nextLink = `javascript:void(0);`;
             }
-
-            paginatorString += `<li class="next page-item">
-                                    <a id="navForward-Text-${position}" href="${nextLink}" 
-                                    data-disabled="${this.hasNextPage() === false}"
-                                    data-fragment="${fragment}" 
-                                    data-page="${nextPage}" 
-                                    data-pageSize="${this.pageSize}"
-                                    class="page-link d-none d-sm-block">
-                                        Next
-                                    </a>
-                                </li>
-                        
-                                <li class="next page-item">
-                                    <a id="navForward-Arrow-${position}" href="${nextLink}" 
-                                    data-disabled="${this.hasNextPage() === false}"
-                                    data-fragment="${fragment}" 
-                                    data-page="${nextPage}" 
-                                    data-pageSize="${this.pageSize}"
-                                    class="page-link">
-                                        &rarr;
-                                    </a>
-                                </li>`;
+            paginatorHtml += this.paginatorLiHtml(`next page-item`, 
+                                    `navForward-Text-${position}`,
+                                    `${nextLink}`,
+                                    `${nextPage}`,
+                                    `${this.pageSize}`,
+                                    "page-link d-none d-sm-block",
+                                    `Next` );
+            paginatorHtml += this.paginatorLiHtml(`next page-item`, 
+                                    `navForward-Arrow-${position}`,
+                                    `${nextLink}`,
+                                    `${nextPage}`,
+                                    `${this.pageSize}`,
+                                    "page-link",
+                                    `&rarr;` );
         }
-        paginatorString += `</ul>`;
+        paginatorHtml += `</ul>`;
 
-        return paginatorString
+        return paginatorHtml
     }
 };
 var paginatorRequest;
@@ -180,10 +142,10 @@ function processResponse() {
 function paginate() {
     let paginator = new Paginator(page, pageSize, parseInt(numberOfItems));
     let container = document.querySelector("#paginator_top");
-    container.innerHTML = paginator.getPaginatorHtml("top", "top", "/blog");
+    container.innerHTML = paginator.getPaginatorHtml("top", "/blog");
 
     container = document.querySelector("#paginator_bottom");
     paginatorDiv = document.createElement("div");
-    container.innerHTML = paginator.getPaginatorHtml("bottom", "bottom", "/blog");
+    container.innerHTML = paginator.getPaginatorHtml("bottom", "/blog");
 }
 document.querySelector("#content").addEventListener('load', get(getRequestUrl()));
