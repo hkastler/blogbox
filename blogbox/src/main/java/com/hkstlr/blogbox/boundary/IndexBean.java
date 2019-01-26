@@ -7,7 +7,6 @@ import javax.annotation.PostConstruct;
 import javax.ejb.Asynchronous;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.event.Event;
-import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -16,7 +15,6 @@ import com.hkstlr.blogbox.control.Config;
 import com.hkstlr.blogbox.control.DateFormatter;
 import com.hkstlr.blogbox.control.FetchEvent;
 import com.hkstlr.blogbox.control.Index;
-import com.hkstlr.blogbox.control.IndexEvent;
 import com.hkstlr.blogbox.control.Paginator;
 import com.hkstlr.blogbox.entities.BlogMessage;
 
@@ -58,7 +56,7 @@ public class IndexBean {
     }
 
     public Boolean hasMessages(){
-        Integer msgCount = bmm.count();
+        Integer msgCount = index.getBlogMessageCount();
         return (msgCount > 0);
     }
 
@@ -91,23 +89,12 @@ public class IndexBean {
     }
 
     public String jsFormat(Date date) {
-
         return new DateFormatter(date).formatjsFormat();
     }
 
     @Asynchronous
     public void goFetch() {
         index.getEvent().fire(new FetchEvent(this.getClass().getCanonicalName().concat(".goFetch()")));
-    }
-
-    @Asynchronous
-    public void processIndexEvent(@Observes IndexEvent event) {
-
-        if ("setIndexMsgs".equals(event.getName())) {
-            
-            index.updateBlogMessageCount();
-        }
-
     }
 
 }
