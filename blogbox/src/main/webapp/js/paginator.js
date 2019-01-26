@@ -1,4 +1,4 @@
-let Paginator = class {
+class Paginator {
     constructor(page, pageSize, numberOfItems) {
         this.page = page;
         this.pageSize = pageSize;
@@ -32,9 +32,16 @@ let Paginator = class {
         let prevPage = thisPage - 1;
         let nextPage = thisPage + 1;
 
+        let pageVarStr = "/page/";
+        let pageSizeVarStr = "/pageSize/";
+        if(window.location.search.length > 0){
+            pageVarStr = "?page=";
+            pageSizeVarStr = "&pageSize=";
+        }
+
         //previous
         if (this.numberOfPages > 1) {
-            let prevLink = `${outcome}/page/${prevPage}/pageSize/${this.pageSize}`
+            let prevLink = `${outcome}${pageVarStr}${prevPage}${pageSizeVarStr}${this.pageSize}`
             if (this.hasPreviousPage() === false) {
                 prevLink = `javascript:void(0);`;
             }
@@ -68,7 +75,7 @@ let Paginator = class {
             if (showLinkedLi) {
                 paginatorHtml += this.paginatorLiHtml(`${thisPage === i ? 'active' : ''} page-item`, 
                                     `${idField}`,
-                                    `${outcome}/page/${i}/pageSize/${this.pageSize}`,
+                                    `${outcome}${pageVarStr}${i}${pageSizeVarStr}${this.pageSize}`,
                                     `${i}`,
                                     `${this.pageSize}`,
                                     "page-link",
@@ -87,7 +94,7 @@ let Paginator = class {
 
         //next
         if (this.numberOfPages > 1) {
-            let nextLink = `${outcome}/page/${this.page + 1}/pageSize/${this.pageSize}`;
+            let nextLink = `${outcome}${pageVarStr}${this.page + 1}${pageSizeVarStr}${this.pageSize}`;
             if (this.hasNextPage() === false) {
                 nextLink = `javascript:void(0);`;
             }
@@ -139,13 +146,17 @@ function processResponse() {
     }
 }
 
+function getOutcome(){
+    return (window.location.search.length === 0) ? ctx : window.location.pathname;
+}
+
 function paginate() {
     let paginator = new Paginator(page, pageSize, parseInt(numberOfItems));
     let container = document.querySelector("#paginator_top");
-    container.innerHTML = paginator.getPaginatorHtml("top", "/blog");
+    container.innerHTML = paginator.getPaginatorHtml("top", getOutcome());
 
     container = document.querySelector("#paginator_bottom");
     paginatorDiv = document.createElement("div");
-    container.innerHTML = paginator.getPaginatorHtml("bottom", "/blog");
+    container.innerHTML = paginator.getPaginatorHtml("bottom", getOutcome());
 }
 document.querySelector("#content").addEventListener('load', get(getRequestUrl()));

@@ -6,15 +6,32 @@ if(pathArray.length > 1){
 }
 var page = 1;
 var pageSize = 4;
-if ((paLen - 3) > 0) {
-    page = parseInt(pathArray[paLen - 3]);
-    pageSize = parseInt(pathArray[paLen - 1]);
+
+var requestPage = findGetParameter("page");
+if(null !== requestPage){
+    page = requestPage;
+    pageSize = findGetParameter("pageSize");
+}else{
+    if ((paLen - 3) > 0) {
+        page = parseInt(pathArray[paLen - 3]);
+        pageSize = parseInt(pathArray[paLen - 1]);
+    }
 }
-if (isNaN(pageSize)) {
+if (isNaN(pageSize)){
     pageSize = 1;
 }
-
-if (isNaN(page)) {
+if (isNaN(page)){
     page = 4;
 }
-var context = "/".concat(pathArray[1]);
+function findGetParameter(parameterName) {
+    var result = null,
+        tmp = [];
+    location.search
+        .substr(1)
+        .split("&")
+        .forEach(function (item) {
+          tmp = item.split("=");
+          if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+        });
+    return result;
+}
