@@ -7,7 +7,7 @@ class Paginator {
     }
 
     calcNumberOfPages() {
-        return this.numberOfPages = Math.ceil(this.numberOfItems / this.pageSize);
+        return Math.ceil(this.numberOfItems / this.pageSize);
     }
 
     hasNextPage() {
@@ -25,7 +25,9 @@ class Paginator {
             class="${aClazz}">${label}</a></li>`;
     }
 
-    getPaginatorHtml(position, outcome) {
+    getPaginatorHtml(props) {
+        let position = props.get("position");
+        let outcome = props.get("outcome");
         let paginatorHtml = `<ul class="pagination justify-content-center" id="paginator-${position}">`
 
         let thisPage = parseInt(this.page);
@@ -46,14 +48,14 @@ class Paginator {
                 prevLink = `javascript:void(0);`;
             }
             paginatorHtml += this.paginatorLiHtml("previous page-item", 
-                                                    `navBack-Arrow-${position}`,
+                                                    `navback-arrow-${position}`,
                                                     `${prevLink}`,
                                                     `${prevPage}`,
                                                     `${this.pageSize}`,
                                                     "page-link",
                                                     "&larr;" );
              paginatorHtml += this.paginatorLiHtml("previous page-item", 
-                                                    `navBack-Text-${position}`,
+                                                    `navback-text-${position}`,
                                                     `${prevLink}`,
                                                     `${prevPage}`,
                                                     `${this.pageSize}`,
@@ -153,10 +155,14 @@ function getOutcome(){
 function paginate() {
     let paginator = new Paginator(page, pageSize, parseInt(numberOfItems));
     let container = document.querySelector("#paginator_top");
-    container.innerHTML = paginator.getPaginatorHtml("top", getOutcome());
+    let props = new Map();
+    props.set("position", "top");
+    props.set("outcome", getOutcome());
+    container.innerHTML = paginator.getPaginatorHtml(props);
 
     container = document.querySelector("#paginator_bottom");
     paginatorDiv = document.createElement("div");
-    container.innerHTML = paginator.getPaginatorHtml("bottom", getOutcome());
+    props.set("position", "bottom");
+    container.innerHTML = paginator.getPaginatorHtml(props);
 }
 document.querySelector("#content").addEventListener('load', get(getRequestUrl()));
