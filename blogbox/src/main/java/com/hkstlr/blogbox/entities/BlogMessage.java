@@ -49,15 +49,14 @@ import com.sun.mail.util.BASE64DecoderStream;
 @Cacheable
 @Table(name = "BlogMessage", uniqueConstraints={@UniqueConstraint(columnNames = "href")})
 @NamedQuery(name="BlogMessage.findAll", query="SELECT b FROM BlogMessage b")
+@NamedQuery(name="BlogMessage.findByMessageId", query="SELECT b FROM BlogMessage b WHERE b.messageId = :messageId")
 @NamedQuery(name="BlogMessage.findByHref", query="SELECT b FROM BlogMessage b WHERE b.href = :href")
 @NamedQuery(name="BlogMessage.findByMessageNumber", query="SELECT b FROM BlogMessage b WHERE b.messageNumber = :messageNumber")
 @NamedQuery(name="BlogMessage.findMessageNumberRange", query="SELECT b FROM BlogMessage b WHERE b.messageNumber BETWEEN :messageNumberStart AND :messageNumberEnd")
-@XmlRootElement
-public class BlogMessage {
+public class BlogMessage extends AbstractEntity {
 
     private static final String STRING = "";
 
-    @Id
     @Basic(optional = false)
     @NotNull(message = "{BlogMessage.messageId.NotNull}")
     @Size(min = 1, max = 255, message = "{BlogMessage.messageId.NotNull}")

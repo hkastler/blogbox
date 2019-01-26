@@ -18,12 +18,12 @@ import com.hkstlr.blogbox.entities.BlogMessage;
 import com.hkstlr.blogbox.entities.BlogMessage_;
 
 @Stateless
-public class BlogMessageManager{
+public class BlogMessageManager {
 
     @PersistenceContext(unitName = "com.hkstlr.blogbox")
     EntityManager em;
 
-    public BlogMessageManager(){
+    public BlogMessageManager() {
         super();
     }
 
@@ -36,20 +36,20 @@ public class BlogMessageManager{
         TypedQuery<BlogMessage> q = em.createQuery(all);
         return q.getResultList();
     }
-    
+
     public List<BlogMessage> findRange(Integer[] range) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<BlogMessage> cq = cb.createQuery(BlogMessage.class);
         Root<BlogMessage> t = cq.from(BlogMessage.class);
         CriteriaQuery<BlogMessage> all = cq.select(t);
         all.orderBy(cb.desc(t.get(BlogMessage_.MESSAGE_NUMBER)));
-        
+
         TypedQuery<BlogMessage> q = em.createQuery(all);
         q.setMaxResults(range[1] - range[0] + 1);
         q.setFirstResult(range[0]);
         return q.getResultList();
     }
-    
+
     public List<BlogMessage> getBlogMessageRange(Integer start, Integer end) {
         Integer[] range = new Integer[2];
         range[0] = start;
@@ -67,33 +67,47 @@ public class BlogMessageManager{
 
     public BlogMessage getBlogMessageByHref(String href) {
         TypedQuery<BlogMessage> q = em.createNamedQuery("BlogMessage.findByHref", BlogMessage.class);
-        q.setParameter(BlogMessage_.HREF, href)
-        .setMaxResults(1);
-        return q.getSingleResult();
+        q.setParameter(BlogMessage_.HREF, href).setMaxResults(1);
+        return this.getSingleResult(q);
+    }
+
+    public BlogMessage getBlogMessageByMessageId(String messageId) {
+        TypedQuery<BlogMessage> q = em.createNamedQuery("BlogMessage.findByMessageId", BlogMessage.class);
+        q.setParameter(BlogMessage_.MESSAGE_ID, messageId).setMaxResults(1);
+        return this.getSingleResult(q);
     }
 
     public BlogMessage getBlogMessageByMessageNumber(Integer msgNum) {
         TypedQuery<BlogMessage> q = em.createNamedQuery("BlogMessage.findByMessageNumber", BlogMessage.class);
-        q.setParameter(BlogMessage_.MESSAGE_NUMBER, msgNum)
-        .setMaxResults(1);
-        return q.getSingleResult();
+        q.setParameter(BlogMessage_.MESSAGE_NUMBER, msgNum).setMaxResults(1);
+        return this.getSingleResult(q);
+    }
+
+    BlogMessage getSingleResult(TypedQuery<BlogMessage> q) {
+        BlogMessage b;
+        try {
+            b = q.getSingleResult();
+        } catch (NoResultException e) {
+            b = null;
+        }
+        return b;
     }
 
     public Object findRefsByMessageNumber(Integer msgNum) {
         Object obj;
-        
-        try{ 
-            Query q = em.createQuery("SELECT b.href, b.subject FROM BlogMessage b WHERE b.messageNumber = :messageNumber");
-            q.setParameter(BlogMessage_.MESSAGE_NUMBER, msgNum)
-            .setMaxResults(1);
+
+        try {
+            Query q = em
+                    .createQuery("SELECT b.href, b.subject FROM BlogMessage b WHERE b.messageNumber = :messageNumber");
+            q.setParameter(BlogMessage_.MESSAGE_NUMBER, msgNum).setMaxResults(1);
             obj = q.getSingleResult();
-        }catch(NoResultException nre){
+        } catch (NoResultException nre) {
             obj = null;
         }
         return obj;
     }
-    
-    public void deleteByHrefNotIn(String[] hrefs){
+
+    public void deleteByHrefNotIn(String[] hrefs) {
         Query query = em.createQuery("DELETE BlogMessage b WHERE b.href NOT IN (:hrefs)");
         query.setParameter("hrefs", Arrays.asList(hrefs));
         query.executeUpdate();

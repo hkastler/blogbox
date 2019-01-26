@@ -38,7 +38,7 @@ public class BlogMessageHandler{
 
     void save(BlogMessage b){
         String messageId = b.getMessageId();
-        Optional<BlogMessage> bmsg = Optional.ofNullable(bman.getEm().find(BlogMessage.class, messageId));
+        Optional<BlogMessage> bmsg = Optional.ofNullable(bman.getBlogMessageByMessageId(messageId));
         if(bmsg.isPresent()){
             //if present, update, in case of change of message number
             bman.getEm().merge(b);
