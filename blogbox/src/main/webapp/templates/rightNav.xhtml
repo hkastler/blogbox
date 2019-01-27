@@ -7,9 +7,6 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
     <f:view>
-        <!-- Sidebar Widgets Column -->
-         <!-- Side Widget -->
-        <form jsf:id="sideNavLinks">
         <div class="card my-4">
             <h5 class="card-header">#{messages['navigation']}</h5>
             <div class="card-block">
@@ -30,10 +27,6 @@
                 </ul>
             </div>
         </div>
-        </form>
-        
-        
-         <!-- Side Widget -->
          <div class="card my-4" jsf:id="calendar" rendered="#{weblogBean.weblog ne null}">
             <h5 class="card-header">Calendar</h5>
             <div class="card-block">
@@ -41,9 +34,6 @@
                               escape="false"/>
             </div>
         </div>
-        
-        
-       
     </f:view>
 </ui:composition>
 
