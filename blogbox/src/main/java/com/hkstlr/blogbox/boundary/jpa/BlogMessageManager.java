@@ -107,11 +107,18 @@ public class BlogMessageManager {
         return obj;
     }
 
-    public void deleteByHrefNotIn(String[] hrefs) {
-        Query query = em.createQuery("DELETE BlogMessage b WHERE b.href NOT IN (:hrefs)");
+    public void deleteByHrefNotIn(String[] hrefs){
+        Query query = em.createQuery("DELETE FROM BlogMessage b WHERE b.href NOT IN (:hrefs)");
         query.setParameter("hrefs", Arrays.asList(hrefs));
         query.executeUpdate();
     }
+
+    public void deleteByMessageIdNotIn(String[] messageIds) {
+        Query query = em.createQuery("DELETE FROM BlogMessage b WHERE b.messageId NOT IN (:messageIds)");
+        query.setParameter("messageIds", Arrays.asList(messageIds));
+        query.executeUpdate();
+    }
+
 
     /**
      * @return the em
@@ -126,5 +133,6 @@ public class BlogMessageManager {
     public void setEm(EntityManager em) {
         this.em = em;
     }
+
 
 }

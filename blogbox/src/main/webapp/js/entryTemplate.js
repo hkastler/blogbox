@@ -1,9 +1,8 @@
-var baseHref = pathArray[paLen-2];
-var href = pathArray[paLen-1];
-var entryRequest;
-var data = [];
+var baseHref = Blogbox.pathArray[Blogbox.paLen - 2];
+var href = Blogbox.pathArray[Blogbox.paLen - 1];
+var ctx = Blogbox.ctx;
 
-function entryHtml(msg){
+function entryHtml(msg) {
     return `<article itemprop="blogPost" itemscope="itemscope" itemtype="https://schema.org/BlogPosting">
                 <meta itemprop="mainEntityOfPage" content="/${msg.href}" />
                 <a name="top" id="top"></a>
@@ -21,21 +20,22 @@ function entryHtml(msg){
             </article>`;
 }
 
-function navHtml(prev, next){
+function navHtml(prev, next) {
     var navHtml = `<nav aria-label="Navigation" itemscope="itemscope" itemtype="https://schema.org/SiteNavigationElement">
     <div id="nav">`
-    if(prev.length != 0){
-        navHtml += navLink(prev[0],prev[1],"prev");
+    if (prev.length != 0) {
+        navHtml += navLink(prev[0], prev[1], "prev");
         navHtml += `&lt; ${prev[1].substring(0, 10)}...</a>`;
     }
-    if(next.length != 0){
-        navHtml += navLink(next[0],next[1],"next");
+    if (next.length != 0) {
+        navHtml += navLink(next[0], next[1], "next");
         navHtml += `${next[1].substring(0, 10)}... &gt;</a>`;
     }
-     navHtml += `</div></nav>`;
-     return navHtml;
+    navHtml += `</div></nav>`;
+    return navHtml;
 }
-function navLink(href, title, pos){
+
+function navLink(href, title, pos) {
     return `<a href="${ctx}/${baseHref}/${href}" class="btn btn-primary" id="nav-${pos}" title="${title}">`;
 }
 
@@ -44,26 +44,22 @@ function getRequestUrl() {
     return restUrl;
 }
 
-function get(url) {
-    entryRequest = new XMLHttpRequest();
+function get(url, callback) {
+    let xhr = new XMLHttpRequest();
 
-    if (!entryRequest) {
-        return false;
+    xhr.onload = function() {
+        let data = JSON.parse(this.responseText);
+        callback(data);
     }
-    entryRequest.onreadystatechange = processResponse;
-    entryRequest.open('GET', url);
-    entryRequest.send();
+    xhr.open("GET" , url);
+    xhr.onerror = function (e) {
+        console.error(xhr.statusText);
+    };
+    xhr.send();
 }
 
-function processResponse() {
-    if (entryRequest.readyState === XMLHttpRequest.DONE) {
-        if (entryRequest.status === 200) {
-            data = JSON.parse(entryRequest.responseText);
-            entry(data[0], data[1], data[2]);
-        } else {
-            console.log('There was a problem with the request.');
-        }
-    }
+function processResponse(data) {
+    entry(data[0], data[1], data[2]);
 }
 
 function entry(msg, next, prev) {
@@ -71,6 +67,6 @@ function entry(msg, next, prev) {
     container.innerHTML = entryHtml(msg);
 
     container = document.querySelector("#navContainer");
-    container.innerHTML = navHtml(prev,next);
+    container.innerHTML = navHtml(prev, next);
 }
-document.querySelector("#content").addEventListener('load', get(getRequestUrl()));
+document.querySelector("#content").addEventListener('load', get(getRequestUrl(), processResponse));

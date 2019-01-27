@@ -45,7 +45,7 @@ public class BlogMessageHandler{
         }else{
             bman.getEm().persist(b);
         }
-        
+
     }
 
 }

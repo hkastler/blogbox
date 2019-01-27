@@ -174,7 +174,8 @@ public class EmailReader {
 			try {
 				if (!blogBox.isOpen()) {
 					blogBox.open(IMAPFolder.READ_ONLY);
-				}
+                }
+                
 				BlogMessage bmsg = new BlogMessage(msg, hrefMaxWords);
 				
 				if (hrefs.contains(bmsg.getHref())) {
