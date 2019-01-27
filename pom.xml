@@ -19,7 +19,7 @@ limitations under the License.
     <version>${revision}${sha1}${changelist}</version>
     <packaging>pom</packaging>
     <properties>
-        <revision>1.2.0</revision>
+        <revision>1.2.1</revision>
         <changelist>-SNAPSHOT</changelist>
         <sha1 />
         <tag>${revision}${sha1}${changelist}</tag>
