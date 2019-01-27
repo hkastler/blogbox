@@ -6,16 +6,12 @@ import java.util.logging.Logger;
 import javax.ejb.Asynchronous;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
+import javax.inject.Inject;
 
 import com.hkstlr.blogbox.boundary.jpa.BlogMessageManager;
 import com.hkstlr.blogbox.entities.BlogMessage;
-import java.io.IOException;
-import java.util.logging.Level;
-import javax.enterprise.event.Event;
-import javax.inject.Inject;
-import javax.mail.Message;
-import javax.mail.MessagingException;
 
 @Stateless
 public class BlogMessageEventHandler {
@@ -46,28 +42,11 @@ public class BlogMessageEventHandler {
             case "deleteByHrefNotIn":
                 deleteByHrefNotIn((String[]) payload);
                 break;
-            case "deleteByMessageIdNotIn":
-                break;
-            case "processMessage":
-                processMessage((Message)payload);
-                break;
             default:
                 break;
         }
     }
     
-    void processMessage(Message msg) {        
-        Integer hrefMaxWords = Optional.ofNullable(Integer.parseInt(config.getProps()
-                .getProperty("bmgs.hrefWordMax")))
-                .orElse(BlogMessage.DEFAULT_HREFWORDMAX);
-        try {
-            BlogMessage bmsg = new BlogMessage(msg, hrefMaxWords);
-            event.fire( new BlogMessageEvent("save", bmsg) );
-        } catch (MessagingException | IOException ex) {
-            LOG.log(Level.SEVERE, null, ex);
-        }
-    }
-
     void deleteByHrefNotIn(String[] hrefs) {
         bman.deleteByHrefNotIn(hrefs);
     }
