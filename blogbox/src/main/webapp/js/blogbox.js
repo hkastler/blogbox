@@ -36,3 +36,16 @@ function findGetParameter(parameterName) {
         });
     return result;
 }
+
+ Blogbox.get = function(url, callback) {
+    let xhr = new XMLHttpRequest();
+    xhr.onload = function() {
+        let data = JSON.parse(this.responseText);
+        callback(data);
+    }
+    xhr.open("GET" , url, true);
+    xhr.onerror = function (e) {
+        console.error(xhr.statusText);
+    };
+    xhr.send();
+}

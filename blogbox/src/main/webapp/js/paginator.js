@@ -128,19 +128,6 @@ function getRequestUrl() {
     return restUrl;
 }
 
-function get(url, callback) {
-    let xhr = new XMLHttpRequest();
-    xhr.onload = function() {
-        let data = JSON.parse(this.responseText);
-        callback(data);
-    }
-    xhr.open("GET" , url);
-    xhr.onerror = function (e) {
-        console.error(xhr.statusText);
-    };
-    xhr.send();
-}
-
 function processResponse(data) {
    paginate(Blogbox.page, Blogbox.pageSize, parseInt(data));
 }
@@ -166,4 +153,4 @@ function paginate(page, pageSize, numberOfItems) {
     };
     container.innerHTML = paginator.getPaginatorHtml(paginatorConfig);
 }
-document.querySelector("#content").addEventListener('load', get(getRequestUrl(),processResponse));
+document.querySelector("#content").addEventListener('load', Blogbox.get(getRequestUrl(),processResponse));

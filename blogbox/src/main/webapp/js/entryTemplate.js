@@ -44,20 +44,6 @@ function getRequestUrl() {
     return restUrl;
 }
 
-function get(url, callback) {
-    let xhr = new XMLHttpRequest();
-
-    xhr.onload = function() {
-        let data = JSON.parse(this.responseText);
-        callback(data);
-    }
-    xhr.open("GET" , url);
-    xhr.onerror = function (e) {
-        console.error(xhr.statusText);
-    };
-    xhr.send();
-}
-
 function processResponse(data) {
     entry(data[0], data[1], data[2]);
 }
@@ -69,4 +55,4 @@ function entry(msg, next, prev) {
     container = document.querySelector("#navContainer");
     container.innerHTML = navHtml(prev, next);
 }
-document.querySelector("#content").addEventListener('load', get(getRequestUrl(), processResponse));
+document.querySelector("#content").addEventListener('load', Blogbox.get(getRequestUrl(), processResponse));
