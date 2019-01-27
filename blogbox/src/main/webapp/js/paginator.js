@@ -25,9 +25,9 @@ class Paginator {
             class="${aClazz}">${label}</a></li>`;
     }
 
-    getPaginatorHtml(props) {
-        let position = props.get("position");
-        let outcome = props.get("outcome");
+    getPaginatorHtml(paginatorConfig) {
+        let position = paginatorConfig.position
+        let outcome = paginatorConfig.outcome;
         let paginatorHtml = `<ul class="pagination justify-content-center" id="paginator-${position}">`
 
         let thisPage = parseInt(this.page);
@@ -120,49 +120,50 @@ class Paginator {
         return paginatorHtml
     }
 };
-var paginatorRequest;
+
+var ctx = Blogbox.ctx;
+
 function getRequestUrl() {
     var restUrl = `//${location.host}${ctx}/rest/srvc/count`;
     return restUrl;
 }
 
-function get(url) {
-    paginatorRequest = new XMLHttpRequest();
-
-    if (!paginatorRequest) {
-        return false;
+function get(url, callback) {
+    let xhr = new XMLHttpRequest();
+    xhr.onload = function() {
+        let data = JSON.parse(this.responseText);
+        callback(data);
     }
-    paginatorRequest.onreadystatechange = processResponse;
-    paginatorRequest.open('GET', url);
-    paginatorRequest.send();
+    xhr.open("GET" , url);
+    xhr.onerror = function (e) {
+        console.error(xhr.statusText);
+    };
+    xhr.send();
 }
-var numberOfItems = "0";
-function processResponse() {
-    if (paginatorRequest.readyState === XMLHttpRequest.DONE) {
-        if (paginatorRequest.status === 200) {
-            numberOfItems = JSON.parse(paginatorRequest.responseText);
-            paginate();
-        } else {
-            console.log('There was a problem with the request.');
-        }
-    }
+
+function processResponse(data) {
+   paginate(Blogbox.page, Blogbox.pageSize, parseInt(data));
 }
 
 function getOutcome(){
     return (window.location.search.length === 0) ? ctx : window.location.pathname;
 }
 
-function paginate() {
-    let paginator = new Paginator(page, pageSize, parseInt(numberOfItems));
+function paginate(page, pageSize, numberOfItems) {
+    let paginator = new Paginator(page, pageSize, numberOfItems);
     let container = document.querySelector("#paginator_top");
-    let props = new Map();
-    props.set("position", "top");
-    props.set("outcome", getOutcome());
-    container.innerHTML = paginator.getPaginatorHtml(props);
+    let paginatorConfig = {
+        position : "top",
+        outcome : getOutcome()
+    };
+    container.innerHTML = paginator.getPaginatorHtml(paginatorConfig);
 
     container = document.querySelector("#paginator_bottom");
     paginatorDiv = document.createElement("div");
-    props.set("position", "bottom");
-    container.innerHTML = paginator.getPaginatorHtml(props);
+    paginatorConfig = {
+        position : "bottom",
+        outcome : getOutcome()
+    };
+    container.innerHTML = paginator.getPaginatorHtml(paginatorConfig);
 }
-document.querySelector("#content").addEventListener('load', get(getRequestUrl()));
+document.querySelector("#content").addEventListener('load', get(getRequestUrl(),processResponse));
