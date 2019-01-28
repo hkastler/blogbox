@@ -1,64 +1,9 @@
-var siteName = "";
-	 $.ajax({
-		    type : 'GET',
-		    url:    '/rest/srvc/props',
-		    dataType: 'json',
-		    async: false, 
-		    success:  function(json) {
-		    	siteName = json['site.name'];
-		    }
-		    });	 
+var req = new RequestManager();
+var baseHref = req.pathArray[req.pathArray.length - 2];
+var href = req.pathArray[req.pathArray.length - 1];
+var blogEntry = new BlogEntry(req.ctx, baseHref, href);
 
-$(document).on(
-		"click",
-		"[ id |='nav' ] a",
-		function(e) {
-
-			try {
-				e.preventDefault();
-				e.stopImmediatePropagation();
-			} catch (err) {
-				// do nothing
-			}
-
-			var disabledValue = $(this).attr("data-disabled");
-
-			if (disabledValue === "true" || disabledValue === "disabled") {
-				return false;
-			}
-
-			var myHref = $(this).attr("href");
-			var atitle = siteName + " - " + $(this).attr("title");
-
-			try {
-				$.ajax({
-					type : 'GET',
-					url : myHref + "?ajaxTemplate=1",
-					async : true,
-					success : function(response) {
-						try {
-							var html = $.parseHTML(response);
-							var newcontent = $(html).filter('#content').html();
-							$('#content').html(newcontent);
-							$('html, body').animate({
-								scrollTop: $("#top").offset().top
-							}, 0);
-							return false
-						} catch (err) {
-							console.log(err);
-							window.location.href = myHref;
-						}
-					},
-					error : function() {
-						// do nothing
-					}
-				});
-
-				window.history.pushState({url : myHref}, atitle, myHref);
-				if (document.title !== atitle) {
-					document.title = atitle;
-				}
-			} catch (err) {
-				window.location.href = myHref;
-			}
-		});
+function processResponse(resp){
+	return blogEntry.processResponse(resp)
+}
+document.querySelector("#content").addEventListener('load', req.get(blogEntry.getRequestUrl(), processResponse));

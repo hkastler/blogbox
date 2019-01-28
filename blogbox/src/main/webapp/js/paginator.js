@@ -3,7 +3,6 @@ class Paginator {
         this.page = page;
         this.pageSize = pageSize;
         this.numberOfItems = numberOfItems;
-        this.numberOfPages = this.calcNumberOfPages();
     }
 
     calcNumberOfPages() {
@@ -18,11 +17,22 @@ class Paginator {
         return this.page - 1 > 0;
     }
 
+    init(req){
+        if(location.search.length == 0){
+            if ((req.pathArray.length - 3) > 0) {
+                this.page = parseInt(req.pathArray[req.pathArray.length - 3]);
+                this.pageSize = parseInt(req.pathArray[req.pathArray.length - 1]);
+            }
+        }else{
+            let requestPage = req.getRequestParameter("page");
+            let reqPageSize = req.getRequestParameter("pageSize");
+            this.page = (null !== requestPage) ? requestPage : 1 ;
+            this.pageSize = (null !== reqPageSize) ? reqPageSize : 4 ;
+        }
+    }
+
     paginatorLiHtml(liClazz, id, href, dataPage, dataPageSize, aClazz, label){
-        return `<li class="${liClazz}"><a id="${id}" href="${href}"
-            data-page="${dataPage}"
-            data-pageSize="${dataPageSize}" 
-            class="${aClazz}">${label}</a></li>`;
+        return `<li class="${liClazz}"><a id="${id}" href="${href}" data-page="${dataPage}" data-pageSize="${dataPageSize}" class="${aClazz}">${label}</a></li>`;
     }
 
     getPaginatorHtml(paginatorConfig) {
@@ -42,7 +52,7 @@ class Paginator {
         }
 
         //previous
-        if (this.numberOfPages > 1) {
+        if (this.calcNumberOfPages() > 1) {
             let prevLink = `${outcome}${pageVarStr}${prevPage}${pageSizeVarStr}${this.pageSize}`
             if (this.hasPreviousPage() === false) {
                 prevLink = `javascript:void(0);`;
@@ -65,12 +75,12 @@ class Paginator {
 
         let dotThreshold = 12;
         //pages or dots
-        for (let i = 1; i <= this.numberOfPages; i++) {
+        for (let i = 1; i <= this.calcNumberOfPages(); i++) {
 
             let iIsPageOrAdjacent = (i === thisPage) || (i === prevPage) || (i === nextPage);
 
-            let showLinkedLi = (this.numberOfPages < dotThreshold) || (
-                (i === 1) || (i === this.numberOfPages) || iIsPageOrAdjacent
+            let showLinkedLi = (this.calcNumberOfPages() < dotThreshold) || (
+                (i === 1) || (i === this.calcNumberOfPages()) || iIsPageOrAdjacent
             );
             let idField = `paginatorPage-${i}`;
 
@@ -83,8 +93,8 @@ class Paginator {
                                     "page-link",
                                     `${i}` );
             }
-            let isDotThreshold = this.numberOfPages > dotThreshold;
-            let isDotShow = (!showLinkedLi && (i === 2 || i === this.numberOfPages - 1));
+            let isDotThreshold = this.calcNumberOfPages() > dotThreshold;
+            let isDotShow = (!showLinkedLi && (i === 2 || i === this.calcNumberOfPages() - 1));
             if ( isDotThreshold && isDotShow ){
                 paginatorHtml += `<li class="disabled page-item" id="${idField}">
                                             <a>
@@ -95,7 +105,7 @@ class Paginator {
         }//pages
 
         //next
-        if (this.numberOfPages > 1) {
+        if (this.calcNumberOfPages() > 1) {
             let nextLink = `${outcome}${pageVarStr}${this.page + 1}${pageSizeVarStr}${this.pageSize}`;
             if (this.hasNextPage() === false) {
                 nextLink = `javascript:void(0);`;
@@ -119,38 +129,38 @@ class Paginator {
 
         return paginatorHtml
     }
+
+    paginate(){
+        let container = document.querySelector("#pg-top");
+        let paginatorConfig = {
+            position : "top",
+            outcome : this.getOutcome(req.ctx)
+        };
+        container.innerHTML = this.getPaginatorHtml(paginatorConfig);
+    
+        container = document.querySelector("#pg-bottom");
+        paginatorConfig = {
+            position : "bottom",
+            outcome : this.getOutcome(req.ctx)
+        };
+        container.innerHTML = this.getPaginatorHtml(paginatorConfig);
+        
+    };
+
+    getRequestUrl(ctx) {
+        let restUrl = `//${location.host}${ctx}/rest/srvc/count`;
+        return restUrl;
+    }
+
+    processResponse(data) {
+      console.log(data);
+      this.numberOfItems = parseInt(data);
+      this.paginate();
+    }
+
+    getOutcome(ctx){
+        return (window.location.search.length === 0) ? ctx : window.location.pathname;
+    }
+
 };
 
-var ctx = Blogbox.ctx;
-
-function getRequestUrl() {
-    var restUrl = `//${location.host}${ctx}/rest/srvc/count`;
-    return restUrl;
-}
-
-function processResponse(data) {
-   paginate(Blogbox.page, Blogbox.pageSize, parseInt(data));
-}
-
-function getOutcome(){
-    return (window.location.search.length === 0) ? ctx : window.location.pathname;
-}
-
-function paginate(page, pageSize, numberOfItems) {
-    let paginator = new Paginator(page, pageSize, numberOfItems);
-    let container = document.querySelector("#pg-top");
-    let paginatorConfig = {
-        position : "top",
-        outcome : getOutcome()
-    };
-    container.innerHTML = paginator.getPaginatorHtml(paginatorConfig);
-
-    container = document.querySelector("#pg-bottom");
-    paginatorDiv = document.createElement("div");
-    paginatorConfig = {
-        position : "bottom",
-        outcome : getOutcome()
-    };
-    container.innerHTML = paginator.getPaginatorHtml(paginatorConfig);
-}
-document.querySelector("#content").addEventListener('load', Blogbox.get(getRequestUrl(),processResponse));
