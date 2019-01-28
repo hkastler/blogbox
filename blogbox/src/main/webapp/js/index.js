@@ -8,9 +8,13 @@ function processBlogListings(resp){
     return blogListings.processResponse(resp);
 }
 function processPaginator(resp){
-    return paginator.processResponse(resp)
+    return paginator.processResponse(resp);
+}
+function blogOnLoadEnd(){
+    //console.log("blogOnLoadEnd");
+    document.querySelector("#loader").classList.add("hide");
 }
 document.querySelector('#content').addEventListener('load', 
-        req.get(blogListings.getRequestUrl(paginator.page, paginator.pageSize), processBlogListings));
+        req.get(blogListings.getRequestUrl(paginator.page, paginator.pageSize), processBlogListings, blogOnLoadEnd));
 document.querySelector("#content").addEventListener('load', 
-        req.get(paginator.getRequestUrl(req.ctx),processPaginator));
+        req.get(paginator.getRequestUrl(req.ctx),processPaginator, function(){}));

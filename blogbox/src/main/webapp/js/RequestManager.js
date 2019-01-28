@@ -7,13 +7,16 @@ class RequestManager {
         }
     }
     
-    get(url, callback) {
+    get(url, onLoadCallback, onLoadEndCallback) {
         let xhr = new XMLHttpRequest();
         xhr.onload = function () {
             let data = JSON.parse(this.responseText);
-            callback(data);
+            onLoadCallback(data);
         }
         xhr.open("GET", url, true);
+        xhr.onloadend = function(){
+            onLoadEndCallback();
+        }
         xhr.onerror = function (e) {
             console.error(xhr.statusText);
         };
