@@ -138,14 +138,14 @@ function getOutcome(){
 
 function paginate(page, pageSize, numberOfItems) {
     let paginator = new Paginator(page, pageSize, numberOfItems);
-    let container = document.querySelector("#paginator_top");
+    let container = document.querySelector("#pg-top");
     let paginatorConfig = {
         position : "top",
         outcome : getOutcome()
     };
     container.innerHTML = paginator.getPaginatorHtml(paginatorConfig);
 
-    container = document.querySelector("#paginator_bottom");
+    container = document.querySelector("#pg-bottom");
     paginatorDiv = document.createElement("div");
     paginatorConfig = {
         position : "bottom",

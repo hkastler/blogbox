@@ -66,19 +66,25 @@ nav{
     margin-left: 2rem;
 }
 
-#content{
+#content {
     margin-left: 2rem;
 }
 
-.show{
+.show {
     display: block;
 }
 
-.hide{
+.hide {
     display: none;
 }
-#blogListings{
+#blogListings {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
+
+
+#paginator-bottom {
+    margin-top: 16px;
+}
+
