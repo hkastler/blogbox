@@ -1,9 +1,12 @@
-var req = new RequestManager();
-var baseHref = req.pathArray[req.pathArray.length - 2];
-var href = req.pathArray[req.pathArray.length - 1];
-var blogEntry = new BlogEntry(req.ctx, baseHref, href);
+import RequestManager from './RequestManager.js';
+import BlogEntry from './BlogEntry.js';
+
+const request = new RequestManager();
+const baseHref = request.pathArray[request.pathArray.length - 2];
+const href = request.pathArray[request.pathArray.length - 1];
+const blogEntry = new BlogEntry(request.ctx, baseHref, href);
 
 function processResponse(resp){
 	return blogEntry.processResponse(resp)
 }
-document.querySelector("#content").addEventListener('load', req.get(blogEntry.getRequestUrl(), processResponse));
+document.querySelector("#content").addEventListener('load', request.get(blogEntry.getRequestUrl(), processResponse));

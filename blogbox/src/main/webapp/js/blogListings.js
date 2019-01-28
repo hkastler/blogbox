@@ -32,3 +32,4 @@ class BlogListings{
     }
     
 }
+export default BlogListings;

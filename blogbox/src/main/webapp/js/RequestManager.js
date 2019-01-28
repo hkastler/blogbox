@@ -35,6 +35,7 @@ class RequestManager {
         return result;
     }
 }
+export default RequestManager;
 
 
 

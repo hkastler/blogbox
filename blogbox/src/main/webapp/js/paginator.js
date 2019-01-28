@@ -1,8 +1,9 @@
 class Paginator {
-    constructor(page, pageSize, numberOfItems) {
+    constructor(page, pageSize, numberOfItems, ctx) {
         this.page = page;
         this.pageSize = pageSize;
         this.numberOfItems = numberOfItems;
+        this.ctx = ctx;
     }
 
     calcNumberOfPages() {
@@ -134,21 +135,21 @@ class Paginator {
         let container = document.querySelector("#pg-top");
         let paginatorConfig = {
             position : "top",
-            outcome : this.getOutcome(req.ctx)
+            outcome : this.getOutcome(this.ctx)
         };
         container.innerHTML = this.getPaginatorHtml(paginatorConfig);
     
         container = document.querySelector("#pg-bottom");
         paginatorConfig = {
             position : "bottom",
-            outcome : this.getOutcome(req.ctx)
+            outcome : this.getOutcome(this.ctx)
         };
         container.innerHTML = this.getPaginatorHtml(paginatorConfig);
         
     };
 
-    getRequestUrl(ctx) {
-        let restUrl = `//${location.host}${ctx}/rest/srvc/count`;
+    getRequestUrl() {
+        let restUrl = `//${location.host}${this.ctx}/rest/srvc/count`;
         return restUrl;
     }
 
@@ -163,4 +164,5 @@ class Paginator {
     }
 
 };
+export default Paginator;
 

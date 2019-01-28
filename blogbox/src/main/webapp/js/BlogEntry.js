@@ -56,4 +56,4 @@ class BlogEntry {
     }
 
 }
-
+export default BlogEntry;
