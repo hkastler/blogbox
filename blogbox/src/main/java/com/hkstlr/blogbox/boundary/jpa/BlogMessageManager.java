@@ -45,7 +45,10 @@ public class BlogMessageManager {
         all.orderBy(cb.desc(t.get(BlogMessage_.MESSAGE_NUMBER)));
 
         TypedQuery<BlogMessage> q = em.createQuery(all);
-        q.setMaxResults(range[1] - range[0] + 1);
+        Integer maxResults = range[1] - range[0] + 1;
+        if(maxResults > 0){
+            q.setMaxResults(maxResults);
+        }
         q.setFirstResult(range[0]);
         return q.getResultList();
     }

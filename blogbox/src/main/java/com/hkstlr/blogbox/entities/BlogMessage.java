@@ -29,22 +29,21 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.ws.rs.core.MediaType;
-import javax.xml.bind.annotation.XmlRootElement;
+
+import com.hkstlr.blogbox.control.DateFormatter;
+import com.hkstlr.blogbox.control.StringChanger;
+import com.sun.mail.util.BASE64DecoderStream;
 
 import org.jsoup.Jsoup;
 import org.jsoup.helper.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.safety.Whitelist;
-
-import com.hkstlr.blogbox.control.DateFormatter;
-import com.hkstlr.blogbox.control.StringChanger;
-import com.sun.mail.util.BASE64DecoderStream;
-import javax.persistence.Temporal;
 
 @Entity
 @Cacheable
@@ -54,10 +53,11 @@ import javax.persistence.Temporal;
 @NamedQuery(name="BlogMessage.findByHref", query="SELECT b FROM BlogMessage b WHERE b.href = :href")
 @NamedQuery(name="BlogMessage.findByMessageNumber", query="SELECT b FROM BlogMessage b WHERE b.messageNumber = :messageNumber")
 @NamedQuery(name="BlogMessage.findMessageNumberRange", query="SELECT b FROM BlogMessage b WHERE b.messageNumber BETWEEN :messageNumberStart AND :messageNumberEnd")
-public class BlogMessage extends AbstractEntity {
+public class BlogMessage {
 
     private static final String STRING = "";
 
+    @Id
     @Basic(optional = false)
     @NotNull(message = "{BlogMessage.messageId.NotNull}")
     @Size(min = 1, max = 255, message = "{BlogMessage.messageId.NotNull}")
@@ -363,14 +363,14 @@ public class BlogMessage extends AbstractEntity {
     public boolean equals(Object o) {
         boolean response = false;
         if (o instanceof BlogMessage) {
-            response = (((BlogMessage) o).messageId).equals(this.messageId);
+            response = (((BlogMessage) o).href).equals(this.href);
         }
         return response;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.messageId,this.href);
+        return Objects.hash(this.href,this.href);
     }
 
 }
