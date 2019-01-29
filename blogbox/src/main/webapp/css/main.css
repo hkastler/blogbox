@@ -146,3 +146,7 @@ nav{
       opacity: 0;
     }
   }
+
+  #nav-next{
+      margin-left: 10px;
+  }
