@@ -43,17 +43,32 @@ class BlogEntry {
     }
 
     processResponse(data) {
-        this.entry(data[0], data[1], data[2]);
+        let msg = data[0];
+        this.entry(msg);
+        let nav = data[1];
+        let next = [];
+        let prev = [];
+        if(nav.length === 2){
+            next = nav[0];
+            prev = nav[1];
+        }else if(nav.length === 1){
+            let navMsgNum = nav[0][2];
+            let msgNumOfNext = (msg.messageNumber - 1);
+            if(navMsgNum === msgNumOfNext){
+                next = nav[0];
+            }else {
+                prev = nav[0];
+            }
+        }
+        this.nav(prev, next);
     }
-
-    entry(msg, next, prev) {
-        console.log(next);
+    entry(msg) {
         let container = document.querySelector("#entry");
         container.innerHTML = this.entryHtml(msg);
-        container = document.querySelector("#navContainer");
-        container.innerHTML = this.navHtml(prev, next);
-        console.log(this.navHtml(prev, next));
     }
-
+    nav(prev, next){
+        let container = document.querySelector("#navContainer");
+        container.innerHTML = this.navHtml(prev, next);
+    }
 }
 export default BlogEntry;

@@ -1,5 +1,6 @@
 package com.hkstlr.blogbox.boundary.jax;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
@@ -41,15 +42,23 @@ public class BlogBoxService {
     @Produces("application/json")
     @Path("/entry/{href}/refs")
     public Object[] getEntryAndNavRefs(@PathParam("href") String href) {
-        Object[] rtn = new Object[3];
+        Object[] rtn = new Object[2];
         BlogMessage entry = bman.getBlogMessageByHref(href);
         rtn[0] = entry;
         Integer msgNumber = entry.getMessageNumber();
-        Object prev = Optional.ofNullable(bman.findRefsByMessageNumber(msgNumber - 1)).orElse(new String[0]);
-        rtn[1] = prev;
-        Object next = Optional.ofNullable(bman.findRefsByMessageNumber(msgNumber + 1)).orElse(new String[0]);
-        rtn[2] = next;
+        Object nav = Optional.ofNullable(bman.findRefsByMessageNumber(msgNumber)).orElse(new String[0]);
+        rtn[1] = nav;
         return rtn;
+    }
+
+    @GET
+    @Produces("application/json")
+    @Path("/entry/{href}/refsonly")
+    public Object getNavRefs(@PathParam("href") String href) { 
+        BlogMessage entry = bman.getBlogMessageByHref(href);
+        Integer msgNumber = entry.getMessageNumber();
+        Object nav = Optional.ofNullable(bman.findRefsByMessageNumber(msgNumber)).orElse(new ArrayList<>());
+        return nav;
     }
 
     @GET

@@ -97,13 +97,14 @@ public class BlogMessageManager {
     }
 
     public Object findRefsByMessageNumber(Integer msgNum) {
-        Object obj;
+        List obj;
 
         try {
             Query q = em
-                    .createQuery("SELECT b.href, b.subject FROM BlogMessage b WHERE b.messageNumber = :messageNumber");
-            q.setParameter(BlogMessage_.MESSAGE_NUMBER, msgNum).setMaxResults(1);
-            obj = q.getSingleResult();
+                    .createNativeQuery("SELECT b.href, b.subject, b.messageNumber FROM BlogMessage b WHERE b.messageNumber = :low UNION SELECT b.href, b.subject, b.messageNumber FROM BlogMessage b WHERE b.messageNumber = :high ORDER BY messageNumber ASC");
+            q.setParameter("low", msgNum - 1)
+            .setParameter("high", msgNum + 1);
+            obj = q.getResultList();
         } catch (NoResultException nre) {
             obj = null;
         }

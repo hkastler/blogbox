@@ -9,4 +9,7 @@ const blogEntry = new BlogEntry(request.ctx, baseHref, href);
 function processResponse(resp){
 	return blogEntry.processResponse(resp)
 }
-document.querySelector("#content").addEventListener('load', request.get(blogEntry.getRequestUrl(), processResponse));
+function blogOnLoadEnd(){
+    document.querySelector("#loader").classList.add("hide");
+}
+document.querySelector("#content").addEventListener('load', request.get(blogEntry.getRequestUrl(), processResponse, blogOnLoadEnd));
