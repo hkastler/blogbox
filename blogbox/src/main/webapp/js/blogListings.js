@@ -23,9 +23,13 @@ class BlogListings{
     }
     
     blogListingHtml(msg, idx) {
+        let msgCtx = this.ctx;
+        if("/" !== msgCtx[msgCtx.length -1]){
+            msgCtx += "/";
+        }
         return `
         <h4 class="mt-4" id="msgSubject-${msg.messageNumber}">
-        <a href="${this.ctx}/entry/${msg.href}">${msg.subject}</a></h4>
+        <a href="${msgCtx}entry/${msg.href}">${msg.subject}</a></h4>
         <div id="msgCreateDate-${msg.messageNumber}">${msg.createDate}</div>
         <div id="msgBodyBegin-${msg.messageNumber}">${msg.body}</div>
         `;
