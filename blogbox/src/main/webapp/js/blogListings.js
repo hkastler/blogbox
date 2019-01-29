@@ -13,6 +13,7 @@ class BlogListings{
     
     writeBlogListings(data) {
         let container = document.querySelector("#blogListings");
+        container.innerHTML = '';
         container.classList.add('blogs');
         // loop through the data
         data.forEach((msg, idx) => {

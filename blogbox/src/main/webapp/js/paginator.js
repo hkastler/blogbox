@@ -36,7 +36,9 @@ class Paginator {
         return `<li class="${liClazz}"><a id="${id}" href="${href}" data-page="${dataPage}" data-pageSize="${dataPageSize}" class="${aClazz}">${label}</a></li>`;
     }
 
+
     getPaginatorHtml(paginatorConfig) {
+
         let position = paginatorConfig.position
         let outcome = paginatorConfig.outcome;
         let paginatorHtml = `<ul class="pagination justify-content-center" id="paginator-${position}">`
@@ -143,7 +145,7 @@ class Paginator {
         paginatorConfig = {
             position : "bottom",
             outcome : this.getOutcome(this.ctx)
-        };
+        }; 
         container.innerHTML = this.getPaginatorHtml(paginatorConfig);
         
     };
