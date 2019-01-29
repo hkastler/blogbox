@@ -154,7 +154,6 @@ class Paginator {
     }
 
     processResponse(data) {
-      console.log(data);
       this.numberOfItems = parseInt(data);
       this.paginate();
     }
