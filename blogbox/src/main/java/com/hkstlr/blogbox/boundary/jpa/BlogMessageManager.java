@@ -50,6 +50,7 @@ public class BlogMessageManager {
             q.setMaxResults(maxResults);
         }
         q.setFirstResult(range[0]);
+        q.setHint("org.hibernate.cacheable", Boolean.TRUE);
         return q.getResultList();
     }
 
@@ -89,6 +90,7 @@ public class BlogMessageManager {
     BlogMessage getSingleResult(TypedQuery<BlogMessage> q) {
         BlogMessage b;
         try {
+            q.setHint("org.hibernate.cacheable", Boolean.TRUE);
             b = q.getSingleResult();
         } catch (NoResultException e) {
             b = null;
@@ -98,7 +100,6 @@ public class BlogMessageManager {
 
     public Object findRefsByMessageNumber(Integer msgNum) {
         List obj;
-
         try {
             Query q = em
                     .createNativeQuery("SELECT b.href, b.subject, b.messageNumber FROM BlogMessage b WHERE b.messageNumber = :low UNION SELECT b.href, b.subject, b.messageNumber FROM BlogMessage b WHERE b.messageNumber = :high ORDER BY messageNumber ASC");
