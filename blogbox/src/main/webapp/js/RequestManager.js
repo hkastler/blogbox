@@ -5,6 +5,10 @@ class RequestManager {
         if (this.pathArray.length > 1) {
             this.ctx = this.ctx.concat(this.pathArray[1]);
         }
+        //for back button functionality
+        window.addEventListener("popstate", function(e) {
+            window.location.href = location.href;
+        });
     }
     
     get(url, onLoadCallback, onLoadEndCallback) {

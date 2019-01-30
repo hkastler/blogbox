@@ -18,21 +18,21 @@ class Paginator {
         return this.page - 1 > 0;
     }
 
-    init(req){
-        if(location.search.length == 0){
+    init(req) {
+        if (location.search.length == 0) {
             if ((req.pathArray.length - 3) > 0) {
                 this.page = parseInt(req.pathArray[req.pathArray.length - 3]);
                 this.pageSize = parseInt(req.pathArray[req.pathArray.length - 1]);
             }
-        }else{
+        } else {
             let requestPage = req.getRequestParameter("page");
             let reqPageSize = req.getRequestParameter("pageSize");
-            this.page = (null !== requestPage) ? requestPage : 1 ;
-            this.pageSize = (null !== reqPageSize) ? reqPageSize : 4 ;
+            this.page = (null !== requestPage) ? requestPage : 1;
+            this.pageSize = (null !== reqPageSize) ? reqPageSize : 4;
         }
     }
 
-    paginatorLiHtml(liClazz, id, href, dataPage, dataPageSize, aClazz, label){
+    paginatorLiHtml(liClazz, id, href, dataPage, dataPageSize, aClazz, label) {
         return `<li class="${liClazz}"><a id="${id}" href="${href}" data-page="${dataPage}" data-pageSize="${dataPageSize}" class="${aClazz}">${label}</a></li>`;
     }
 
@@ -49,7 +49,7 @@ class Paginator {
 
         let pageVarStr = "/page/";
         let pageSizeVarStr = "/pageSize/";
-        if(window.location.search.length > 0){
+        if (window.location.search.length > 0) {
             pageVarStr = "?page=";
             pageSizeVarStr = "&pageSize=";
         }
@@ -60,20 +60,20 @@ class Paginator {
             if (this.hasPreviousPage() === false) {
                 prevLink = `javascript:void(0);`;
             }
-            paginatorHtml += this.paginatorLiHtml("previous page-item", 
-                                                    `navback-arrow-${position}`,
-                                                    `${prevLink}`,
-                                                    `${prevPage}`,
-                                                    `${this.pageSize}`,
-                                                    "page-link",
-                                                    "&larr;" );
-             paginatorHtml += this.paginatorLiHtml("previous page-item", 
-                                                    `navback-text-${position}`,
-                                                    `${prevLink}`,
-                                                    `${prevPage}`,
-                                                    `${this.pageSize}`,
-                                                    "page-link d-none d-sm-block",
-                                                    "Previous" );
+            paginatorHtml += this.paginatorLiHtml("previous page-item",
+                `navback-arrow-${position}`,
+                `${prevLink}`,
+                `${prevPage}`,
+                `${this.pageSize}`,
+                "page-link",
+                "&larr;");
+            paginatorHtml += this.paginatorLiHtml("previous page-item",
+                `navback-text-${position}`,
+                `${prevLink}`,
+                `${prevPage}`,
+                `${this.pageSize}`,
+                "page-link d-none d-sm-block",
+                "Previous");
         }//previous
 
         let dotThreshold = 12;
@@ -88,17 +88,17 @@ class Paginator {
             let idField = `paginatorPage-${i}`;
 
             if (showLinkedLi) {
-                paginatorHtml += this.paginatorLiHtml(`${thisPage === i ? 'active' : ''} page-item`, 
-                                    `${idField}`,
-                                    `${outcome}${pageVarStr}${i}${pageSizeVarStr}${this.pageSize}`,
-                                    `${i}`,
-                                    `${this.pageSize}`,
-                                    "page-link",
-                                    `${i}` );
+                paginatorHtml += this.paginatorLiHtml(`${thisPage === i ? 'active' : ''} page-item`,
+                    `${idField}`,
+                    `${outcome}${pageVarStr}${i}${pageSizeVarStr}${this.pageSize}`,
+                    `${i}`,
+                    `${this.pageSize}`,
+                    "page-link",
+                    `${i}`);
             }
             let isDotThreshold = this.calcNumberOfPages() > dotThreshold;
             let isDotShow = (!showLinkedLi && (i === 2 || i === this.calcNumberOfPages() - 1));
-            if ( isDotThreshold && isDotShow ){
+            if (isDotThreshold && isDotShow) {
                 paginatorHtml += `<li class="disabled page-item" id="${idField}">
                                             <a>
                                                 ..
@@ -113,41 +113,41 @@ class Paginator {
             if (this.hasNextPage() === false) {
                 nextLink = `javascript:void(0);`;
             }
-            paginatorHtml += this.paginatorLiHtml(`next page-item`, 
-                                    `navForward-Text-${position}`,
-                                    `${nextLink}`,
-                                    `${nextPage}`,
-                                    `${this.pageSize}`,
-                                    "page-link d-none d-sm-block",
-                                    `Next` );
-            paginatorHtml += this.paginatorLiHtml(`next page-item`, 
-                                    `navForward-Arrow-${position}`,
-                                    `${nextLink}`,
-                                    `${nextPage}`,
-                                    `${this.pageSize}`,
-                                    "page-link",
-                                    `&rarr;` );
+            paginatorHtml += this.paginatorLiHtml(`next page-item`,
+                `navForward-Text-${position}`,
+                `${nextLink}`,
+                `${nextPage}`,
+                `${this.pageSize}`,
+                "page-link d-none d-sm-block",
+                `Next`);
+            paginatorHtml += this.paginatorLiHtml(`next page-item`,
+                `navForward-Arrow-${position}`,
+                `${nextLink}`,
+                `${nextPage}`,
+                `${this.pageSize}`,
+                "page-link",
+                `&rarr;`);
         }
         paginatorHtml += `</ul>`;
 
         return paginatorHtml
     }
 
-    paginate(){
+    paginate() {
         let container = document.querySelector("#pg-top");
         let paginatorConfig = {
-            position : "top",
-            outcome : this.getOutcome(this.ctx)
+            position: "top",
+            outcome: this.getOutcome(this.ctx)
         };
         container.innerHTML = this.getPaginatorHtml(paginatorConfig);
-    
+
         container = document.querySelector("#pg-bottom");
         paginatorConfig = {
-            position : "bottom",
-            outcome : this.getOutcome(this.ctx)
-        }; 
+            position: "bottom",
+            outcome: this.getOutcome(this.ctx)
+        };
         container.innerHTML = this.getPaginatorHtml(paginatorConfig);
-        
+
     };
 
     getRequestUrl() {
@@ -156,12 +156,20 @@ class Paginator {
     }
 
     processResponse(data) {
-      this.numberOfItems = parseInt(data);
-      this.paginate();
+        this.numberOfItems = parseInt(data);
+        this.paginate();
     }
 
-    getOutcome(ctx){
+    getOutcome(ctx) {
         return (window.location.search.length === 0) ? ctx : window.location.pathname;
+    }
+
+    linkDecorator(paginatorEventHandler) {
+        var as = document.querySelectorAll("[id^='paginator'] a");
+        for (var i = 0; i < as.length; i++) {
+            var a = as[i];
+            a.addEventListener('click', paginatorEventHandler);
+        }
     }
 
 };
