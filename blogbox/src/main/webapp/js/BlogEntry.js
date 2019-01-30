@@ -33,6 +33,14 @@ class BlogEntry {
         return navHtml;
     }
 
+    navLinkDecorator(eventHandler) {
+        var as = document.querySelectorAll("[id^='nav-']");
+        for (var i = 0; i < as.length; i++) {
+            var a = as[i];
+            a.addEventListener('click', eventHandler);
+        }
+    }
+
     navLink(href, title, pos) {
         return `<a href="${this.ctx}/${this.baseHref}/${href}" class="btn btn-primary" id="nav-${pos}" title="${title}">`;
     }
