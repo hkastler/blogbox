@@ -88,7 +88,7 @@ public class BlogMessage {
     private String body = STRING;
 
     @Column(name = "createDate")
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date createDate;
 
     private static final Logger LOG = Logger.getLogger(BlogMessage.class.getName());
