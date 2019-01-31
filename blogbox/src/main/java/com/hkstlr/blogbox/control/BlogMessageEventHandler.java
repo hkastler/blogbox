@@ -56,14 +56,21 @@ public class BlogMessageEventHandler {
     }
 
     void save(BlogMessage b) {
-        String messageId = b.getMessageId();
-        Optional<BlogMessage> bmsg = Optional.ofNullable(bman.getEm().find(BlogMessage.class, messageId));
         
-        if (bmsg.isPresent()) {
+        String href = b.getHref();
+        Optional<BlogMessage> oBmsg = Optional.ofNullable(bman.getBlogMessageByHref(href));
+        if (oBmsg.isPresent()) {
+            BlogMessage bmsg = oBmsg.get();
             //if present, update, in case of change of message number
-            bman.getEm().merge(b);
-           
+            if(bmsg.getMessageId().equals(b.getMessageId())){
+                bman.getEm().merge(b);
+            }else{
+                bman.getEm().remove(bmsg);
+                bman.getEm().flush();
+                bman.getEm().persist(b);
+            }
         } else {
+            LOG.info("persist " + href);
             bman.getEm().persist(b);
         }
 

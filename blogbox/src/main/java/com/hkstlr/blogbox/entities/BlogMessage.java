@@ -363,14 +363,16 @@ public class BlogMessage {
     public boolean equals(Object o) {
         boolean response = false;
         if (o instanceof BlogMessage) {
-            response = (((BlogMessage) o).href).equals(this.href);
+            response = (((BlogMessage) o).href).equals(this.href)
+                && (((BlogMessage) o).messageId).equals(this.messageId);
+            ;
         }
         return response;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.href,this.href);
+        return Objects.hash(this.messageId,this.href);
     }
 
 }
