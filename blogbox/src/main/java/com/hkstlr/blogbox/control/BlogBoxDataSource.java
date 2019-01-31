@@ -13,7 +13,6 @@ import javax.ejb.Startup;
     url = "jdbc:h2:mem:blogbox;DB_CLOSE_DELAY=-1",
     user = "sa",
     password = "sa",
-    transactional = true,
     initialPoolSize = 10,
     minPoolSize = 10,
     maxPoolSize = 200
