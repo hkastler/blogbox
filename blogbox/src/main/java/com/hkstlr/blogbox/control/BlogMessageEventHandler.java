@@ -70,7 +70,6 @@ public class BlogMessageEventHandler {
                 bman.getEm().persist(b);
             }
         } else {
-            LOG.info("persist " + href);
             bman.getEm().persist(b);
         }
 
