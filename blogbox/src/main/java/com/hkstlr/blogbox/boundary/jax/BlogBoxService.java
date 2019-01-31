@@ -93,4 +93,12 @@ public class BlogBoxService {
     	rProps.remove(EmailReader.EmailReaderPropertyKeys.PASSWORD);
         return rProps;
     }
+
+    @GET
+    @Produces("text/plain")
+    @Path("/clearcache")
+    public String clearCache(){
+        bman.clearCache();
+        return "cleared";
+    }
 }

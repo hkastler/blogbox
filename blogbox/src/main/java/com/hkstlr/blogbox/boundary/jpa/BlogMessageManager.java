@@ -2,6 +2,7 @@ package com.hkstlr.blogbox.boundary.jpa;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -46,7 +47,7 @@ public class BlogMessageManager {
 
         TypedQuery<BlogMessage> q = em.createQuery(all);
         Integer maxResults = range[1] - range[0] + 1;
-        if(maxResults > 0){
+        if (maxResults > 0) {
             q.setMaxResults(maxResults);
         }
         q.setFirstResult(range[0]);
@@ -101,10 +102,9 @@ public class BlogMessageManager {
     public Object findRefsByMessageNumber(Integer msgNum) {
         List obj;
         try {
-            Query q = em
-                    .createNativeQuery("SELECT b.href, b.subject, b.messageNumber FROM BlogMessage b WHERE b.messageNumber = :low UNION SELECT b.href, b.subject, b.messageNumber FROM BlogMessage b WHERE b.messageNumber = :high ORDER BY messageNumber ASC");
-            q.setParameter("low", msgNum - 1)
-            .setParameter("high", msgNum + 1);
+            Query q = em.createNativeQuery(
+                    "SELECT b.href, b.subject, b.messageNumber FROM BlogMessage b WHERE b.messageNumber = :low UNION SELECT b.href, b.subject, b.messageNumber FROM BlogMessage b WHERE b.messageNumber = :high ORDER BY messageNumber ASC");
+            q.setParameter("low", msgNum - 1).setParameter("high", msgNum + 1);
             obj = q.getResultList();
         } catch (NoResultException nre) {
             obj = null;
@@ -112,7 +112,7 @@ public class BlogMessageManager {
         return obj;
     }
 
-    public void deleteByHrefNotIn(String[] hrefs){
+    public void deleteByHrefNotIn(String[] hrefs) {
         Query query = em.createQuery("DELETE FROM BlogMessage b WHERE b.href NOT IN (:hrefs)");
         query.setParameter("hrefs", Arrays.asList(hrefs));
         query.executeUpdate();
@@ -124,6 +124,9 @@ public class BlogMessageManager {
         query.executeUpdate();
     }
 
+    public void clearCache() {
+        em.clear();
+    }
 
     /**
      * @return the em
@@ -138,6 +141,5 @@ public class BlogMessageManager {
     public void setEm(EntityManager em) {
         this.em = em;
     }
-
 
 }
