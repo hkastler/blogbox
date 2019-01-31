@@ -29,10 +29,10 @@ class BlogListings{
             msgCtx += "/";
         }
         return `
-        <h4 class="mt-4" id="msgSubject-${msg.messageNumber}">
-        <a href="${msgCtx}entry/${msg.href}">${msg.subject}</a></h4>
+        <h4 class="mt-4" id="msgSubject-${msg.messageNumber}"><a href="${msgCtx}entry/${msg.href}">${msg.subject}</a></h4>
         <div id="msgCreateDate-${msg.messageNumber}">${msg.createDate}</div>
-        <div id="msgBodyBegin-${msg.messageNumber}">${msg.body}</div>
+        <div id="msgBodyBegin-${msg.messageNumber}" class="msg-body-begin">${msg.body}</div>
+        <hr/>
         `;
     }
     
