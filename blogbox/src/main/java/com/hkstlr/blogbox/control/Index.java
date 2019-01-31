@@ -89,6 +89,7 @@ public class Index {
     public void handle(@Observes IndexEvent event) {
         if("updateBlogMessageCount".equals(event.getName())){
             updateBlogMessageCount();
+            bman.clearCache();
         }
     }
 
