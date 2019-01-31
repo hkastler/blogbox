@@ -18,6 +18,13 @@ function blogOnLoadEnd() {
 }
 
 function paginatorEventHandler(e) {
+
+    paginator.page = parseInt(this.getAttribute("data-page"));
+    
+    if(paginator.page === 0 || paginator.page > paginator.calcNumberOfPages()){
+        return;
+    }
+
     document.querySelector("#loader").classList.remove("hide");
     document.querySelector("#loader").classList.add("show");
     try {
@@ -26,7 +33,7 @@ function paginatorEventHandler(e) {
     } catch (err) {
         console.log(err);
     }
-    paginator.page = parseInt(this.getAttribute("data-page"));
+   
     paginator.paginate();
     window.history.pushState("", "", this.href);
     request.get(blogListings.getRequestUrl(paginator.page, paginator.pageSize), processBlogListings, paginatorDecorator);
