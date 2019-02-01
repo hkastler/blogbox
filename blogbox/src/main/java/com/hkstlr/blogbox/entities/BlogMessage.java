@@ -239,19 +239,23 @@ public class BlogMessage {
             if (part.getContent() instanceof BASE64DecoderStream) {
 
                 DataHandler dh = part.getDataHandler();
+                String imageString = "";
                 if (dh.getContentType().contains("image/")) {
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    dh.writeTo(baos);
-
-                    byte[] attBytes = baos.toByteArray();
-                    String imageString = Base64.getEncoder().encodeToString(attBytes);
-                    baos.close();
-
+                    try(ByteArrayOutputStream baos = new ByteArrayOutputStream()){
+                        dh.writeTo(baos);
+                        byte[] attBytes = baos.toByteArray();
+                        imageString = Base64.getEncoder().encodeToString(attBytes);
+                        baos.close();
+                    }
+                    if(imageString.isEmpty()){
+                        continue;
+                    }
                     // get the contentType ensure no attachment name
                     String contentType = dh.getContentType().split(";")[0];
 
                     String template = "<div class=\"blgmsgimg\"><img src=\"data:{0};base64, {1} \" /></div>";
                     String imgTag = MessageFormat.format(template, new Object[] { contentType, imageString });
+                    
                     if (imgs.isPresent()) {
                         imgs.get().add(imgTag);
                     } else {
