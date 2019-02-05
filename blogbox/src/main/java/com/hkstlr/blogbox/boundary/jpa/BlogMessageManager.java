@@ -2,7 +2,6 @@ package com.hkstlr.blogbox.boundary.jpa;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -125,7 +124,7 @@ public class BlogMessageManager {
     }
 
     public void clearCache() {
-        em.clear();
+        em.getEntityManagerFactory().getCache().evictAll();
     }
 
     /**
