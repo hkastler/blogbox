@@ -1,14 +1,14 @@
 import Paginator from './Paginator.js';
 import RequestManager from './RequestManager.js';
-import BlogListings from './BlogListings.js';
+import BlogEntries from './BlogEntries.js';
 
 const request = new RequestManager();
 const paginator = new Paginator(1, 4, 0, request.ctx);
 paginator.init(request);
-const blogListings = new BlogListings(request.ctx);
+const blogEntries = new BlogEntries(request.ctx);
 
 function processBlogListings(resp) {
-    return blogListings.processResponse(resp);
+    return blogEntries.processResponse(resp);
 }
 function processPaginator(resp) {
     return paginator.processResponse(resp);
@@ -36,7 +36,7 @@ function paginatorEventHandler(e) {
    
     paginator.paginate();
     window.history.pushState("", "", this.href);
-    request.get(blogListings.getRequestUrl(paginator.page, paginator.pageSize), processBlogListings, paginatorDecorator);
+    request.get(blogEntries.getRequestUrl(paginator.page, paginator.pageSize), processBlogListings, paginatorDecorator);
     blogOnLoadEnd();
     scrollToTop(100);
 }
@@ -54,7 +54,7 @@ function paginatorDecorator() {
 }
 
 document.querySelector('#content').addEventListener('load',
-    request.get(blogListings.getRequestUrl(paginator.page, paginator.pageSize), processBlogListings, blogOnLoadEnd));
+    request.get(blogEntries.getRequestUrl(paginator.page, paginator.pageSize), processBlogListings, blogOnLoadEnd));
 document.querySelector("#content").addEventListener('load',
     request.get(paginator.getRequestUrl(), processPaginator, paginatorDecorator));
 

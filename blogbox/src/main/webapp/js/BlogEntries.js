@@ -1,4 +1,4 @@
-class BlogListings{
+class BlogEntries{
     constructor(ctx){
         this.ctx = ctx;
     }
@@ -8,22 +8,22 @@ class BlogListings{
     }
     
     processResponse(data) {
-        this.writeBlogListings(data);
+        this.writeBlogEntries(data);
     }
     
-    writeBlogListings(data) {
+    writeBlogEntries(data) {
         let container = document.querySelector("#blogListings");
         container.innerHTML = '';
         container.classList.add('blogs');
         // loop through the data
         data.forEach((msg, idx) => {
             let listing = document.createElement("div");
-            listing.innerHTML = this.blogListingHtml(msg, idx);
+            listing.innerHTML = this.blogEntriesHtml(msg, idx);
             container.appendChild(listing);
         });
     }
     
-    blogListingHtml(msg, idx) {
+    blogEntriesHtml(msg, idx) {
         let msgCtx = this.ctx;
         if("/" !== msgCtx[msgCtx.length -1]){
             msgCtx += "/";
@@ -37,4 +37,4 @@ class BlogListings{
     }
     
 }
-export default BlogListings;
+export default BlogEntries;

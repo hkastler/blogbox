@@ -14,7 +14,10 @@ function blogOnLoadEnd(){
     blogEntry.navLinkDecorator(blogEntryLinkHandler);
 }
 function blogEntryLinkHandler(e){
-    console.log(this);
+    document.querySelector("#entry").innerHTML = "";
+    document.querySelector("#navContainer").innerHTML = "";
+    document.querySelector("#loader").classList.remove("hide");
+    document.querySelector("#loader").classList.add("show");
     try {
         e.preventDefault();
         e.stopImmediatePropagation();
