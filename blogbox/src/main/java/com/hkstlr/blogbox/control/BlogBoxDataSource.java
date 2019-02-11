@@ -13,9 +13,9 @@ import javax.ejb.Startup;
     url = "jdbc:h2:mem:blogbox;DB_CLOSE_DELAY=-1",
     user = "sa",
     password = "sa",
-    initialPoolSize = 10,
-    minPoolSize = 10,
-    maxPoolSize = 200
+    initialPoolSize = 4,
+    minPoolSize = 4,
+    maxPoolSize = 16
 )
 @Startup
 public class BlogBoxDataSource {
