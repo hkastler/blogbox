@@ -43,5 +43,5 @@ function scrollToTop(scrollDuration) {
         else clearInterval(scrollInterval); 
     },15);
 }
-document.querySelector("#content").addEventListener('load', 
+document.addEventListener('DOMContentLoaded', 
     request.get(blogEntry.getRequestUrl(), processResponse, blogOnLoadEnd));
