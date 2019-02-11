@@ -1,4 +1,12 @@
 <ui:composition template="/templates/defaultTemplate.xhtml" xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:define name="head">
+        <link rel="modulepreload" href="#{request.contextPath}/js/Paginator.js" />
+        <link rel="modulepreload" href="#{request.contextPath}/js/RequestManager.js" />
+        <link rel="modulepreload" href="#{request.contextPath}/js/BlogEntries.js" />
+        <link rel="modulepreload" href="#{request.contextPath}/js/Loader.js" />
+    </ui:define>
+
     <ui:define name="content">
         <div class="panel panel-primary" id="content">
             <div id="pg-top"></div>
