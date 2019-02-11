@@ -1,11 +1,16 @@
 import Paginator from './Paginator.js';
 import RequestManager from './RequestManager.js';
 import BlogEntries from './BlogEntries.js';
+import Loader from './Loader.js';
 
 const request = new RequestManager();
 const paginator = new Paginator(1, 4, 0, request.ctx);
 paginator.init(request);
-const blogEntries = new BlogEntries(request.ctx);
+const blogEntries = new BlogEntries(request.ctx,document.getElementById("blogEntries"));
+let loader = new Loader();
+document.getElementById("loader").parentNode.replaceChild(loader.dots(), document.getElementById("loader"));
+let loaderElem = document.getElementById("loader");
+loaderElem.classList.add("show");
 
 function processBlogListings(resp) {
     return blogEntries.processResponse(resp);
@@ -14,32 +19,32 @@ function processPaginator(resp) {
     return paginator.processResponse(resp);
 }
 function blogOnLoadEnd() {
-    document.querySelector("#loader").classList.add("hide");
+   loader.hide();
 }
 
-function paginatorEventHandler(e) {
 
+function paginatorEventHandler(e) {
     paginator.page = parseInt(this.getAttribute("data-page"));
-    
     if(paginator.page === 0 || paginator.page > paginator.calcNumberOfPages()){
         return;
-    }
-
-    document.querySelector("#loader").classList.remove("hide");
-    document.querySelector("#loader").classList.add("show");
+    }    
     try {
         e.preventDefault();
         e.stopImmediatePropagation();
     } catch (err) {
         console.log(err);
     }
-   
-    paginator.paginate();
+    blogEntries.clearEntries();
+    loader.show(); 
     window.history.pushState("", "", this.href);
-    request.get(blogEntries.getRequestUrl(paginator.page, paginator.pageSize), processBlogListings, paginatorDecorator);
-    blogOnLoadEnd();
+    request.get(blogEntries.getRequestUrl(paginator.page, paginator.pageSize), processBlogListings, function(){
+        paginator.paginate();
+        paginatorDecorator(e),
+        loader.hide();});
     scrollToTop(100);
+    
 }
+
 function scrollToTop(scrollDuration) {
     var scrollStep = -window.scrollY / (scrollDuration / 15),
         scrollInterval = setInterval(function(){
@@ -53,9 +58,9 @@ function paginatorDecorator() {
     paginator.linkDecorator(paginatorEventHandler);
 }
 
-document.querySelector('#content').addEventListener('load',
+document.addEventListener('DOMContentLoaded',
     request.get(blogEntries.getRequestUrl(paginator.page, paginator.pageSize), processBlogListings, blogOnLoadEnd));
-document.querySelector("#content").addEventListener('load',
+document.addEventListener('DOMContentLoaded',
     request.get(paginator.getRequestUrl(), processPaginator, paginatorDecorator));
 
 

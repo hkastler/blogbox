@@ -1,6 +1,7 @@
 class BlogEntries{
-    constructor(ctx){
+    constructor(ctx, container){
         this.ctx = ctx;
+        this.container = container;
     }
     getRequestUrl( page, pageSize ) {
         let restUrl = `//${location.host}${this.ctx}/rest/srvc/entries/page/${page}/pageSize/${pageSize}`;
@@ -10,16 +11,21 @@ class BlogEntries{
     processResponse(data) {
         this.writeBlogEntries(data);
     }
+
+    clearEntries(){
+        while (this.container.firstChild) {
+            this.container.removeChild(this.container.firstChild);
+        }
+    }
     
     writeBlogEntries(data) {
-        let container = document.querySelector("#blogListings");
-        container.innerHTML = '';
-        container.classList.add('blogs');
+        this.clearEntries();
+        this.container.classList.add('blogs');
         // loop through the data
         data.forEach((msg, idx) => {
             let listing = document.createElement("div");
             listing.innerHTML = this.blogEntriesHtml(msg, idx);
-            container.appendChild(listing);
+            this.container.appendChild(listing);
         });
     }
     
