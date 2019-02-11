@@ -12,6 +12,8 @@ document.getElementById("loader").parentNode.replaceChild(loader.dots(), documen
 let loaderElem = document.getElementById("loader");
 loaderElem.classList.add("show");
 
+let pgBottom = document.getElementById("pg-bottom");
+
 function processBlogListings(resp) {
     return blogEntries.processResponse(resp);
 }
@@ -34,13 +36,16 @@ function paginatorEventHandler(e) {
     } catch (err) {
         console.log(err);
     }
-    blogEntries.clearEntries();
-    loader.show(); 
+    loader.show();
+    blogEntries.container.classList.add("hide"); 
+    pgBottom.classList.add("hide");
     window.history.pushState("", "", this.href);
     request.get(blogEntries.getRequestUrl(paginator.page, paginator.pageSize), processBlogListings, function(){
         paginator.paginate();
-        paginatorDecorator(e),
-        loader.hide();});
+        paginatorDecorator(e);
+        blogEntries.container.classList.remove("hide");
+        loader.hide();
+        pgBottom.classList.remove("hide")});
     scrollToTop(100);
     
 }
