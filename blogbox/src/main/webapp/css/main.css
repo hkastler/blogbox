@@ -77,10 +77,10 @@ nav{
 .hide {
     display: none;
 }
-#blogListings {
+#blogEntries {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    min-height: 50vh;
 }
 #paginator-bottom {
     margin-top: 16px;
@@ -104,15 +104,15 @@ nav{
     -webkit-animation: showHideDot 2.5s ease-in-out infinite;
             animation: showHideDot 2.5s ease-in-out infinite;
   }
-  .loading-dots .dot.one {
+  .loading-dots .dot.dot1 {
     -webkit-animation-delay: 0.2s;
             animation-delay: 0.2s;
   }
-  .loading-dots .dot.two {
+  .loading-dots .dot.dot2 {
     -webkit-animation-delay: 0.4s;
             animation-delay: 0.4s;
   }
-  .loading-dots .dot.three {
+  .loading-dots .dot.dot3 {
     -webkit-animation-delay: 0.6s;
             animation-delay: 0.6s;
   }
