@@ -32,16 +32,27 @@ class Paginator {
         }
     }
 
-    paginatorLiHtml(liClazz, id, href, dataPage, dataPageSize, aClazz, label) {
-        return `<li class="${liClazz}"><a id="${id}" href="${href}" data-page="${dataPage}" data-pageSize="${dataPageSize}" class="${aClazz}">${label}</a></li>`;
+    paginatorLiElem(liClazz, id, href, dataPage, dataPageSize, aClazz, label) {
+        let liElem = document.createElement("li");
+        liElem.className = liClazz;
+        let aElem = document.createElement("a");
+        aElem.id = id;
+        aElem.href = href;
+        aElem.className = aClazz;
+        aElem.innerHTML = label;
+        aElem.setAttribute("data-page", dataPage);
+        aElem.setAttribute("data-pageSize", dataPageSize);
+        liElem.appendChild(aElem);
+        return liElem ;
     }
 
-
-    getPaginatorHtml(paginatorConfig) {
+    getPaginator(paginatorConfig) {
 
         let position = paginatorConfig.position
         let outcome = paginatorConfig.outcome;
-        let paginatorHtml = `<ul class="pagination justify-content-center" id="paginator-${position}">`
+        let pgContainer = document.createElement("ul");
+        pgContainer.className = "pagination " + paginatorConfig.pgClassName;
+        pgContainer.id = "paginator-" + position;
 
         let thisPage = parseInt(this.page);
         let prevPage = thisPage - 1;
@@ -58,22 +69,24 @@ class Paginator {
         if (this.calcNumberOfPages() > 1) {
             let prevLink = `${outcome}${pageVarStr}${prevPage}${pageSizeVarStr}${this.pageSize}`
             if (this.hasPreviousPage() === false) {
-                prevLink = `javascript:void(0);`;
+                prevLink = `#`;
             }
-            paginatorHtml += this.paginatorLiHtml("previous page-item",
+            let backArrow =  this.paginatorLiElem("previous page-item",
                 `navback-arrow-${position}`,
                 `${prevLink}`,
                 `${prevPage}`,
                 `${this.pageSize}`,
                 "page-link",
                 "&larr;");
-            paginatorHtml += this.paginatorLiHtml("previous page-item",
+            let backText = this.paginatorLiElem("previous page-item",
                 `navback-text-${position}`,
                 `${prevLink}`,
                 `${prevPage}`,
                 `${this.pageSize}`,
                 "page-link d-none d-sm-block",
                 "Previous");
+            pgContainer.appendChild(backArrow);
+            pgContainer.appendChild(backText);
         }//previous
 
         let dotThreshold = 12;
@@ -88,22 +101,26 @@ class Paginator {
             let idField = `paginatorPage-${i}`;
 
             if (showLinkedLi) {
-                paginatorHtml += this.paginatorLiHtml(`${thisPage === i ? 'active' : ''} page-item`,
+                let linkedLi = this.paginatorLiElem(`${thisPage === i ? 'active' : ''} page-item`,
                     `${idField}`,
                     `${outcome}${pageVarStr}${i}${pageSizeVarStr}${this.pageSize}`,
                     `${i}`,
                     `${this.pageSize}`,
                     "page-link",
                     `${i}`);
+                pgContainer.appendChild(linkedLi);
             }
             let isDotThreshold = this.calcNumberOfPages() > dotThreshold;
             let isDotShow = (!showLinkedLi && (i === 2 || i === this.calcNumberOfPages() - 1));
             if (isDotThreshold && isDotShow) {
-                paginatorHtml += `<li class="disabled page-item" id="${idField}">
-                                            <a>
-                                                ..
-                                            </a>
-                                        </li>`
+                let dotLi = document.createElement("li");
+                dotLi.id = idField;
+                dotLi.className = "disabled page-item";
+                let dotA = document.createElement("a");
+                dotA.className = "disabled";
+                dotA.innerHTML = "..";
+                dotLi.appendChild(dotA);
+                pgContainer.appendChild(dotLi);
             }
         }//pages
 
@@ -111,42 +128,47 @@ class Paginator {
         if (this.calcNumberOfPages() > 1) {
             let nextLink = `${outcome}${pageVarStr}${this.page + 1}${pageSizeVarStr}${this.pageSize}`;
             if (this.hasNextPage() === false) {
-                nextLink = `javascript:void(0);`;
+                nextLink = `#`;
             }
-            paginatorHtml += this.paginatorLiHtml(`next page-item`,
+            let nextText = this.paginatorLiElem(`next page-item`,
                 `navForward-Text-${position}`,
                 `${nextLink}`,
                 `${nextPage}`,
                 `${this.pageSize}`,
                 "page-link d-none d-sm-block",
                 `Next`);
-            paginatorHtml += this.paginatorLiHtml(`next page-item`,
+            let nextArrow = this.paginatorLiElem(`next page-item`,
                 `navForward-Arrow-${position}`,
                 `${nextLink}`,
                 `${nextPage}`,
                 `${this.pageSize}`,
                 "page-link",
                 `&rarr;`);
+            pgContainer.appendChild(nextText);
+            pgContainer.appendChild(nextArrow);
         }
-        paginatorHtml += `</ul>`;
 
-        return paginatorHtml
+        return pgContainer;
     }
-
+    
     paginate() {
         let container = document.querySelector("#pg-top");
         let paginatorConfig = {
             position: "top",
-            outcome: this.getOutcome(this.ctx)
+            outcome: this.getOutcome(this.ctx),
+            pgClassName: "justify-content-center"
         };
-        container.innerHTML = this.getPaginatorHtml(paginatorConfig);
+        container.innerHTML = "";
+        container.appendChild(this.getPaginator(paginatorConfig));
 
         container = document.querySelector("#pg-bottom");
         paginatorConfig = {
             position: "bottom",
-            outcome: this.getOutcome(this.ctx)
+            outcome: this.getOutcome(this.ctx),
+            pgClassName: "justify-content-center"
         };
-        container.innerHTML = this.getPaginatorHtml(paginatorConfig);
+        container.innerHTML = "";
+        container.appendChild(this.getPaginator(paginatorConfig));
 
     };
 
