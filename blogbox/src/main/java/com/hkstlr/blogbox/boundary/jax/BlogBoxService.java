@@ -17,9 +17,15 @@ import com.hkstlr.blogbox.boundary.jpa.BlogMessageManager;
 import com.hkstlr.blogbox.control.EmailReader;
 import com.hkstlr.blogbox.control.Index;
 import com.hkstlr.blogbox.control.Paginator;
+import com.hkstlr.blogbox.control.BlogMessageHelper;
 import com.hkstlr.blogbox.entities.BlogMessage;
 
+import org.eclipse.microprofile.metrics.annotation.Timed;
+import org.eclipse.microprofile.opentracing.Traced;
+
 @Path("/srvc")
+@Traced
+@Timed
 public class BlogBoxService {
 
     @Inject
@@ -70,18 +76,12 @@ public class BlogBoxService {
         List<BlogMessage> entries = new LinkedList<>();
         bman.getBlogMessageRange(paginator.getPageFirstItem() - 1, paginator.getPageLastItem() - 1).stream()
                 .forEach(entry -> {
-                    entry.setBody(getNewBody(entry.getBody()));
+                    entry.setBody(BlogMessageHelper.bodyForBlogEntries(entry.getBody()));
                     entries.add(entry);
                 });
         return entries;
     }
-
-    private String getNewBody(String body) {
-        String regex = "<img[^>]+>|<img>";
-        String replacement = "&lt;image&gt;";
-        String newBody = body.replaceAll(regex, replacement);
-        return newBody;
-    }
+    
 
     @GET
     @Produces("application/json")
