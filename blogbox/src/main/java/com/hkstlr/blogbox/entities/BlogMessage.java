@@ -5,19 +5,15 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.Collections;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.activation.DataHandler;
 import javax.mail.BodyPart;
-import javax.mail.Header;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
@@ -182,21 +178,6 @@ public class BlogMessage {
 
     public void setHref(String href) {
         this.href = href;
-    }
-
-    @SuppressWarnings("unchecked")
-    private String messageHeadersToKeyValue(Message message) {
-
-        Enumeration<Header> allHeaders = null;
-        try {
-            allHeaders = message.getAllHeaders();
-        } catch (MessagingException e) {
-            LOG.log(Level.WARNING, "headers error", e);
-        }
-        StringBuilder hdrs = new StringBuilder();
-        Collections.list(allHeaders).stream().forEach(
-                h -> hdrs.append(h.getName().toString()).append(": ").append(h.getValue().toString()).append("\n"));
-        return hdrs.toString();
     }
 
     private String processMultipart(Message msg) throws IOException, MessagingException {
