@@ -13,7 +13,7 @@ class BlogEntries{
     }
 
     clearEntries(){
-        while (this.container.firstChild) {
+        while (null != this.container.firstChild && this.container.firstChild) {
             this.container.removeChild(this.container.firstChild);
         }
     }

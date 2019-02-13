@@ -2,9 +2,7 @@ class Loader{
     constructor(){
        this.container = document.createElement("div");
     }
-
     dots(){
-        
         this.container.id = "loader";
         this.container.className = "loading-dots";
         for(let i = 1; i <= 3; i++){

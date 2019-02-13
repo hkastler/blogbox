@@ -71,11 +71,11 @@ class BlogEntry {
         this.nav(prev, next);
     }
     entry(msg) {
-        let container = document.querySelector("#entry");
+        let container = document.getElementById("entry");
         container.innerHTML = this.entryHtml(msg);
     }
     nav(prev, next){
-        let container = document.querySelector("#navContainer");
+        let container = document.getElementById("navContainer");
         container.innerHTML = this.navHtml(prev, next);
     }
 }
