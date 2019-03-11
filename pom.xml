@@ -29,8 +29,8 @@ limitations under the License.
         <maven.compiler.target>1.8</maven.compiler.target>
         
 
-        <version.jacoco>0.8.2</version.jacoco>
-        <!-- sonar props -->
+        <version.jacoco>0.8.3</version.jacoco>
+         <!-- sonar props -->
         <sonar.host.url>http://sonarqube:9000</sonar.host.url>
         <sonar.sources>src/main</sonar.sources>
         <sonar.test.exclusions>src/test/**/*</sonar.test.exclusions>
