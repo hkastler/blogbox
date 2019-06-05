@@ -1,0 +1,79 @@
+X-Apparently-To: hkastler@yahoo.com; Wed, 01 May 2019 13:02:33 +0000
+Return-Path: <hkastler@gmail.com>
+Received-SPF: pass (domain of gmail.com designates 209.85.161.43 as permitted sender)
+X-YMailISG: HsVCnk8WLDtcIJf9wAzsd7Yb2QaC0tNd_pYhc4nWKXhIlavu
+ LUztenZj5TAr0N4IRXCuC7moET7EB9dAoif0J.CsXRbPxFwx9Y3T47pQwrKi
+ wNClQmILt8ZrdX6DFDHHlQW6JUzD9CymCKa4i.AMYzeBEfBE7wVnbr6YIZNF
+ Sxbt27Uh_rTYS3PDXkEtMso6OcJYiLCRTuqh3KHIssjcbg_t4DcZVxcsS9aO
+ FUJUmOCXNCMErZnuf_Purhb5o3XMP8dI4r8VsOt6v8vtm46dDjaQ19e8kvWX
+ 5Ia4GBozyEymDTK8MEeKrTDPp_JevRn2IU6EUGf7su5oOZLyDypQfQSxr1QS
+ Xz9P.sH9bGZqOCzj0mQUweF15Bio8rH9PaS9Ct.td1BELegHYvInmbpt5NWT
+ qd687lmqThLATb6zy96mvhkNsEQk_qvJsxfi3Brf5MSIWwm7L.vRn3TANY5o
+ 5f6RGUgvcrH0kah5_v9tdq4MwUZdrcaMgWim.fnu.a0rPRw2DJqyJf0yYpwE
+ uXfdP0n1A5qjCcgkC_yG0h1GMur.bOAVzwd0g52JCTknwEnZlLvyM_Fvb4LB
+ HpvCGxBmmYFKh9wtz4o0CQ5TM6LQlyyXNFhFkd2JT7xsJrxLlliQIjMB_lHJ
+ Udr9SHhL6wJEn14ynTMgiZmQlBXW_WTbfvi1J3WrEnxacTzCq1a56TXC7nRX
+ ygM96FSIpEBgRw6aX7YfV6AIinpKLNi97k4.JNQfFTqPRch5WcHMU7eXFqXm
+ g9uZtPHGHJR0DRXkACPnRwRvMPYlA4X2SdERZpFs__YcGclXhVfgbiJ3XX0N
+ PU8aZ46whHHAau9mrJT8KIuXYFjat340dMFxqYNeroXWKcpx_iws9BNeV0Kw
+ hHht9LMyrHm2a1xZnybiX1lRkLLSrHyRjcykJvfT5CiHIiwyF0qxb65VdLnW
+ fCsFT8FcN83FOh0empmtn.5YqnSNQsyBfV5Ylq1D9kRAGb5Ej3gB48HGYA_R
+ nIUM41pxFyi4GI7Iq99PIGo-
+X-Originating-IP: [209.85.161.43]
+Authentication-Results: mta4014.mail.ne1.yahoo.com 
+ header.i=@gmail.com; header.s=20161025; dkim=pass (ok)
+Received: from 127.0.0.1  (EHLO mail-yw1-f43.google.com) (209.85.161.43)
+  by mta4014.mail.ne1.yahoo.com with SMTPS; Wed, 01 May 2019 13:02:33 +0000
+Received: by mail-yw1-f43.google.com with SMTP id v15so8209829ywe.13
+        for <hkastler@yahoo.com>; Wed, 01 May 2019 06:02:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=dlp0vPUjk9ehP+3q9Z1PdbMRWcs7vvfYvtsDUA9YVRI=;
+        b=FoU/xHymSnCLqJhXrQp7ouiNyOCC7RJrxRr4fHe/uR+36Dtoh6upd4LVgvCXtH2qoS
+         yLFgor+i8tPZRC7dbdEfXLru/AE2uGHumH9CFlMI+QghjtQ2+/S73Xo7DZpYIuJ+ltSt
+         tZq845GSyXLkVo98re3pVSIlfihinZf5VG+7kMNjJc1fN/BkKIbtyHMeFkI39rwuWHGx
+         xi8GC+WjlLo0XO9E6j6+8PHBfqZSUWz92efKBX7BihKznoPJ1qXpE1/j3nhguiyFaMBU
+         7ENLdK+2fp1degW9GL/ZP+wYYfn2GJPlLE8kwlOqqaeHDpMgoBHBj/baXGBpUfylO47I
+         Dw2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=dlp0vPUjk9ehP+3q9Z1PdbMRWcs7vvfYvtsDUA9YVRI=;
+        b=BkOlbCHdbDj1S9YveSxoBowiI/KK4tgRdEgZU5CzxdDfVtxX1lMhEvNdyPoXlYqOdt
+         QMqgcDBmPnPhdbuXymwHPEZUo0q5z8VLoEQvW3q1TvniIuPkIXXUrt+RGOZcFH8CXTCg
+         QkdJlWjVk4XT/1cjzT59bifP/x9DL38hcfKrBf85i+MZlsm4RbQl8Uqod0NjxC2drkit
+         bLcejBq6E7iWo/PkJVJJRjv8bXidY3xWZzCMh56wdcxNfdgoSJNDpVPIo+3W4VrrH/pT
+         Foo8071Qbyx2FZb6cZ7BL+cAStGgikpSE+hxRG3BfcwdRVzwG3BVZRRib9n3/5UAFn+m
+         9ECw==
+X-Gm-Message-State: APjAAAXiW4rr93dwc4JXiaBdpsoD/puSLpdRI4MrVlCmljFaEe7OXYrs
+	ixnu4+tGw3qfHKlWY5/9WdLcdW6GBZLsIbBUAUVklQ==
+X-Google-Smtp-Source: APXvYqyGSH+3dmMS877C8hUpKekrJQZL3UEts/AEsMAwHSF7FhFF1Kpd8pg3VfS23/Qxmsc/9VzuSo1K+03yUJrZkiE=
+X-Received: by 2002:a0d:dd97:: with SMTP id g145mr11909164ywe.208.1556715751581;
+ Wed, 01 May 2019 06:02:31 -0700 (PDT)
+MIME-Version: 1.0
+From: Henry Kastler <hkastler@gmail.com>
+Date: Wed, 1 May 2019 08:02:19 -0500
+Message-ID: <CACdj9Fr_9EuWD0_qq3_GB8-fg_GUMtTRmFHGpf9SWTt6_XWWqw@mail.gmail.com>
+Subject: =?UTF-8?Q?Blog_Want_to_=E2=80=98Get_Swole=E2=80=99=3F_Try_the_Templar_Knight?=
+	=?UTF-8?Q?_Workout=2C_Suggests_Knightfall_Star_Tom_Cullen_=3C=3C_Rotten_Toma?=
+	=?UTF-8?Q?toes_=E2=80=93_Movie_and_TV_News?=
+To: hkastler@yahoo.com
+Content-Type: multipart/alternative; boundary="00000000000063c4370587d3213e"
+Content-Length: 617
+
+--00000000000063c4370587d3213e
+Content-Type: text/plain; charset="UTF-8"
+
+https://editorial.rottentomatoes.com/article/knightfall-star-tom-cullen-on-weight-of-historys-new-adventure-drama/
+
+--00000000000063c4370587d3213e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><a href=3D"https://editorial.rottentomatoes.com/article/k=
+nightfall-star-tom-cullen-on-weight-of-historys-new-adventure-drama/">https=
+://editorial.rottentomatoes.com/article/knightfall-star-tom-cullen-on-weigh=
+t-of-historys-new-adventure-drama/</a></div>
+
+--00000000000063c4370587d3213e--

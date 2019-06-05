@@ -1,0 +1,989 @@
+X-Apparently-To: hkastler@yahoo.com; Thu, 24 Jan 2019 15:49:23 +0000
+Return-Path: <delivery@mx.sailthru.com>
+Received-SPF: pass (domain of mx.sailthru.com designates 192.64.237.215 as permitted sender)
+X-YMailISG: _nrAcjoWLDuUy3dHggxhUfx8XQQASuDp1CmyIrvPw1OLeVKr
+ iPqzdE.LWemS7ftokNbMTxycFlTaDlqlm1ugJ8QzVqlReGt3Hhd346Zz70DO
+ TgUBAZ8txjdGgr7U.0gt3WmgKL.t3RiN1jUzcjI8.X1153mHYR9Rewz6EUGD
+ QuDT02Idjplfz0HO1oG48yMO_taPe.bZsUK5eMXLtLgUxE23DSEGX1vHGxuu
+ VMscJULvabM8lvo8JiD5Yw6yCERMGSPSh39CU0cHRrurzGB6gQh.9mVhc7ge
+ iSyDYQHoWU1.bPvsZlXqEFpWZsw_Nwju4W5vBOqko3GcUuWXMZrtg.lQqTlq
+ UAZtW22xwKs403K9CVeY32mqBwUTvodAiM6F0cFXVyZnAT6LzCLTHIuV_gwY
+ ZAhDdzzNImtIMXD3WtiBoCKYrie4D0ath_NZ5xLqwP2HqryeRpWNM8S8muqE
+ 6m0hIUS9CwrJbi5pQn0jaSrsCFxUPvs_mPwbqabqC_97gYsnTJOiCgiIJF2T
+ ___w8.y8pKgF5.1lj76QBR1qGwnN5jHHqgEDCP2T5_.5COyzcNo7jLx1MmaD
+ rJHCbm_QIkJ8hjG71.vOLfyU6nnMz71JQNGaxr_qGRNfATkOg8AK1LK3LiI8
+ alPoIjdtdM59kLjcbyei4OkVPwpCnOUI10KXuMf..rWp2mVi6IdILJDccFBo
+ vCE8Ysoyu4DZz4DpC4GVt1EnZiaNc2irZWSaP0TLh9zfYu97UJxjuN_3egRd
+ JsdxR3IDeazA53nFuI86kQt9BLPN0apf3aaVrD3ItmLsuncjc5ogGoItPxdT
+ hLaSpRHtYvJL25l02XAyXPvw2V507GOoC7FCCcr25EuzXZPdEAtpUWup9Otj
+ IXhEx_Dp0zwh.ThtFcDd6azlCFKV0viKymaLIwNliPoe1pOTQdA1IBXK5PRu
+ nH_wXMSh_DV_0jxMKku3pNuMZtNeC6BhLgW8do6kkQTWNZYs9z3Eb6dUH10P
+ zYgzA3x7roplbB1.mYiuqTeUX2O2XGAQGT9kXjnUjTWV272VyHuBAVdwVJaB
+ SCGXdFKXVPoO_AQ0z2WWqNWYpyv0djc4hIDdrE1GJct1Y2X3oiUCHjTqMUkx
+ 6A_zEsC8KIATiCMXEDZ.oT4Nl_nYXWyItGDQZcD3XvOlYhASfXkDU4zCz7w_
+ 6wvGjdUiO6tPtQP4rhLbCHoHa6k.tbKeFrEjvFRuaycP0r2KIZ4cJD9IeCUH
+ 9BMQLl9f4b96yKZyXq_Sa2OgXCztNmRDHozljQYKb29z5az0TY8cyCVCrt1B
+ 3uayvn_stdiIpKPONT3ue.33_Ry8PfCnO9q_I97A4U6aIDTSqDjEoyIrnSFz
+ 8TKhclGH2HicNjk7cJtoMtOBsfWujCvZ_J7lQt_ply1TtJ3ix3OHYosGYSPs
+ 08qh8uZHdIRLrhmRWRPgE9DEbHo5YMuhop4B4RLPm78RSEgUzZ8oDnSZlnlx
+ qHxxLQd2it7VNZ7PqsQMdY1sr9xnDIM3py.U.Aa0Q27Lz5.fFZizCjzc11.q
+ uLr6ijXh5TXv
+X-Originating-IP: [192.64.237.215]
+Authentication-Results: mta4020.mail.gq1.yahoo.com 
+ header.i=@pmta.sailthru.com; header.s=mt; dkim=pass (ok)
+ header.i=@email.geniuskitchen.com; header.s=sailthru; dkim=pass (ok)
+Received: from 127.0.0.1  (EHLO pmta22.sailthru.com) (192.64.237.215)
+  by mta4020.mail.gq1.yahoo.com with SMTP; Thu, 24 Jan 2019 15:49:22 +0000
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; s=mt; d=pmta.sailthru.com;
+ h=Date:From:Reply-To:To:Message-ID:Subject:MIME-Version:Content-Type:List-Unsubscribe;
+ bh=uxSnf+eIxFAZe6QdqFOwJcE1O2U=;
+ b=hRu8/2sxnTiNVxShS5BsyiqAu3zTwP0/Q+Bd2UY4F2of5wgneV5WQ1Hw2HzL8qCv+quCJQXXTCuE
+   LlQlMOczX6Dt/w6/7Aho3jY5JcxgbDxp9ygXw+r4iCf4cq6b9nd3WniPfeWDcuhrxXAEviGLKnZz
+   8GnKrN49l1pEgQq+DIk=
+Received: from njmta-20.sailthru.com (173.228.155.20) by pmta22.sailthru.com id h97f841qqbsa for <hkastler@yahoo.com>; Thu, 24 Jan 2019 10:49:17 -0500 (envelope-from <delivery@mx.sailthru.com>)
+Received: from nj1-dimpine.flt (172.18.20.21) by njmta-20.sailthru.com id h97f7q1qqbsr for <hkastler@yahoo.com>; Thu, 24 Jan 2019 10:49:17 -0500 (envelope-from <delivery@mx.sailthru.com>)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple; t=1548344957;
+	s=sailthru; d=email.geniuskitchen.com;
+	h=Date:From:Reply-To:To:Message-ID:Subject:MIME-Version:Content-Type:List-Unsubscribe;
+	bh=wJrjmFuqz0ChgZ62dv86agzFLdLNiCoXYfwILOVqM80=;
+	b=FIqOkpzI9K2jnOaBJ8FillBzjPDgqa50a1IR9NpYVlN4JSZ8qMkYfZ7uxbNp1YiT
+	ZwRbFPR9e/1wnNAe/qBadW/TVXVHlFOl7SK3utZtgSxqHdutvYyYQCeuvg/ElRD0rzu
+	UwLxmq8qW0DymeV92Xx8w0TLWSayAAjP59l1f3Ds=
+Date: Thu, 24 Jan 2019 10:49:17 -0500 (EST)
+From: Genius Kitchen Daily Dish <newsletters@email.geniuskitchen.com>
+Reply-To: newsletterreply@scrippsnetworks.com
+To: hkastler@yahoo.com
+Message-ID: <20190124104917.15779146.673338@sailthru.com>
+Subject: You Won't Believe This Chili Mac Is Under 400 Calories
+MIME-Version: 1.0
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_10933319_50552323.1548344957490"
+Precedence: bulk
+X-TM-ID: 20190124104917.15779146.673338
+X-Info: Message sent by sailthru.com customer Genius Kitchen
+X-Info: We do not permit unsolicited commercial email
+X-Info: Please report abuse by forwarding complete headers to
+X-Info: abuse@sailthru.com
+X-Mailer: sailthru.com
+X-Unsubscribe-Web: https://link.geniuskitchen.com/oc/568c046334bf84b7388b4b819e79m.efju/ca255eb8
+List-Unsubscribe: <https://link.geniuskitchen.com/oc/568c046334bf84b7388b4b819e79m.efju/ca255eb8>, <mailto:unsubscribe_20190124104917.15779146.673338@mx.sailthru.com>
+X-rpcampaign: stjaq15779146
+Content-Length: 45777
+
+------=_Part_10933319_50552323.1548344957490
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.=
+w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns=3D"http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8" />
+<meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=3D1.=
+0"/>
+<title>You Won't Believe This Chili Mac Is Under 400 Calories</title>
+<!--=20
+Subject Lines
+Version A: You Won't Believe This Chili Mac Is Under 400 Calories
+Version B:=20
+Version C:=20
+Version D:=20
+-->
+<style>
+body{width:100% !important; -webkit-text-size-adjust:100%; -ms-text-size-ad=
+just:100%; margin:0; padding:0;}
+/* Prevent Webkit and Windows Mobile platforms from changing default font s=
+izes, while not breaking desktop design. */
+.ExternalClass {width:100%;} /* Force Hotmail to display emails at full wid=
+th */
+.ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font,=
+ .ExternalClass td, .ExternalClass div {line-height: 100%;} /* Force Hotmai=
+l to display normal line spacing.  */
+img {outline:none; text-decoration:none;border:none; -ms-interpolation-mode=
+: bicubic;}
+a img {border:none;}
+p {margin: 0px 0px !important;}
+table td {border-collapse: collapse;}
+table { border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0p=
+t; }
+/*PHONE STYLES*/
+@media only screen and (max-width: 480px) {
+.deviceWidth {width: 100%;}
+#header {width: 100%;}
+.padding_10px {padding-left: 10px !important; padding-right: 10px !importan=
+t;}
+.padding_top_10px {padding-top: 10px !important;}
+.padding_left_10px {padding-left: 10px !important;}
+.padding_0px {padding-left: 0px !important;padding-right: 0px !important;}
+.min-wdth-280 {min-width: 280px;}
+.min-hght-0 {min-height: 0px !important;}
+.recipeImg {width: 100% !important; /* height: 100% !important; min-width: =
+300px; min-height: 169px; */}
+.leadimg {width: 100% !important; }
+.mobiletxt {/* font-size: 24px !important; line-height: 37px !important; */=
+}
+.mobilewdth {width: 10px !important;}
+.mobilehght {height: 10px !important;}
+.mobilenav{width: 33% !important; text-align: center !important;}
+.displaynone{display: none !important;}
+.appleLinksWhite a {color: #ffffff !important; text-decoration: none;}
+}
+</style>
+</head>
+<body style=3D"-webkit-text-size-adjust:none;" >
+<!-- 100% table -->
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" width=3D"100%" alig=
+n=3D"center" style=3D"margin: 0 auto;">
+<tbody>
+<tr>
+<td>
+<!-- 600px table -->
+<table bgcolor=3D"#892074" align=3D"center" cellpadding=3D"0" cellspacing=
+=3D"0" border=3D"0" width=3D"600" class=3D"deviceWidth" style=3D"margin: 0 =
+auto;">
+<tbody>
+<!-- gmail fix -->
+<tr>
+<td bgcolor=3D"#ffffff">
+<table   bgcolor=3D"#ffffff" cellpadding=3D"0" cellspacing=3D"0" border=3D"=
+0" align=3D"center" width=3D"600" class=3D"displaynone">
+<tr>
+<td cellpadding=3D"0" cellspacing=3D"0" border=3D"0" style=3D"min-width: 60=
+0px;">
+<img class=3D"displaynone" src=3D"http://images.foodnetwork.com/webfood/ima=
+ges/spacer.gif" height=3D"1"  width=3D"600" style=3D"display:block; width:6=
+00px; min-width:600px;"/>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<!-- /gmail fix -->
+<tr bgcolor=3D"#ffffff">
+<td bgcolor=3D"#ffffff" style=3D"line-height: 18px; font-family: 'Trebuchet=
+ MS',Arial, sans-serif; font-size: 12px; color:#bbbbbb; text-align: center;=
+ padding-left: 30px; padding-right: 30px; padding-top: 15px;">42 five-ingre=
+dient bites to make for game day ...=09=09=09=09   </td>
+</tr>
+<tr bgcolor=3D"#ffffff">
+<td bgcolor=3D"#ffffff" style=3D"line-height: 16px; font-family: 'Trebuchet=
+ MS',Arial, sans-serif; font-size: 12px; color:#bbbbbb; text-align: center;=
+ padding-left: 30px; padding-right: 30px; padding-bottom: 15px;">
+Email not displaying correctly? Go <a style=3D"text-decoration: none; color=
+: #090909;" href=3D"https://link.geniuskitchen.com/view/568c046334bf84b7388=
+b4b819e79m.efju/c202e0b5">here</a> to view it in your browser.
+</td>
+</tr>
+<tr valign=3D"middle">
+<td align=3D"center" style=3D"padding-bottom: 0px; height: 2px; background-=
+color: #000000;" class=3D"mobilehght">
+</td>
+</tr>
+<tr valign=3D"middle">
+<td align=3D"center" class=3D"padding_10px" style=3D"padding-bottom: 0px; b=
+ackground-color: #000000;">
+<a href=3D"https://link.geniuskitchen.com/click/15779146.673338/aHR0cDovL3d=
+3dy5nZW5pdXNraXRjaGVuLmNvbT9ubD1HS0RfMDEyNDE5X2Jhbm5lciZiaWQ9MTU3NzkxNDYmYz=
+MyPTIzZGU0MzdmMmMxOWU3OWYwMDQ4YjJlYWRkMDI2OGY3MTBjYTUwMWEmc3NpZD1GQ19GQ0REX=
+1RpbWVkX01vZGFsXzIwMTUmc25pX2J5PSZzbmlfZ249/568c046334bf84b7388b4b81B37f66d=
+2e" style=3D"">
+<img id=3D"header" alt=3D"Genius Kitchen" src=3D"http://newsletter-images.s=
+ndimg.com/geniuskitchen/images/header_532x72b.jpg" width=3D"532"  style=3D"=
+display: block;" /></a>
+</td>
+</tr>
+<tr valign=3D"middle">
+<td align=3D"center" class=3D"padding_10px" style=3D"padding-bottom: 0px; "=
+>
+<a href=3D"https://link.geniuskitchen.com/click/15779146.673338/aHR0cDovL3d=
+3dy5nZW5pdXNraXRjaGVuLmNvbT9ubD1HS0RfMDEyNDE5X2Jhbm5lciZiaWQ9MTU3NzkxNDYmYz=
+MyPTIzZGU0MzdmMmMxOWU3OWYwMDQ4YjJlYWRkMDI2OGY3MTBjYTUwMWEmc3NpZD1GQ19GQ0REX=
+1RpbWVkX01vZGFsXzIwMTUmc25pX2J5PSZzbmlfZ249/568c046334bf84b7388b4b81C37f66d=
+2e" style=3D"">
+<img id=3D"header" alt=3D"The Daily Dish" src=3D"http://newsletter-images.s=
+ndimg.com/geniuskitchen/images/dailyheader_532x78.jpg" width=3D"532"  style=
+=3D"display: block;" /></a>
+</td>
+</tr>
+<tr>
+<td>
+<!-- 532px table -->
+<table bgcolor=3D"#892074" align=3D"center" cellpadding=3D"0" cellspacing=
+=3D"0" border=3D"0" width=3D"532" class=3D"deviceWidth" style=3D"margin: 0 =
+auto;">
+<tbody>
+<tr>
+<td class=3D"padding_10px" style=3D"padding-left: 0px; padding-right: 0px;"=
+>
+<!-- content table -->
+<table bgcolor=3D"#ffffff" align=3D"center" cellpadding=3D"0" cellspacing=
+=3D"0" border=3D"0" width=3D"" class=3D"deviceWidth" style=3D"margin: 0 aut=
+o;">
+<tbody>
+<tr bgcolor=3D"#000000" style=3D"line-height: 34px; font-family: 'Trebuchet=
+ MS',Arial, sans-serif; font-size: 11px; font-weight:bold; text-transform: =
+uppercase; border-color: #892074; letter-spacing: 1px;">
+<td class=3D"mobilenav" width=3D"201" style=3D"border-color: #892074; borde=
+r-collapse: collapse; text-align: right;mso-line-height-rule:exactly; line-=
+height: 34px;"><a href=3D"https://link.geniuskitchen.com/click/15779146.673=
+338/aHR0cDovL3d3dy5nZW5pdXNraXRjaGVuLmNvbS9yZWNpcGU_bmw9R0tEXzAxMjQxOV9yZWN=
+pcGVsaW5rJmJpZD0xNTc3OTE0NiZjMzI9MjNkZTQzN2YyYzE5ZTc5ZjAwNDhiMmVhZGQwMjY4Zj=
+cxMGNhNTAxYSZzc2lkPUZDX0ZDRERfVGltZWRfTW9kYWxfMjAxNSZzbmlfYnk9JnNuaV9nbj0/5=
+68c046334bf84b7388b4b81B1e826efe" style=3D"text-decoration: none; color: #f=
+fffff;">recipes</a></td>
+<td class=3D"mobilenav" width=3D"130" style=3D"border-color: #892074; borde=
+r-collapse: collapse; text-align: center;mso-line-height-rule:exactly; line=
+-height: 34px;"><a href=3D"https://link.geniuskitchen.com/click/15779146.67=
+3338/aHR0cHM6Ly93d3cuZ2VuaXVza2l0Y2hlbi5jb20vaWRlYXMvaGVhbHRoeS02NTAxP25sPU=
+dLRF8wMTI0MTlfaGVhbHRoeWxpbmsmYmlkPTE1Nzc5MTQ2JmMzMj0yM2RlNDM3ZjJjMTllNzlmM=
+DA0OGIyZWFkZDAyNjhmNzEwY2E1MDFhJnNzaWQ9RkNfRkNERF9UaW1lZF9Nb2RhbF8yMDE1JnNu=
+aV9ieT0mc25pX2duPQ/568c046334bf84b7388b4b81Bfeec6aca" style=3D"text-decorat=
+ion: none; color: #ffffff;">healthy</a></td>
+<td class=3D"mobilenav" width=3D"201" style=3D"border-color: #892074; borde=
+r-collapse: collapse; text-align: left;mso-line-height-rule:exactly; line-h=
+eight: 34px;"><a href=3D"https://link.geniuskitchen.com/click/15779146.6733=
+38/aHR0cHM6Ly93d3cuZ2VuaXVza2l0Y2hlbi5jb20vaWRlYXMvZ2FtZS1kYXktNjQ0OD9ubD1H=
+S0RfMDEyNDE5X2dhbWVkYXlsaW5rJmJpZD0xNTc3OTE0NiZjMzI9MjNkZTQzN2YyYzE5ZTc5ZjA=
+wNDhiMmVhZGQwMjY4ZjcxMGNhNTAxYSZzc2lkPUZDX0ZDRERfVGltZWRfTW9kYWxfMjAxNSZzbm=
+lfYnk9JnNuaV9nbj0/568c046334bf84b7388b4b81Bba90657c" style=3D"text-decorati=
+on: none; color: #ffffff;">game day</a></td>
+</tr>
+<tr>
+<td colspan=3D"3">
+<!-- 474 table intro -->
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" width=3D"532" align=
+=3D"center" class=3D"deviceWidth" style=3D"margin: 0 auto;">
+<tr valign=3D"middle">
+<td style=3D"padding-top: 25px; padding-bottom: 18px; padding-left: 0px; pa=
+dding-right: 0px;">
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" style=3D"min-width:=
+ 100px;" align=3D"left">
+<tr valign=3D"middle" style=3D"vertical-align: middle;background-color: #89=
+2074;">
+<td valign=3D"middle" class=3D"padding_left_10px" style=3D"font-weight: bol=
+d;display: inline; font-size: 14px; letter-spacing: 1px; text-transform: up=
+percase; font-family: 'Trebuchet MS', Arial, sans-serif; background-color: =
+#892074; color:#ffffff;line-height: 26px; padding-left: 14px;mso-line-heigh=
+t-rule:exactly;">
+What's Not to Love?=09=09=09=09=09=09=09=09=09=09=09=09=09=09=09=09=09=09=
+=09</td>
+<td style=3D"background-color: #ffffff;">
+<img src=3D"http://newsletter-images.sndimg.com/foodcom/images/banner_end_p=
+urple_22x28.jpg" width=3D"22" height=3D"" style=3D"border: none; display: b=
+lock" />
+</td></tr></table>
+</td></tr>=09=09=09=09=09=09=09=09=09=09=09=09=09=09=09=09
+<tr valign=3D"middle">
+<td style=3D"padding-top: 0px; padding-bottom: 18px; padding-left: 29px; pa=
+dding-right: 29px; font-family: 'Trebuchet MS', Arial, sans-serif; font-siz=
+e: 12px; line-height: 19px; font-weight: normal;" class=3D"padding_10px">
+By using lean ground beef and adding beans and extra tomatoes, you can trim=
+ some calories and fat off of this cheesy classic. All of the flavor with n=
+one of the guilt!=09=09=09=09=09=09=09=09=09=09=09=09=09=09=09=09=09
+</td>
+</tr>=09=09=09=09=09=09=09=09=09=09=09=09=09=09=09
+</table>
+<!-- /474 table intro -->
+<!-- 532 table lead -->  =20
+<table bgcolor=3D"#ffffff" align=3D"center" cellpadding=3D"0" cellspacing=
+=3D"0" border=3D"0" width=3D"532" class=3D"deviceWidth" style=3D"margin: 0 =
+auto;">
+<tr>
+<td>
+<a href=3D"https://link.geniuskitchen.com/click/15779146.673338/aHR0cHM6Ly9=
+3d3cuZ2VuaXVza2l0Y2hlbi5jb20vaWRlYXMvaGVhbHRoeS1kaW5uZXItcmVjaXBlcy02MzIxP2=
+M9MjA1MTcmbmw9R0tEXzAxMjQxOV9mZWF0dXJlaW1nJmJpZD0xNTc3OTE0NiZjMzI9MjNkZTQzN=
+2YyYzE5ZTc5ZjAwNDhiMmVhZGQwMjY4ZjcxMGNhNTAxYSZzc2lkPUZDX0ZDRERfVGltZWRfTW9k=
+YWxfMjAxNSZzbmlfYnk9JnNuaV9nbj0/568c046334bf84b7388b4b81B4a311349"><img cla=
+ss=3D"leadimg" alt=3D"Lightened-Up Chili Mac" src=3D"https://img.sndimg.com=
+/food/image/upload/fl_progressive,c_fill,q_80,h_349,w_621/v1/img/recipes/20=
+/33/80/OVswmDfROpLMa1hKEMcQ_Chili%20Mac%20Cooking%20Light_final%205.jpg" wi=
+dth=3D"532" style=3D"width: 532px; display: block; border:none;" /></a>
+</td>
+</tr>
+<tr>
+<td class=3D"padding_10px" style=3D"padding-left: 29px; padding-right: 27px=
+; padding-top: 10px;">
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" class=3D"deviceWidt=
+h"  style=3D"display: inline-table; vertical-align: top; max-width: 430px;"=
+>
+<tr><td style=3D"text-transform: uppercase; font-family: 'Trebuchet MS', Ar=
+ial, sans-serif; font-size: 12px; line-height: 20px; letter-spacing: 1px;co=
+lor: #A23588; padding-bottom: 5px; padding-top: 5px;">46 Dinners Under 400 =
+Calories</td></tr>
+<tr><td style=3D"border-bottom-color: #77E2E1; border-bottom-width: 5px; bo=
+rder-bottom-style: solid; padding-bottom: 5px;"><a href=3D"https://link.gen=
+iuskitchen.com/click/15779146.673338/aHR0cHM6Ly93d3cuZ2VuaXVza2l0Y2hlbi5jb2=
+0vaWRlYXMvaGVhbHRoeS1kaW5uZXItcmVjaXBlcy02MzIxP2M9MjA1MTcmbmw9R0tEXzAxMjQxO=
+V9mZWF0dXJlY29weSZiaWQ9MTU3NzkxNDYmYzMyPTIzZGU0MzdmMmMxOWU3OWYwMDQ4YjJlYWRk=
+MDI2OGY3MTBjYTUwMWEmc3NpZD1GQ19GQ0REX1RpbWVkX01vZGFsXzIwMTUmc25pX2J5PSZzbml=
+fZ249/568c046334bf84b7388b4b81C60b7d807" style=3D"text-decoration: none;tex=
+t-transform: uppercase; font-family: 'Trebuchet MS', Arial, sans-serif; fon=
+t-size: 15px; line-height: 20px; letter-spacing: 1px; color: #090909;">Ligh=
+tened-Up Chili Mac=09</a></td></tr>
+</table>
+</td>
+</tr>
+</table>
+<!-- /532 table lead -->=09=09=09=09=09=09=09=09=09=09=09=09=09  =20
+<!-- sub 1 module -->
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" width=3D"532" align=
+=3D"center" class=3D"deviceWidth" style=3D"margin: 0 auto;">
+<tr><td style=3D"padding-top: 25px;">
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" style=3D"min-width:=
+ 100px;" align=3D"left">
+<tr valign=3D"middle" style=3D"vertical-align: middle;background-color: #89=
+2074;">
+<td valign=3D"middle" class=3D"padding_left_10px" style=3D"font-weight: bol=
+d;display: inline; font-size: 14px; letter-spacing: 1px; text-transform: up=
+percase; font-family: 'Trebuchet MS', Arial, sans-serif; background-color: =
+#892074;  color:#ffffff;line-height: 26px; padding-left: 14px; mso-line-hei=
+ght-rule:exactly;">
+But Wait, There's More!=09=09=09=09=09=09=09=09=09=09=09=09=09=09=09=09=09=
+=09=09</td>
+<td style=3D"background-color: #ffffff;">
+<img src=3D"http://newsletter-images.sndimg.com/foodcom/images/banner_end_p=
+urple_22x28.jpg" width=3D"22" height=3D"" style=3D"border: none; display: b=
+lock" />
+</td></tr></table>
+</td></tr>
+<tr style=3D"vertical-align: middle;">
+<td class=3D"padding_0px" style=3D"padding-top: 20px; padding-left: 29px; p=
+adding-right: 29px; min-height: 150px;">
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" class=3D"deviceWidt=
+h" align=3D"left">
+<tr>
+<td>
+<a href=3D"https://link.geniuskitchen.com/click/15779146.673338/aHR0cHM6Ly9=
+3d3cuZ2VuaXVza2l0Y2hlbi5jb20vaWRlYXMvd2VpZ2h0LXdhdGNoZXJzLWJyZWFrZmFzdC1yZW=
+NpcGVzLTYxMzg_Yz00NTM3NjMmbmw9R0tEXzAxMjQxOV9zdWIxaW1nJmJpZD0xNTc3OTE0NiZjM=
+zI9MjNkZTQzN2YyYzE5ZTc5ZjAwNDhiMmVhZGQwMjY4ZjcxMGNhNTAxYSZzc2lkPUZDX0ZDRERf=
+VGltZWRfTW9kYWxfMjAxNSZzbmlfYnk9JnNuaV9nbj0/568c046334bf84b7388b4b81B32e27d=
+44" style=3D"text-decoration: none;">
+<img src=3D"https://img.sndimg.com/food/image/upload/w_621,h_349,fl_progres=
+sive,c_fill,q_80/v1/img/recipes/25/79/62/YakJd1nT4Ogqq8HnVyYk_IAM_8155.jpg"=
+ style=3D"display: block; border: none;" width=3D"270" height=3D"" class=3D=
+"recipeImg" alt=3D"17 Weight Watchers Breakfast Recipes" /></a>
+</td>
+</tr>
+</table>
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" class=3D"deviceWidt=
+h min-hght-0" align=3D"right" style=3D"vertical-align: middle; min-height: =
+152px; ">
+<tr valign=3D"middle" style=3D"vertical-align: middle;">
+<td width=3D"21" class=3D"mobilewdth" style=3D"">
+</td>
+<td width=3D"179" class=3D"padding_top_10px min-wdth-280" style=3D"">
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" class=3D"" align=3D=
+"" style=3D"vertical-align: middle;">
+<tr>
+<td style=3D"text-transform: uppercase; font-family: 'Trebuchet MS', Arial,=
+ sans-serif; font-size: 12px; line-height: 20px; letter-spacing: 1px;color:=
+ #A23588; padding-bottom: 5px;">Start Your Day on the Right Foot=09=09=09=
+=09=09=09=09=09=09=09=09=09=09
+</td>
+</tr>
+<tr>
+<td>
+<a href=3D"https://link.geniuskitchen.com/click/15779146.673338/aHR0cHM6Ly9=
+3d3cuZ2VuaXVza2l0Y2hlbi5jb20vaWRlYXMvd2VpZ2h0LXdhdGNoZXJzLWJyZWFrZmFzdC1yZW=
+NpcGVzLTYxMzg_Yz00NTM3NjMmbmw9R0tEXzAxMjQxOV9zdWIxY3RhJmJpZD0xNTc3OTE0NiZjM=
+zI9MjNkZTQzN2YyYzE5ZTc5ZjAwNDhiMmVhZGQwMjY4ZjcxMGNhNTAxYSZzc2lkPUZDX0ZDRERf=
+VGltZWRfTW9kYWxfMjAxNSZzbmlfYnk9JnNuaV9nbj0/568c046334bf84b7388b4b81Cb714fe=
+b9" style=3D"text-decoration: none; text-transform: uppercase; font-family:=
+ 'Trebuchet MS', Arial, sans-serif; font-size: 15px; line-height: 20px; let=
+ter-spacing: 1px; color: #090909; " class=3D"mobiletxt">
+17 Weight Watchers Breakfast Recipes=09=09=09=09=09=09=09=09=09=09=09=09=09=
+</a>
+</td>
+</tr>
+<tr>
+<td style=3D"border-bottom-color: #77E2E1; border-bottom-style: solid; bord=
+er-bottom-width: 5px; height:5px;">
+</td>
+</tr>
+</table>
+</td>
+<td class=3D"mobilewdth" style=3D"">
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<!-- /sub 1 module-->=09  =20
+<!-- sub 2 module -->
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" width=3D"474" align=
+=3D"center" class=3D"deviceWidth" style=3D"margin: 0 auto;">
+<tr style=3D"vertical-align: middle;">
+<td style=3D"padding-top: 20px; min-height: 150px;">
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" class=3D"deviceWidt=
+h" align=3D"left">
+<tr>
+<td>
+<a href=3D"https://link.geniuskitchen.com/click/15779146.673338/aHR0cHM6Ly9=
+3d3cuZ2VuaXVza2l0Y2hlbi5jb20vaWRlYXMvaW5kdWxnZW50LXZlZ2FuLXJlY2lwZXMtNjc4MD=
+9jPTY1Nzg0NSZubD1HS0RfMDEyNDE5X3N1YjJpbWcmYmlkPTE1Nzc5MTQ2JmMzMj0yM2RlNDM3Z=
+jJjMTllNzlmMDA0OGIyZWFkZDAyNjhmNzEwY2E1MDFhJnNzaWQ9RkNfRkNERF9UaW1lZF9Nb2Rh=
+bF8yMDE1JnNuaV9ieT0mc25pX2duPQ/568c046334bf84b7388b4b81B71c56656" style=3D"=
+text-decoration: none;">
+<img src=3D"https://img.sndimg.com/food/image/upload/w_621,h_349,c_fill,fl_=
+progressive,q_80/v1/img/recipes/53/73/97/z77KERWTHqsWSZYYNjAW_IndulgentVega=
+n-6807.jpg" style=3D"display: block; border: none;" width=3D"270" height=3D=
+"" class=3D"recipeImg" alt=3D"16 Indulgent Vegan Eats" /></a>
+</td>
+</tr>
+</table>
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" class=3D"deviceWidt=
+h min-hght-0" align=3D"right" style=3D"vertical-align: middle; min-height: =
+152px; ">
+<tr valign=3D"middle" style=3D"vertical-align: middle;">
+<td width=3D"21" class=3D"mobilewdth" style=3D"">
+</td>
+<td width=3D"179" class=3D"padding_top_10px min-wdth-280" style=3D"">
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" class=3D"" align=3D=
+"" style=3D"vertical-align: middle;">
+<tr>
+<td style=3D"text-transform: uppercase; font-family: 'Trebuchet MS', Arial,=
+ sans-serif; font-size: 12px; line-height: 20px; letter-spacing: 1px;color:=
+ #A23588; padding-bottom: 5px;">Garlic Bread FTW=09=09=09=09=09=09=09=09=09=
+=09=09=09=09
+</td>
+</tr>
+<tr>
+<td>
+<a href=3D"https://link.geniuskitchen.com/click/15779146.673338/aHR0cHM6Ly9=
+3d3cuZ2VuaXVza2l0Y2hlbi5jb20vaWRlYXMvaW5kdWxnZW50LXZlZ2FuLXJlY2lwZXMtNjc4MD=
+9jPTY1Nzg0NSZubD1HS0RfMDEyNDE5X3N1YjJjdGEmYmlkPTE1Nzc5MTQ2JmMzMj0yM2RlNDM3Z=
+jJjMTllNzlmMDA0OGIyZWFkZDAyNjhmNzEwY2E1MDFhJnNzaWQ9RkNfRkNERF9UaW1lZF9Nb2Rh=
+bF8yMDE1JnNuaV9ieT0mc25pX2duPQ/568c046334bf84b7388b4b81C24b2c5dc" style=3D"=
+text-decoration: none; text-transform: uppercase; font-family: 'Trebuchet M=
+S', Arial, sans-serif; font-size: 15px; line-height: 20px; letter-spacing: =
+1px; color: #090909;" class=3D"mobiletxt">
+16 Indulgent Vegan Eats=09=09=09=09=09=09=09=09=09=09=09=09=09</a>
+</td>
+</tr>
+<tr>
+<td style=3D"border-bottom-color: #77E2E1; border-bottom-style: solid; bord=
+er-bottom-width: 5px; height:5px;">
+</td>
+</tr>
+</table>
+</td>
+<td class=3D"mobilewdth" style=3D"">
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<!-- /sub 2 module-->=09
+<!-- sub 3 module -->
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" width=3D"474" align=
+=3D"center" class=3D"deviceWidth" style=3D"margin: 0 auto;">
+<tr style=3D"vertical-align: middle;">
+<td style=3D"padding-top: 20px; min-height: 150px;">
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" class=3D"deviceWidt=
+h" align=3D"left">
+<tr>
+<td>
+<a href=3D"https://link.geniuskitchen.com/click/15779146.673338/aHR0cHM6Ly9=
+3d3cuZ2VuaXVza2l0Y2hlbi5jb20vaWRlYXMvc3VwZXItYm93bC1iaXRlcy1yZWNpcGVzLTYyNz=
+k_Yz0xODYyNyZubD1HS0RfMDEyNDE5X3N1YjNpbWcmYmlkPTE1Nzc5MTQ2JmMzMj0yM2RlNDM3Z=
+jJjMTllNzlmMDA0OGIyZWFkZDAyNjhmNzEwY2E1MDFhJnNzaWQ9RkNfRkNERF9UaW1lZF9Nb2Rh=
+bF8yMDE1JnNuaV9ieT0mc25pX2duPQ/568c046334bf84b7388b4b81B19c62ad5" style=3D"=
+text-decoration: none;">
+<img src=3D"https://img.sndimg.com/food/image/upload/w_621,h_349,c_fill,fl_=
+progressive,q_80/v1/img/recipes/18/15/33/iNQF9TZ2RkmbnLZXwP04_chicken-biscu=
+it-kabobs-5792.jpg" style=3D"display: block; border: none;" width=3D"270" h=
+eight=3D"" class=3D"recipeImg" alt=3D"42 Five-Ingredient Appetizers" /></a>
+</td>
+</tr>
+</table>
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" class=3D"deviceWidt=
+h min-hght-0" align=3D"right" style=3D"vertical-align: middle; min-height: =
+152px; ">
+<tr valign=3D"middle" style=3D"vertical-align: middle;">
+<td width=3D"21" class=3D"mobilewdth" style=3D"">
+</td>
+<td width=3D"179" class=3D"padding_top_10px min-wdth-280" style=3D"">
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" class=3D"" align=3D=
+"" style=3D"vertical-align: middle;">
+<tr>
+<td style=3D"text-transform: uppercase; font-family: 'Trebuchet MS', Arial,=
+ sans-serif; font-size: 12px; line-height: 20px; letter-spacing: 1px;color:=
+ #A23588; padding-bottom: 5px;">Perfect for Game Day=09=09=09=09=09=09=09=
+=09=09=09=09=09=09
+</td>
+</tr>
+<tr>
+<td>
+<a href=3D"https://link.geniuskitchen.com/click/15779146.673338/aHR0cHM6Ly9=
+3d3cuZ2VuaXVza2l0Y2hlbi5jb20vaWRlYXMvc3VwZXItYm93bC1iaXRlcy1yZWNpcGVzLTYyNz=
+k_Yz0xODYyNyZubD1HS0RfMDEyNDE5X3N1YjNjdGEmYmlkPTE1Nzc5MTQ2JmMzMj0yM2RlNDM3Z=
+jJjMTllNzlmMDA0OGIyZWFkZDAyNjhmNzEwY2E1MDFhJnNzaWQ9RkNfRkNERF9UaW1lZF9Nb2Rh=
+bF8yMDE1JnNuaV9ieT0mc25pX2duPQ/568c046334bf84b7388b4b81C70f34333" style=3D"=
+text-decoration: none; text-transform: uppercase; font-family: 'Trebuchet M=
+S', Arial, sans-serif; font-size: 15px; line-height: 20px; letter-spacing: =
+1px; color: #090909;" class=3D"mobiletxt">
+42 Five-Ingredient Appetizers=09=09=09=09=09=09=09=09=09=09=09=09=09</a>
+</td>
+</tr>
+<tr>
+<td style=3D"border-bottom-color: #77E2E1; border-bottom-style: solid; bord=
+er-bottom-width: 5px; height:5px;">
+</td>
+</tr>
+</table>
+</td>
+<td class=3D"mobilewdth" style=3D"">
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<!-- /sub 3 module-->=09
+<!-- sub 4 module -->
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" width=3D"474" align=
+=3D"center" class=3D"deviceWidth" style=3D"margin: 0 auto;">
+<tr style=3D"vertical-align: middle;">
+<td style=3D"padding-top: 20px; min-height: 150px;">
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" class=3D"deviceWidt=
+h" align=3D"left">
+<tr>
+<td>
+<a href=3D"https://link.geniuskitchen.com/click/15779146.673338/aHR0cHM6Ly9=
+3d3cuZ2VuaXVza2l0Y2hlbi5jb20vaWRlYXMvbG93LWNhcmItcmVjaXBlcy02MTE4P2M9MTA1Mj=
+Umbmw9R0tEXzAxMjQxOV9zdWI0aW1nJmJpZD0xNTc3OTE0NiZjMzI9MjNkZTQzN2YyYzE5ZTc5Z=
+jAwNDhiMmVhZGQwMjY4ZjcxMGNhNTAxYSZzc2lkPUZDX0ZDRERfVGltZWRfTW9kYWxfMjAxNSZz=
+bmlfYnk9JnNuaV9nbj0/568c046334bf84b7388b4b81Bb3bd34e4" style=3D"text-decora=
+tion: none;">
+<img src=3D"https://img.sndimg.com/food/image/upload/w_621,h_349,c_fill,fl_=
+progressive,q_80/v1/img/recipes/16/80/39/mkijWWdCReFLLy8bjxdn_0S9A2985.jpg"=
+ style=3D"display: block; border: none;" width=3D"270" height=3D"" class=3D=
+"recipeImg" alt=3D"14 Top Low-Carb Recipes" /></a>
+</td>
+</tr>
+</table>
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" class=3D"deviceWidt=
+h min-hght-0" align=3D"right" style=3D"vertical-align: middle; min-height: =
+152px; ">
+<tr valign=3D"middle" style=3D"vertical-align: middle;">
+<td width=3D"21" class=3D"mobilewdth" style=3D"">
+</td>
+<td width=3D"179" class=3D"padding_top_10px min-wdth-280" style=3D"">
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" class=3D"" align=3D=
+"" style=3D"vertical-align: middle;">
+<tr>
+<td style=3D"text-transform: uppercase; font-family: 'Trebuchet MS', Arial,=
+ sans-serif; font-size: 12px; line-height: 20px; letter-spacing: 1px;color:=
+ #A23588; padding-bottom: 5px;">Oh-So-Satisfying=09=09=09=09=09=09=09=09=09=
+=09=09=09=09
+</td>
+</tr>
+<tr>
+<td>
+<a href=3D"https://link.geniuskitchen.com/click/15779146.673338/aHR0cHM6Ly9=
+3d3cuZ2VuaXVza2l0Y2hlbi5jb20vaWRlYXMvbG93LWNhcmItcmVjaXBlcy02MTE4P2M9MTA1Mj=
+Umbmw9R0tEXzAxMjQxOV9zdWI0Y3RhJmJpZD0xNTc3OTE0NiZjMzI9MjNkZTQzN2YyYzE5ZTc5Z=
+jAwNDhiMmVhZGQwMjY4ZjcxMGNhNTAxYSZzc2lkPUZDX0ZDRERfVGltZWRfTW9kYWxfMjAxNSZz=
+bmlfYnk9JnNuaV9nbj0/568c046334bf84b7388b4b81Cb8dc887b" style=3D"text-decora=
+tion: none; text-transform: uppercase; font-family: 'Trebuchet MS', Arial, =
+sans-serif; font-size: 15px; line-height: 20px; letter-spacing: 1px; color:=
+ #090909;" class=3D"mobiletxt">
+14 Top Low-Carb Recipes=09=09=09=09=09=09=09=09=09=09=09=09=09</a>
+</td>
+</tr>
+<tr>
+<td style=3D"border-bottom-color: #77E2E1; border-bottom-style: solid; bord=
+er-bottom-width: 5px; height:5px;">
+</td>
+</tr>
+</table>
+</td>
+<td class=3D"mobilewdth" style=3D"">
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<!-- /sub 4 module-->
+<!-- spacing -->
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0"  class=3D"deviceWid=
+th" style=3D"margin: 0 auto;"><tr><td style=3D"padding-top: 20px;">&nbsp;</=
+td></tr></table>=09  =20
+<! -- 300x250 -->
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" align=3D"center" st=
+yle=3D"margin: 0 auto;">
+<tr><td colspan=3D"2"><a style=3D"display: block; width: 300px; height: 250=
+px;" href=3D"https://link.geniuskitchen.com/click/15779146.673338/aHR0cDovL=
+2xpLnNjcmlwcHNuZXR3b3Jrcy5jb20vY2xpY2s_cz0xNDQ5Mzgmc3o9MzAweDI1MCZsaT0wNCZz=
+aD0yM2RlNDM3ZjJjMTllNzlmMDA0OGIyZWFkZDAyNjhmNzEwY2E1MDFhJnA9MDFfMjRfMTlfR0t=
+EJmJpZD0xNTc3OTE0NiZjMzI9MjNkZTQzN2YyYzE5ZTc5ZjAwNDhiMmVhZGQwMjY4ZjcxMGNhNT=
+AxYSZzc2lkPUZDX0ZDRERfVGltZWRfTW9kYWxfMjAxNSZzbmlfYnk9JnNuaV9nbj0/568c04633=
+4bf84b7388b4b81Beaba40ed" rel=3D"nofollow"><img src=3D"http://li.scrippsnet=
+works.com/imp?s=3D144938&sz=3D300x250&li=3D04&sh=3D23de437f2c19e79f0048b2ea=
+dd0268f710ca501a&p=3D01_24_19_GKD" border=3D"0" width=3D"300" height=3D"250=
+"/></a></td></tr><tr style=3D"display:block; height:1px; line-height:1px;">=
+<td><img src=3D"http://li.scrippsnetworks.com/imp?s=3D144939&sz=3D1x1&li=3D=
+04&sh=3D23de437f2c19e79f0048b2eadd0268f710ca501a&p=3D01_24_19_GKD" height=
+=3D"1" width=3D"10" /></td><td><img src=3D"http://li.scrippsnetworks.com/im=
+p?s=3D144940&sz=3D1x1&li=3D04&sh=3D23de437f2c19e79f0048b2eadd0268f710ca501a=
+&p=3D01_24_19_GKD" height=3D"1" width=3D"10" /></td></tr><tr><td align=3D"l=
+eft"><a href=3D"https://link.geniuskitchen.com/click/15779146.673338/aHR0cD=
+ovL2xpLnNjcmlwcHNuZXR3b3Jrcy5jb20vY2xpY2s_cz0xNDAyNzMmc3o9MTE2eDE1JmxpPTA0J=
+nNoPTIzZGU0MzdmMmMxOWU3OWYwMDQ4YjJlYWRkMDI2OGY3MTBjYTUwMWEmcD0wMV8yNF8xOV9H=
+S0QmYmlkPTE1Nzc5MTQ2JmMzMj0yM2RlNDM3ZjJjMTllNzlmMDA0OGIyZWFkZDAyNjhmNzEwY2E=
+1MDFhJnNzaWQ9RkNfRkNERF9UaW1lZF9Nb2RhbF8yMDE1JnNuaV9ieT0mc25pX2duPQ/568c046=
+334bf84b7388b4b81Cf31ec0f1" rel=3D"nofollow"><img src=3D"http://li.scrippsn=
+etworks.com/imp?s=3D140273&sz=3D116x15&li=3D04&sh=3D23de437f2c19e79f0048b2e=
+add0268f710ca501a&p=3D01_24_19_GKD" border=3D"0"/></a></td><td align=3D"rig=
+ht"><a href=3D"https://link.geniuskitchen.com/click/15779146.673338/aHR0cDo=
+vL2xpLnNjcmlwcHNuZXR3b3Jrcy5jb20vY2xpY2s_cz0xNDAyNzQmc3o9Njl4MTUmbGk9MDQmc2=
+g9MjNkZTQzN2YyYzE5ZTc5ZjAwNDhiMmVhZGQwMjY4ZjcxMGNhNTAxYSZwPTAxXzI0XzE5X0dLR=
+CZiaWQ9MTU3NzkxNDYmYzMyPTIzZGU0MzdmMmMxOWU3OWYwMDQ4YjJlYWRkMDI2OGY3MTBjYTUw=
+MWEmc3NpZD1GQ19GQ0REX1RpbWVkX01vZGFsXzIwMTUmc25pX2J5PSZzbmlfZ249/568c046334=
+bf84b7388b4b81Dcd0877c1" rel=3D"nofollow"><img src=3D"http://li.scrippsnetw=
+orks.com/imp?s=3D140274&sz=3D69x15&li=3D04&sh=3D23de437f2c19e79f0048b2eadd0=
+268f710ca501a&p=3D01_24_19_GKD" border=3D"0"/></a></td></tr></table>=20
+<!-- /300x250 -->=09  =20
+<!-- spacing -->
+<!-- =09=09=09=09=09=09=09=09=09=09=09=09<table cellpadding=3D"0" cellspaci=
+ng=3D"0" border=3D"0"  class=3D"deviceWidth" style=3D"margin: 0 auto;"><tr>=
+<td style=3D"padding-top: 20px;">&nbsp;</td></tr></table>=09 -->  =20
+<! -- 300x250 -->
+<!-- =09=09=09=09=09=09=09=09=09=09=09=09<table border=3D"0" cellpadding=3D=
+"0" cellspacing=3D"0" align=3D"center" style=3D"margin: 0 auto;"><tr><td co=
+lspan=3D"2"><a style=3D"display: block; width: 300px; height: 250px;" href=
+=3D"https://link.geniuskitchen.com/click/15779146.673338/aHR0cDovL2xpLnNjcm=
+lwcHNuZXR3b3Jrcy5jb20vY2xpY2s_cz0yNjM3ODImc3o9MzAweDI1MCZsaT0wNCZzaD0yM2RlN=
+DM3ZjJjMTllNzlmMDA0OGIyZWFkZDAyNjhmNzEwY2E1MDFhJnA9MDFfMjRfMTlfR0tEJmJpZD0x=
+NTc3OTE0NiZjMzI9MjNkZTQzN2YyYzE5ZTc5ZjAwNDhiMmVhZGQwMjY4ZjcxMGNhNTAxYSZzc2l=
+kPUZDX0ZDRERfVGltZWRfTW9kYWxfMjAxNSZzbmlfYnk9JnNuaV9nbj0/568c046334bf84b738=
+8b4b81E1c59bd9b" rel=3D"nofollow"><img src=3D"http://li.scrippsnetworks.com=
+/imp?s=3D263782&sz=3D300x250&li=3D04&sh=3D23de437f2c19e79f0048b2eadd0268f71=
+0ca501a&p=3D01_24_19_GKD" border=3D"0" width=3D"300" height=3D"250"/></a></=
+td></tr><tr style=3D"display:block; height:1px; line-height:1px;"><td><img =
+src=3D"http://li.scrippsnetworks.com/imp?s=3D263783&sz=3D1x1&li=3D04&sh=3D2=
+3de437f2c19e79f0048b2eadd0268f710ca501a&p=3D01_24_19_GKD" height=3D"1" widt=
+h=3D"10" /></td><td><img src=3D"http://li.scrippsnetworks.com/imp?s=3D26378=
+4&sz=3D1x1&li=3D04&sh=3D23de437f2c19e79f0048b2eadd0268f710ca501a&p=3D01_24_=
+19_GKD" height=3D"1" width=3D"10" /></td></tr><tr><td align=3D"left"><a hre=
+f=3D"https://link.geniuskitchen.com/click/15779146.673338/aHR0cDovL2xpLnNjc=
+mlwcHNuZXR3b3Jrcy5jb20vY2xpY2s_cz0xNDAyNzMmc3o9MTE2eDE1JmxpPTA0JnNoPTIzZGU0=
+MzdmMmMxOWU3OWYwMDQ4YjJlYWRkMDI2OGY3MTBjYTUwMWEmcD0wMV8yNF8xOV9HS0QmYmlkPTE=
+1Nzc5MTQ2JmMzMj0yM2RlNDM3ZjJjMTllNzlmMDA0OGIyZWFkZDAyNjhmNzEwY2E1MDFhJnNzaW=
+Q9RkNfRkNERF9UaW1lZF9Nb2RhbF8yMDE1JnNuaV9ieT0mc25pX2duPQ/568c046334bf84b738=
+8b4b81Ff31ec0f1" rel=3D"nofollow"><img src=3D"http://li.scrippsnetworks.com=
+/imp?s=3D140273&sz=3D116x15&li=3D04&sh=3D23de437f2c19e79f0048b2eadd0268f710=
+ca501a&p=3D01_24_19_GKD" border=3D"0"/></a></td><td align=3D"right"><a href=
+=3D"https://link.geniuskitchen.com/click/15779146.673338/aHR0cDovL2xpLnNjcm=
+lwcHNuZXR3b3Jrcy5jb20vY2xpY2s_cz0xNDAyNzQmc3o9Njl4MTUmbGk9MDQmc2g9MjNkZTQzN=
+2YyYzE5ZTc5ZjAwNDhiMmVhZGQwMjY4ZjcxMGNhNTAxYSZwPTAxXzI0XzE5X0dLRCZiaWQ9MTU3=
+NzkxNDYmYzMyPTIzZGU0MzdmMmMxOWU3OWYwMDQ4YjJlYWRkMDI2OGY3MTBjYTUwMWEmc3NpZD1=
+GQ19GQ0REX1RpbWVkX01vZGFsXzIwMTUmc25pX2J5PSZzbmlfZ249/568c046334bf84b7388b4=
+b81Gcd0877c1" rel=3D"nofollow"><img src=3D"http://li.scrippsnetworks.com/im=
+p?s=3D140274&sz=3D69x15&li=3D04&sh=3D23de437f2c19e79f0048b2eadd0268f710ca50=
+1a&p=3D01_24_19_GKD" border=3D"0"/></a></td></tr></table> -->
+<!-- /300x250 -->=09
+<!-- spacing -->
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0"  class=3D"deviceWid=
+th" style=3D"margin: 0 auto;"><tr><td style=3D"padding-top: 20px;">&nbsp;</=
+td></tr></table>=09  =20
+<!-- marquee -->
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0"  align=3D"center" s=
+tyle=3D"margin-left:auto; margin-right:auto;"><tr><td colspan=3D"2"><a href=
+=3D"https://link.geniuskitchen.com/click/15779146.673338/aHR0cDovL2xpLnNjcm=
+lwcHNuZXR3b3Jrcy5jb20vY2xpY2s_cz0xNjA1MTQmbGF5b3V0PW1hcnF1ZWUmbGk9MDQmc2g9M=
+jNkZTQzN2YyYzE5ZTc5ZjAwNDhiMmVhZGQwMjY4ZjcxMGNhNTAxYSZwPTAxXzI0XzE5X0dLRCZi=
+aWQ9MTU3NzkxNDYmYzMyPTIzZGU0MzdmMmMxOWU3OWYwMDQ4YjJlYWRkMDI2OGY3MTBjYTUwMWE=
+mc3NpZD1GQ19GQ0REX1RpbWVkX01vZGFsXzIwMTUmc25pX2J5PSZzbmlfZ249/568c046334bf8=
+4b7388b4b81Hb7be53ec" rel=3D"nofollow"><img src=3D"http://li.scrippsnetwork=
+s.com/imp?s=3D160514&layout=3Dmarquee&li=3D04&sh=3D23de437f2c19e79f0048b2ea=
+dd0268f710ca501a&p=3D01_24_19_GKD" border=3D"0" style=3D"display: block; wi=
+dth:100%; height:auto;" width=3D"532" /></a></td></tr><tr style=3D"display:=
+block; height:1px; line-height:1px;"><td><img src=3D"http://li.scrippsnetwo=
+rks.com/imp?s=3D160515&sz=3D1x1&li=3D04&sh=3D23de437f2c19e79f0048b2eadd0268=
+f710ca501a&p=3D01_24_19_GKD" height=3D"1" width=3D"10" /></td><td><img src=
+=3D"http://li.scrippsnetworks.com/imp?s=3D160516&sz=3D1x1&li=3D04&sh=3D23de=
+437f2c19e79f0048b2eadd0268f710ca501a&p=3D01_24_19_GKD" height=3D"1" width=
+=3D"10" /></td></tr><tr><td align=3D"left"><a href=3D"https://link.geniuski=
+tchen.com/click/15779146.673338/aHR0cDovL2xpLnNjcmlwcHNuZXR3b3Jrcy5jb20vY2x=
+pY2s_cz0xNjA1MTcmc3o9MTE2eDE1JmxpPTA0JnNoPTIzZGU0MzdmMmMxOWU3OWYwMDQ4YjJlYW=
+RkMDI2OGY3MTBjYTUwMWEmcD0wMV8yNF8xOV9HS0QmYmlkPTE1Nzc5MTQ2JmMzMj0yM2RlNDM3Z=
+jJjMTllNzlmMDA0OGIyZWFkZDAyNjhmNzEwY2E1MDFhJnNzaWQ9RkNfRkNERF9UaW1lZF9Nb2Rh=
+bF8yMDE1JnNuaV9ieT0mc25pX2duPQ/568c046334bf84b7388b4b81I18e938c8" rel=3D"no=
+follow"><img src=3D"http://li.scrippsnetworks.com/imp?s=3D160517&sz=3D116x1=
+5&li=3D04&sh=3D23de437f2c19e79f0048b2eadd0268f710ca501a&p=3D01_24_19_GKD" b=
+order=3D"0"/></a></td><td align=3D"right"><a href=3D"https://link.geniuskit=
+chen.com/click/15779146.673338/aHR0cDovL2xpLnNjcmlwcHNuZXR3b3Jrcy5jb20vY2xp=
+Y2s_cz0xNjA1MTgmc3o9Njl4MTUmbGk9MDQmc2g9MjNkZTQzN2YyYzE5ZTc5ZjAwNDhiMmVhZGQ=
+wMjY4ZjcxMGNhNTAxYSZwPTAxXzI0XzE5X0dLRCZiaWQ9MTU3NzkxNDYmYzMyPTIzZGU0MzdmMm=
+MxOWU3OWYwMDQ4YjJlYWRkMDI2OGY3MTBjYTUwMWEmc3NpZD1GQ19GQ0REX1RpbWVkX01vZGFsX=
+zIwMTUmc25pX2J5PSZzbmlfZ249/568c046334bf84b7388b4b81J6d95ab2a" rel=3D"nofol=
+low"><img src=3D"http://li.scrippsnetworks.com/imp?s=3D160518&sz=3D69x15&li=
+=3D04&sh=3D23de437f2c19e79f0048b2eadd0268f710ca501a&p=3D01_24_19_GKD" borde=
+r=3D"0"/></a></td></tr></table>
+<!--/marquee -->
+</td>
+</tr>
+<tr><td colspan=3D"3">&nbsp;</td></tr>
+</tbody>
+</table>
+<!-- /content table -->
+</td>
+</tr>
+</tbody>
+</table>
+<!-- /532px table --> =20
+</td>
+</tr>
+<tr>
+<td style=3D"color: #ffffff;" bgcolor=3D"#000000">
+<!-- 532px table social -->
+<table bgcolor=3D"#892074" align=3D"center" cellpadding=3D"0" cellspacing=
+=3D"0" border=3D"0" width=3D"600" class=3D"deviceWidth" style=3D"margin: 0 =
+auto;">
+<tbody>
+<tr>
+<td class=3D"padding_10px"style=3D"padding-left: 0px; padding-right: 0px; p=
+adding-top: 10px; padding-bottom: 10px;">
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" width=3D"235" align=
+=3D"center" style=3D"margin: 0 auto;">
+<tbody>
+<tr>
+<td><a href=3D"https://link.geniuskitchen.com/click/15779146.673338/aHR0cDo=
+vL3d3dy5mYWNlYm9vay5jb20vR2VuaXVzS2l0Y2hlbj9iaWQ9MTU3NzkxNDYmYzMyPTIzZGU0Mz=
+dmMmMxOWU3OWYwMDQ4YjJlYWRkMDI2OGY3MTBjYTUwMWEmc3NpZD1GQ19GQ0REX1RpbWVkX01vZ=
+GFsXzIwMTUmc25pX2J5PSZzbmlfZ249/568c046334bf84b7388b4b81Ba591b51a" style=3D=
+"text-decoration: none;"><img src=3D"http://newsletter-images.sndimg.com/fo=
+odcom/images/fb_purple_47x43b.jpg" style=3D"display: block; border: 0px;" a=
+lt=3D"Facebook" width=3D"47" height=3D"43" /></a></td>
+<td><a href=3D"https://link.geniuskitchen.com/click/15779146.673338/aHR0cHM=
+6Ly93d3cucGludGVyZXN0LmNvbS9nZW5pdXNraXRjaGVuLz9iaWQ9MTU3NzkxNDYmYzMyPTIzZG=
+U0MzdmMmMxOWU3OWYwMDQ4YjJlYWRkMDI2OGY3MTBjYTUwMWEmc3NpZD1GQ19GQ0REX1RpbWVkX=
+01vZGFsXzIwMTUmc25pX2J5PSZzbmlfZ249/568c046334bf84b7388b4b81Bc83025a8" styl=
+e=3D"text-decoration: none;"><img src=3D"http://newsletter-images.sndimg.co=
+m/foodcom/images/pin_purple_47x43b.jpg" style=3D"display: block; border: 0p=
+x;" alt=3D"Pinterest" width=3D"47" height=3D"43" /></a></td>
+<td><a href=3D"https://link.geniuskitchen.com/click/15779146.673338/aHR0cDo=
+vL3d3dy5pbnN0YWdyYW0uY29tL2dlbml1c2tpdGNoZW4_YmlkPTE1Nzc5MTQ2JmMzMj0yM2RlND=
+M3ZjJjMTllNzlmMDA0OGIyZWFkZDAyNjhmNzEwY2E1MDFhJnNzaWQ9RkNfRkNERF9UaW1lZF9Nb=
+2RhbF8yMDE1JnNuaV9ieT0mc25pX2duPQ/568c046334bf84b7388b4b81Baa39894c" style=
+=3D"text-decoration: none;"><img src=3D"http://newsletter-images.sndimg.com=
+/foodcom/images/insta_purple_47x43b.jpg" style=3D"display: block; border: 0=
+px;" alt=3D"Instagram" width=3D"47" height=3D"43" /></a></td>
+<td><a href=3D"https://link.geniuskitchen.com/click/15779146.673338/aHR0cDo=
+vL3d3dy50d2l0dGVyLmNvbS9HZW5pdXNLaXRjaGVuP2JpZD0xNTc3OTE0NiZjMzI9MjNkZTQzN2=
+YyYzE5ZTc5ZjAwNDhiMmVhZGQwMjY4ZjcxMGNhNTAxYSZzc2lkPUZDX0ZDRERfVGltZWRfTW9kY=
+WxfMjAxNSZzbmlfYnk9JnNuaV9nbj0/568c046334bf84b7388b4b81Ba1afc189" style=3D"=
+text-decoration: none;"><img src=3D"http://newsletter-images.sndimg.com/foo=
+dcom/images/twitter_purple_47x43b.jpg" style=3D"display: block; border: 0px=
+;" alt=3D"Twitter" width=3D"47" height=3D"43" /></a></td>
+<td><a href=3D"https://link.geniuskitchen.com/click/15779146.673338/aHR0cHM=
+6Ly93d3cueW91dHViZS5jb20vY2hhbm5lbC9VQ29lZjRkNVBnYnJSclZMLTE3YWktLWc_c3ViX2=
+NvbmZpcm1hdGlvbj0xJmJpZD0xNTc3OTE0NiZjMzI9MjNkZTQzN2YyYzE5ZTc5ZjAwNDhiMmVhZ=
+GQwMjY4ZjcxMGNhNTAxYSZzc2lkPUZDX0ZDRERfVGltZWRfTW9kYWxfMjAxNSZzbmlfYnk9JnNu=
+aV9nbj0/568c046334bf84b7388b4b81B5064f328" style=3D"text-decoration: none;"=
+><img src=3D"http://newsletter-images.sndimg.com/foodcom/images/yt_purple_4=
+7x43b.jpg" style=3D"display: block; border: 0px;" alt=3D"YouTube" width=3D"=
+47" height=3D"43" /></a></td>
+</tr>
+</tbody>
+</table> =09
+</td>
+</tr>
+</tbody>
+</table>   =09
+<!-- /532px table social -->
+<!-- 532px table footer -->
+<table bgcolor=3D"#000000" align=3D"center" cellpadding=3D"0" cellspacing=
+=3D"0" border=3D"0" width=3D"532" class=3D"deviceWidth" style=3D"margin: 0 =
+auto;">
+<tbody>
+<tr>
+<td class=3D"padding_10px"style=3D"padding-left: 0px; padding-right: 0px; p=
+adding-top:32px;">
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" width=3D"290" align=
+=3D"left">
+<tbody>
+<tr>
+<td><img src=3D"http://newsletter-images.sndimg.com/foodcom/images/GK_logo_=
+67x55.jpg" style=3D"display: block; border: 0px; padding-bottom: 10px;" alt=
+=3D"Genius Kitchen" align=3D"left" width=3D"67" height=3D"55" /></td>
+</tr>
+<tr>
+<td style=3D"font-family: 'Trebuchet MS', Arial, sans-serif; font-size: 10p=
+x; line-height: 16px;">
+<a href=3D"https://link.geniuskitchen.com/click/15779146.673338/aHR0cDovL21=
+5bmV3c2xldHRlcnMuc2NyaXBwc25ldHdvcmtzLmNvbS8_bmxicmFuZD1nayZtb2RlPXVuc3Vic2=
+NyaWJlJmVtYWlsYWRkcmVzcz1oa2FzdGxlciU0MHlhaG9vLmNvbSZ1dWlkPTIzZGU0MzdmMmMxO=
+WU3OWYwMDQ4YjJlYWRkMDI2OGY3MTBjYTUwMWEmbmxsaXN0PWZvb2Rjb21faG9saWRheTM2NSZi=
+aWQ9MTU3NzkxNDYmYzMyPTIzZGU0MzdmMmMxOWU3OWYwMDQ4YjJlYWRkMDI2OGY3MTBjYTUwMWE=
+mc3NpZD1GQ19GQ0REX1RpbWVkX01vZGFsXzIwMTUmc25pX2J5PSZzbmlfZ249/568c046334bf8=
+4b7388b4b81B35fc2912" style=3D"text-decoration: none; text-align: left; col=
+or:#77DDDE;">Unsubscribe</a> &nbsp;&nbsp;=20
+<a href=3D"https://link.geniuskitchen.com/click/15779146.673338/aHR0cDovL3d=
+3dy5zY3JpcHBzbmV0d29ya3NpbnRlcmFjdGl2ZS5jb20vcHJpdmFjeS1wb2xpY3kvP2JpZD0xNT=
+c3OTE0NiZjMzI9MjNkZTQzN2YyYzE5ZTc5ZjAwNDhiMmVhZGQwMjY4ZjcxMGNhNTAxYSZzc2lkP=
+UZDX0ZDRERfVGltZWRfTW9kYWxfMjAxNSZzbmlfYnk9JnNuaV9nbj0/568c046334bf84b7388b=
+4b81Bf6cdf5a9" style=3D"text-decoration: none; text-align: left; color:#77D=
+DDE;">Privacy Policy</a> &nbsp;&nbsp;=20
+<a href=3D"https://link.geniuskitchen.com/click/15779146.673338/aHR0cDovL3d=
+3dy5zY3JpcHBzbmV0d29ya3NpbnRlcmFjdGl2ZS5jb20vdGVybXMtb2YtdXNlLz9iaWQ9MTU3Nz=
+kxNDYmYzMyPTIzZGU0MzdmMmMxOWU3OWYwMDQ4YjJlYWRkMDI2OGY3MTBjYTUwMWEmc3NpZD1GQ=
+19GQ0REX1RpbWVkX01vZGFsXzIwMTUmc25pX2J5PSZzbmlfZ249/568c046334bf84b7388b4b8=
+1Bca4e5f7c" style=3D"text-decoration: none; text-align: left; color:#77DDDE=
+;">Terms of Use</a><br><br></td>
+</tr>
+<tr>
+<td class=3D"appleLinksWhite" style=3D"text-align: left;line-height: 16px; =
+font-family: 'Trebuchet MS',Arial, sans-serif; font-size: 10px; color: #fff=
+fff;">This email was sent to <a href=3D"#" style=3D"color: #ffffff; text-de=
+coration: none;">hkastler@yahoo.com</a>.<br>
+&copy; 2019 Scripps Networks LLC<br>
+9721 Sherill Blvd, Knoxville, TN 37932<br>
+All Rights Reserved
+</td>
+</tr>
+</tbody>
+</table> =09=09
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" width=3D"234" align=
+=3D"right">
+<tbody>
+<tr><td>&nbsp;</td></tr>
+<tr>
+<td style=3D"text-transform: uppercase; text-align: right;line-height: 28px=
+; font-family: 'Trebuchet MS',Arial, sans-serif; font-size: 12px; letter-sp=
+acing: 1px;">From Our Sister Sites</td>
+</tr>
+<tr>
+<td><a href=3D"https://link.geniuskitchen.com/click/15779146.673338/aHR0cHM=
+6Ly9hZC5kb3VibGVjbGljay5uZXQvZGRtL3RyYWNrY2xrL043OTE0LjI3NjQ2MDZTQ1JJUFBTTk=
+VUV09SS19QRy9CMjIwODEwNTQuMjM3NDQzMzI1O2RjX3Rya19haWQ9NDM0NDMxODMwO2RjX3Rya=
+19jaWQ9MTEwNTY1MjYzO2RjX2xhdD07ZGNfcmRpZD07dGFnX2Zvcl9jaGlsZF9kaXJlY3RlZF90=
+cmVhdG1lbnQ9O3RmdWE9P25sPUdLRF8wMTI0MTlfQ3Jvc3NQcm9tbw/568c046334bf84b7388b=
+4b81B8267047b" style=3D"text-decoration: none;"><img src=3D"http://newslett=
+er-images.sndimg.com/hgtv/images/XP-WindyCityRehab-Sustaining-Tuesday_234x6=
+0.jpg" style=3D"display: block; border: 0px; padding-bottom: 10px;" alt=3D"=
+Windy City Rehab New Episodes Tuesdays 9/8c on HGTV" align=3D"right" width=
+=3D"234" height=3D"60" /></a></td>
+</tr>
+<tr>
+<td style=3D"text-transform: uppercase; text-align: right;line-height: 14px=
+; font-family: 'Trebuchet MS',Arial, sans-serif; font-size: 10px; letter-sp=
+acing: 1px; font-weight: normal;">
+<a href=3D"https://link.geniuskitchen.com/click/15779146.673338/aHR0cHM6Ly9=
+hZC5kb3VibGVjbGljay5uZXQvZGRtL3RyYWNrY2xrL043OTE0LjI3NjQ2MDZTQ1JJUFBTTkVUV0=
+9SS19QRy9CMjIwODEwNTQuMjM3NDQzMzI1O2RjX3Rya19haWQ9NDM0NDMxODMwO2RjX3Rya19ja=
+WQ9MTEwNTY1MjYzO2RjX2xhdD07ZGNfcmRpZD07dGFnX2Zvcl9jaGlsZF9kaXJlY3RlZF90cmVh=
+dG1lbnQ9O3RmdWE9P25sPUdLRF8wMTI0MTlfQ3Jvc3NQcm9tbw/568c046334bf84b7388b4b81=
+C8267047b" style=3D"text-decoration: none; text-transform: uppercase; text-=
+align: right; color:#77DDDE;">=09=09=09=09=09=09=09=09=09=09=09Learn Amazin=
+g Design Tips from Alison!=09=09=09=09=09=09=09=09=09=09=09=09=09=09 =20
+</a>
+</td>
+</tr>
+</tbody>
+</table> =09 =09
+</td>
+</tr>
+</tbody>
+</table>   =09
+<!-- /532px table footer -->
+</td>
+</tr>
+<tr>
+<td align=3D"center" bgcolor=3D"#000000"><img src=3D"http://newsletter-imag=
+es.sndimg.com/foodcom/images/bottom_580x112.jpg" style=3D"display: block; b=
+order: 0px;" width=3D"580" class=3D"deviceWidth" /></td>
+</tr>
+</tbody>
+</table> =20
+<!-- /600px table -->
+</td>
+</tr>
+</tbody>
+</table>
+<!-- /100% table -->
+<div id=3D"_t"><IMG SRC=3D"https://ad.doubleclick.net/ddm/trackimp/N7914.27=
+64606SCRIPPSNETWORK_PG/B22081054.237443325;dc_trk_aid=3D434431830;dc_trk_ci=
+d=3D110565263;ord=3D[timestamp];dc_lat=3D;dc_rdid=3D;tag_for_child_directed=
+_treatment=3D;tfua=3D?" BORDER=3D"0" HEIGHT=3D"1" WIDTH=3D"1" ALT=3D"Advert=
+isement">
+<IMG SRC=3D"https://d.turn.com/r/dd/id/L21rdC84MTYvY2lkLzI4NjQ3MTcwL3QvMg/k=
+v/CampaignID=3DHGTVWCR2019%2cPartnerNm=3DLSNI%2cPlacemntID=3D237443325?">
+</div>
+<div id=3D"_d"><img border=3D"0" hspace=3D"0" vspace=3D"0" width=3D"1" heig=
+ht=3D"1" src=3D"http://scripps.demdex.net/event?d_dpid=3D468&d_dpuuid=3D23d=
+e437f2c19e79f0048b2eadd0268f710ca501a&c_channel=3DGKD" /></div>
+<div id=3D"_b"><a href=3D"https://link.geniuskitchen.com/click/15779146.673=
+338/aHR0cDovL3d3dy5lbWFpbC5mb29kLmNvbT9iaWQ9MTU3NzkxNDYmYzMyPTIzZGU0MzdmMmM=
+xOWU3OWYwMDQ4YjJlYWRkMDI2OGY3MTBjYTUwMWEmc3NpZD1GQ19GQ0REX1RpbWVkX01vZGFsXz=
+IwMTUmc25pX2J5PSZzbmlfZ249/568c046334bf84b7388b4b81B4afff39b"><img src=3D"h=
+ttps://link.geniuskitchen.com/img/568c046334bf84b7388b4b819e79m.efju/3ff74a=
+ca.gif" alt=3D"" border=3D"0" /></a></div>
+<!-- <p><small>If you believe this has been sent to you in error, please sa=
+fely <a href=3D"https://link.geniuskitchen.com/oc/568c046334bf84b7388b4b819=
+e79m.efju/ca255eb8">unsubscribe</a>.</small></p>
+</body> -->
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" width=3D"40" height=
+=3D"6"><tbody><tr><td><img src=3D"http://li.scrippsnetworks.com/imp?s=3D123=
+965500&sz=3D2x1&li=3D04&sh=3D23de437f2c19e79f0048b2eadd0268f710ca501a&p=3D0=
+1_24_19_GKD" width=3D"2" height=3D"6" border=3D"0" /></td><td><img src=3D"h=
+ttp://li.scrippsnetworks.com/imp?s=3D123965501&sz=3D2x1&li=3D04&sh=3D23de43=
+7f2c19e79f0048b2eadd0268f710ca501a&p=3D01_24_19_GKD" width=3D"2" height=3D"=
+6" border=3D"0" /></td><td><img src=3D"http://li.scrippsnetworks.com/imp?s=
+=3D123965502&sz=3D2x1&li=3D04&sh=3D23de437f2c19e79f0048b2eadd0268f710ca501a=
+&p=3D01_24_19_GKD" width=3D"2" height=3D"6" border=3D"0" /></td><td><img sr=
+c=3D"http://li.scrippsnetworks.com/imp?s=3D123965503&sz=3D2x1&li=3D04&sh=3D=
+23de437f2c19e79f0048b2eadd0268f710ca501a&p=3D01_24_19_GKD" width=3D"2" heig=
+ht=3D"6" border=3D"0" /></td><td><img src=3D"http://li.scrippsnetworks.com/=
+imp?s=3D123965504&sz=3D2x1&li=3D04&sh=3D23de437f2c19e79f0048b2eadd0268f710c=
+a501a&p=3D01_24_19_GKD" width=3D"2" height=3D"6" border=3D"0" /></td><td><i=
+mg src=3D"http://li.scrippsnetworks.com/imp?s=3D123965505&sz=3D2x1&li=3D04&=
+sh=3D23de437f2c19e79f0048b2eadd0268f710ca501a&p=3D01_24_19_GKD" width=3D"2"=
+ height=3D"6" border=3D"0" /></td><td><img src=3D"http://li.scrippsnetworks=
+.com/imp?s=3D123965506&sz=3D2x1&li=3D04&sh=3D23de437f2c19e79f0048b2eadd0268=
+f710ca501a&p=3D01_24_19_GKD" width=3D"2" height=3D"6" border=3D"0" /></td><=
+td><img src=3D"http://li.scrippsnetworks.com/imp?s=3D123965507&sz=3D2x1&li=
+=3D04&sh=3D23de437f2c19e79f0048b2eadd0268f710ca501a&p=3D01_24_19_GKD" width=
+=3D"2" height=3D"6" border=3D"0" /></td><td><img src=3D"http://li.scrippsne=
+tworks.com/imp?s=3D123965508&sz=3D2x1&li=3D04&sh=3D23de437f2c19e79f0048b2ea=
+dd0268f710ca501a&p=3D01_24_19_GKD" width=3D"2" height=3D"6" border=3D"0" />=
+</td><td><img src=3D"http://li.scrippsnetworks.com/imp?s=3D123965509&sz=3D2=
+x1&li=3D04&sh=3D23de437f2c19e79f0048b2eadd0268f710ca501a&p=3D01_24_19_GKD" =
+width=3D"2" height=3D"6" border=3D"0" /></td><td><img src=3D"http://li.scri=
+ppsnetworks.com/imp?s=3D123965510&sz=3D2x1&li=3D04&sh=3D23de437f2c19e79f004=
+8b2eadd0268f710ca501a&p=3D01_24_19_GKD" width=3D"2" height=3D"6" border=3D"=
+0" /></td><td><img src=3D"http://li.scrippsnetworks.com/imp?s=3D123965511&s=
+z=3D2x1&li=3D04&sh=3D23de437f2c19e79f0048b2eadd0268f710ca501a&p=3D01_24_19_=
+GKD" width=3D"2" height=3D"6" border=3D"0" /></td><td><img src=3D"http://li=
+.scrippsnetworks.com/imp?s=3D123965512&sz=3D2x1&li=3D04&sh=3D23de437f2c19e7=
+9f0048b2eadd0268f710ca501a&p=3D01_24_19_GKD" width=3D"2" height=3D"6" borde=
+r=3D"0" /></td><td><img src=3D"http://li.scrippsnetworks.com/imp?s=3D123965=
+513&sz=3D2x1&li=3D04&sh=3D23de437f2c19e79f0048b2eadd0268f710ca501a&p=3D01_2=
+4_19_GKD" width=3D"2" height=3D"6" border=3D"0" /></td><td><img src=3D"http=
+://li.scrippsnetworks.com/imp?s=3D123965514&sz=3D2x1&li=3D04&sh=3D23de437f2=
+c19e79f0048b2eadd0268f710ca501a&p=3D01_24_19_GKD" width=3D"2" height=3D"6" =
+border=3D"0" /></td><td><img src=3D"http://li.scrippsnetworks.com/imp?s=3D1=
+23965515&sz=3D2x1&li=3D04&sh=3D23de437f2c19e79f0048b2eadd0268f710ca501a&p=
+=3D01_24_19_GKD" width=3D"2" height=3D"6" border=3D"0" /></td><td><img src=
+=3D"http://li.scrippsnetworks.com/imp?s=3D123965516&sz=3D2x1&li=3D04&sh=3D2=
+3de437f2c19e79f0048b2eadd0268f710ca501a&p=3D01_24_19_GKD" width=3D"2" heigh=
+t=3D"6" border=3D"0" /></td><td><img src=3D"http://li.scrippsnetworks.com/i=
+mp?s=3D123965517&sz=3D2x1&li=3D04&sh=3D23de437f2c19e79f0048b2eadd0268f710ca=
+501a&p=3D01_24_19_GKD" width=3D"2" height=3D"6" border=3D"0" /></td><td><im=
+g src=3D"http://li.scrippsnetworks.com/imp?s=3D123965518&sz=3D2x1&li=3D04&s=
+h=3D23de437f2c19e79f0048b2eadd0268f710ca501a&p=3D01_24_19_GKD" width=3D"2" =
+height=3D"6" border=3D"0" /></td><td><img src=3D"http://li.scrippsnetworks.=
+com/imp?s=3D123965519&sz=3D2x1&li=3D04&sh=3D23de437f2c19e79f0048b2eadd0268f=
+710ca501a&p=3D01_24_19_GKD" width=3D"2" height=3D"6" border=3D"0" /></td></=
+tr></tbody></table>=09 =20
+</body></html>
+
+------=_Part_10933319_50552323.1548344957490--
+

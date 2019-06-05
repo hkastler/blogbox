@@ -1,0 +1,68 @@
+X-Apparently-To: hkastler@yahoo.com; Wed, 30 Jan 2019 19:44:54 +0000
+Return-Path: <hkastler@yahoo.com>
+Received-SPF: pass (domain of yahoo.com designates 74.6.133.124 as permitted sender)
+X-YMailISG: xzu7IMAWLDsoOIFpVLZsrgJ4BsD9fEL1tKni1eNvxFfVXW3f
+ Rr11jQSfHoS63ZkS6Z8ubMt0z9Nt5CzsZv_lrNXVskHqIxR2kK09Uy8P6g6G
+ .2pGPv2gdJBMaI_vYBFShNq5i3ShRkejfyStM3gMLhX2zRLU64nX0Y2tXaIH
+ bZtjzEaxj2QSAMh0xDBxSDhguLPFv9Z4dSfbYdViXVlIgJ47dGz.NDaWH.Jl
+ XTM6v5.2.3_f3ghmNZ6icW7dfl0GmDPfqUyVNF0f6rlOaKk1st7JSzs4wmXT
+ OQDDZnqtLVtVJdcOwNPhckz.7A5fK7ttN5fQE0Mf9xTNcaUVJfP.ElidFdmz
+ LFQr4rw_RUunx9UKodbluGcJVF4Vo0Yl2Xv79YyTaSoonN3G99z_7cXFekwp
+ CfHEb8Im86U0wlpGJXF_WChhDLl_Xt3Jp7s2MS5wBb__tcydzZzsaF7.CCt1
+ 8Mb9QiWfXh__Do8ADp6PSduY3p6AgJOdQOYaig2v0SRTzo8JVJF3W3xGLCLB
+ Ex8030q75CPskSITr5O2GlE.H9wV4x0yCze3qz3THTpd2AkZyRS7bJydzlUz
+ ZHppwDyXV1EM1zY.3UAsbMqHnTAhMkB.YiyGks7syO1Klhu8N58a5w_7d0CI
+ wsvNEcVUIxQKD3mgTQL4tua.v4jVJaYAt9VMVFmKvm30I4cUaddXEx2hbrwF
+ 3y0.ihDlS3wN7.XYDxmg_Q4jBu2MVLG8mHATSRgxC4Waqf6kbC9nAws2s0GZ
+ bs9dg_3zeKkjxs4PrewslGJ21QfyCQNneki.Nn9QOT6twWi.usqfTkSDumoz
+ S132hINTIoEaOgv4QYehhy5o7tebv2pUiMXYV7Pd3zRu_AiJqu_sG0FRQN.W
+ aCf0.uXz7QWOF045tEyy5EGhTaxaQFaIfPcbidXYDnF3SEA1dptgOrG1re6N
+ fcW_bhiPoADRApC9wX7u3_XQn_IKv.Tqyo2Wj9WyXM9kl58FU7oHAX1X26k4
+ WZwrbOPDlddL51CxkDI4m3epc49aprw-
+X-Originating-IP: [74.6.133.124]
+Authentication-Results: mta4452.mail.gq1.yahoo.com 
+ header.i=@yahoo.com; header.s=s2048; dkim=pass (ok)
+Received: from 10.253.33.224  (EHLO sonic313-14.consmr.mail.bf2.yahoo.com) (74.6.133.124)
+  by mta4452.mail.gq1.yahoo.com with SMTPS; Wed, 30 Jan 2019 19:44:54 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1548877493; bh=5Chnm93gOeyk19uSaHk4z4PkA7/vRenfXfOtJ3g4AP4=; h=Date:From:Reply-To:To:Subject:References:From:Subject; b=VgRYWOg3/RU6KG42PJeLPj4bBGPV++4cwFuE8jOXnzqpJAZ/mk9pWm9zQWbPClVLJtOsRm3oV2tI6+xWHWsvIsD/l/giTuoEGWTLRpXDa7JCQJQlDDCkVP2B+l+95QeVa8k+dZsdWK/k97cBf9RjRvGnHy6v2j3QC+OzwEUc0aPuVqLArcAnznt/u4YPuTq2TXQCcsd/eo+uKDM1dFDQMQVSCy5IDzx3t+pq5AnMWj9Q29eXKhkkkYStpItc/zqi1e3YRkkryCknBVkzS62VFMf0HPTc50YWAGsTBD7MUnyEv85HPiB86syQqweCj9H0zutjHTwRakzzGKNB2Ha5ew==
+X-YMail-OSG: C6GBSo0VM1kqYp.1Zlxvqd7AowPu8kfXaSqWIaymrnwQ_9X5_mBM10bTj00fpOQ
+ 2RKBBwda7OJbC1FDjZCw8pFXWO5vurl.yHwCY5_p6h1WXsonVzaWlTNsgeFV.IjLDvpFDUQ24UFa
+ eTSo3_C2BWewd7GTBzkT0U0DqCuai9yd.kd0Z8qHFaiMLlw73SNf1e0Jq7rh0W61TP4U16Lwd4t9
+ C86gbFuPwWJwp7M6QuTRCQzcZHKyuKN2GupmET2tM2dkKBq5kEJfTPyIp.pEZfMosJ647koTSW04
+ OgF2YAdSs4BVmRpAodekLodLe_xJ98THnPgyV0U7kvyzO0tlPdQLFaaQ1LDGpnVmtVKV3MU2MbkX
+ 9.HjtekMTiFjp.5SZTUB9XF9BZY.K6dfZn0NVOq05HEEEiy9YxRxWhpFmwkxw.4uYhF9BNPnasQy
+ xG4QoPMXCJVDq_D_02v75Mtpq4x1vygDXLIKXDvtJrHVNoce__I4Dg2BNjfLf052Iu9a9MymgOqt
+ mmVq5m95S06pWAyyo7kN18ll9_sUMizAbZC6WmNknfGKcx3lTIGtiJr_4kSja3A4jgfGFRmeOhao
+ gneYs.S.HWqziLIMP4xyWKmXKBmEGAnv26PwpplFRsr6hLeuWT9kNZuK8Bz85L7m9vipgkpol0Jb
+ O63uLHnYR16bqYyOg8U8J8vfftTqmZdAVCK8ATZvCoM2HGPTRDaM4GeEjBUFzwnCfkd0GBwKX2ww
+ wHnZP7yBHFVK69JUvDNgbvbhySgJjUzwQcwwXikUuNtROqJlVTqhyUGTA4HIP_LKLBSDdcST1Vxq
+ KLqG2G6YU3eSBMhHCy.AzWXNKd6pjNqTdZadZKCOsn02nGQwLmubJzzd2DWTiy0IcyMj9znmyhfe
+ ol80xZpn_ihSEyBRDvIj.rk0jZxJKsZSIzIJfZLnFBa4.w.dsV_SCZRv5lhYCH7BPa6pFmeBG8ir
+ HCbP6v7zfh_58ATuES2ssfxWV1na8trX8VMj.2W3WQTgE5Yd2WkzNE6NQP30_3JzJhR2C__vRKQ7
+ .Ij1f4GeJjrDzAn_BacIz4N2ippyY9Ff27JgkyZB9V2Ubqp3ITjSYrQ--
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic313.consmr.mail.bf2.yahoo.com with HTTP; Wed, 30 Jan 2019 19:44:53 +0000
+Date: Wed, 30 Jan 2019 19:44:46 +0000 (UTC)
+From: "Henry W. Kastler" <hkastler@yahoo.com>
+Reply-To: "Henry W. Kastler" <hkastler@yahoo.com>
+To: Henry Kastler <hkastler@yahoo.com>
+Message-ID: <706689586.391991.1548877486452@mail.yahoo.com>
+Subject: Blog clear cache
+MIME-Version: 1.0
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_391990_170036543.1548877486451"
+References: <706689586.391991.1548877486452.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.13027 YMailNorrin Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:64.0) Gecko/20100101 Firefox/64.0
+Content-Length: 498
+
+------=_Part_391990_170036543.1548877486451
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+New clear cache message
+
+------=_Part_391990_170036543.1548877486451
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<html><head></head><body><div class="ydpbf12de8yahoo-style-wrap" style="font-family:Helvetica Neue, Helvetica, Arial, sans-serif;font-size:13px;">New clear cache message<br></div></body></html>
+------=_Part_391990_170036543.1548877486451--

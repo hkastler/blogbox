@@ -1,0 +1,81 @@
+X-Apparently-To: hkastler@yahoo.com; Thu, 31 Jan 2019 16:54:33 +0000
+Return-Path: <hkastler@gmail.com>
+Received-SPF: pass (domain of gmail.com designates 209.85.219.180 as permitted sender)
+X-YMailISG: dAQY24AWLDu6jotXClld_H97YICCK6xylbGH_ecznVznB8hj
+ IujDlGu8YMzCGsdClc3VcIjIU.DiI.ayKoYw3zbqANv4sdUeUIyU8o1SecjV
+ v8uRttJeUl7Sw4zriyJ9jmJRosN4RqayaK7af70mD.sKQ4PZcPKuqR6rEWGX
+ CAlw0Jq5ckzCfB2Da1syAs53ZBpOEipXldaNboh.pMQ9J9DzBI1r_gDqoZ1w
+ KW1xgpu4zTmx.1iLugk9uAujreYZMWhG2twaiASLjmfp5VsI18KT2K4KElzj
+ 8TM0blmMucIfETsCYyfv9HP7NsaS7BDGLAgxL2yMrGO0SHlwI5gw4JFJE3ao
+ CxAJUJhU4uJFniZOGaII2aw4Vl9pDH47lEe7MIrb8RzZUg8n.ONF7Gy.RCRr
+ TS5qeJe1r702QoSnn1ZgyWmOI9YcSBAx0BAKSeGNcWZiTel2Tlkj6V2_WGvm
+ Dm.5yNHbVz4Son_kBW1ZPmbLSgqjGWIFyB7LYeynJgyMBQJuh_D_CWCx_tRk
+ JfeMvodJ6.BAF7JFh9OsTQH012.41GyEwsOwCrG1RCFglLE4X.Uo6mA0XV_U
+ wb9GImhSwqUPE5.ZKDxCb5r4SWzqu_2.LfjATkEV4_RJDhfsrro_IUWL9RS.
+ k2drVIZUSJJ6G0i_mxrtxSNnbFojePd03yVu2oKNMhNPSWPW5ecKBxc60AnC
+ 9ava27ApoEpzVMHsayzlJOJG3ReXy7KO9V3zTJ6Um7lLFGXtLm6Z2y7A6pGz
+ B2Zkpr.VdN65U6fE0fD05lk0Utxhy1HyMC5Env.ZaxYCI0U0nCKKCZfoefq3
+ 2Fsmy6M03OWORhzla0vskm.Ki1mqc1XpE2jNcnzeNBOfYUmZ6otUENFY0j6P
+ EXV0uY.2n35mpts7sUz6BJW8JbaBzUyIrB_moRKT8Br71sGMqq1559Z9hEzN
+ qWpAEo9PUz6C88Ha8PBtbuVc46NrvJMUB.Sx9lY1rKpvsVIz2b3ZMYKSSYOs
+ FeT8M01yy2if5LXHReOdc6JG4H6PzA65XPvx3mNRAjq.l9OFpUTiMnCsZilz
+ yEmttP047yxk6UrXzyoL0Yn9DUO98l.IWnWFBf2nfm1nLd0N6UmJ0mKFhHPW
+ mdvq0lf2BlW9SfClDliDmTvsJapIAvDvrAf0Dw--
+X-Originating-IP: [209.85.219.180]
+Authentication-Results: mta4042.mail.ne1.yahoo.com 
+ header.i=@gmail.com; header.s=20161025; dkim=pass (ok)
+Received: from 127.0.0.1  (EHLO mail-yb1-f180.google.com) (209.85.219.180)
+  by mta4042.mail.ne1.yahoo.com with SMTPS; Thu, 31 Jan 2019 16:54:32 +0000
+Received: by mail-yb1-f180.google.com with SMTP id k189so1556368yba.11
+        for <hkastler@yahoo.com>; Thu, 31 Jan 2019 08:54:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=xn+DlUh+kGmpSLuMEeVQXXz4LAIZktGjSRHHer/SzCY=;
+        b=c2AeN5nqVWeWtInaRtmaRKJ4EKcwTD8JzVleHNlcXmNkVte2NdhQtW1Y0WRjD3wlXD
+         qMvXipa18/dzD1dN3KucL6LpMj3L/7/KYqoFOLpQ6WFwylRZUUl/qVx5JE4enu2JPTZL
+         LAtdp54I4c39Cej3Px+yIaWWwlPsKRlNeNanu+5GadS9yupj6qm2qaszvyUjuwbvujyb
+         JgS0208yLFXlYAhfOI1+4ebzJJ2Y44+EZ8NWAKfss30xFPWybWGwUcYiPrcW+SWirUL6
+         pvltHuUrShmzd80XIEop7e1Eo19MUbDUwQdNN6rDCAF5rVyoG6/rds1aaIgJs3zjSQPm
+         REIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=xn+DlUh+kGmpSLuMEeVQXXz4LAIZktGjSRHHer/SzCY=;
+        b=KSmMHxSHdxVnyFAj6aP492GxFzNxT1TxMzMj+t7u+h3a96N0jOJyu1NaN34JaTD5g2
+         c2HasCUxynYHeiMcqtW4z18mD8Uk80UTiDuj69M6VQpIMO/R9L204c89M2Y2MYpkyDXs
+         ibvOsCpcJToW/Yu5xBjZv/9AUT0ceT0znRzQk02QWmV4l5WPkC8bOh/M85YpkE7+khji
+         c4HnjojvNCs/nCnmMlq7g0mC5NnMpwtixIO7JfkbYlUSb9TKHx6T0xo9t0evPqwAHVpO
+         Ml5ieJsypt1fV/I6TvsE74+WMBj24f5IndBewEvpLg/MmUCHAq/J0Wyqz+4cpRFNPDx+
+         JwJA==
+X-Gm-Message-State: AHQUAuZ3qh/mLX7pq4FWCkcaAmMrKUEn4GG5ELCAdX41+oFPuGAlka+K
+	XsojoUW+u+LBwa8Vl62v12n3pysYCvt1BDoEcOYJQQ==
+X-Google-Smtp-Source: AHgI3IajuTsmYj1HB5V8g2UUZ1I6hMPb4pR4R6zzt02p1XvqTKRVbwXwrBiDmnIFFx5BViSXasY/c48w1CYi/0S3UbA=
+X-Received: by 2002:a25:6b4e:: with SMTP id o14mr12455208ybm.434.1548953671876;
+ Thu, 31 Jan 2019 08:54:31 -0800 (PST)
+MIME-Version: 1.0
+From: Henry Kastler <hkastler@gmail.com>
+Date: Thu, 31 Jan 2019 10:54:19 -0600
+Message-ID: <CACdj9Fr9VC4UY4BfmR=F7X8ZC41BxwWJFUxsTRZ-6asRTyw7Nw@mail.gmail.com>
+Subject: Blog Facebook Container for Firefox | Prevent Facebook from seeing
+ what websites you visit.
+To: hkastler@yahoo.com
+Content-Type: multipart/alternative; boundary="00000000000062c4870580c3e1e3"
+Content-Length: 740
+
+--00000000000062c4870580c3e1e3
+Content-Type: text/plain; charset="UTF-8"
+
+https://www.mozilla.org/en-US/firefox/facebookcontainer/?utm_content=bufferea060&utm_medium=social&utm_source=twitter.com&utm_campaign=buffer
+
+--00000000000062c4870580c3e1e3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><a href=3D"https://www.mozilla.org/en-US/firefox/facebook=
+container/?utm_content=3Dbufferea060&amp;utm_medium=3Dsocial&amp;utm_source=
+=3Dtwitter.com&amp;utm_campaign=3Dbuffer">https://www.mozilla.org/en-US/fir=
+efox/facebookcontainer/?utm_content=3Dbufferea060&amp;utm_medium=3Dsocial&a=
+mp;utm_source=3Dtwitter.com&amp;utm_campaign=3Dbuffer</a></div>
+
+--00000000000062c4870580c3e1e3--
