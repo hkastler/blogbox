@@ -3,20 +3,19 @@ package com.hkstlr.blogbox.entities;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.StringTokenizer;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.activation.DataHandler;
-import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
+import javax.mail.Part;
 import javax.mail.internet.MimeMultipart;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
@@ -34,6 +33,8 @@ import javax.ws.rs.core.MediaType;
 import com.hkstlr.blogbox.control.DateFormatter;
 import com.hkstlr.blogbox.control.StringChanger;
 import com.sun.mail.util.BASE64DecoderStream;
+import java.io.UnsupportedEncodingException;
+import javax.mail.internet.MimeUtility;
 
 import org.jsoup.Jsoup;
 import org.jsoup.helper.StringUtil;
@@ -43,12 +44,13 @@ import org.jsoup.safety.Whitelist;
 
 @Entity
 @Cacheable
-@Table(name = "BlogMessage", uniqueConstraints={@UniqueConstraint(columnNames = "href")})
-@NamedQuery(name="BlogMessage.findAll", query="SELECT b FROM BlogMessage b")
-@NamedQuery(name="BlogMessage.findByMessageId", query="SELECT b FROM BlogMessage b WHERE b.messageId = :messageId")
-@NamedQuery(name="BlogMessage.findByHref", query="SELECT b FROM BlogMessage b WHERE b.href = :href")
-@NamedQuery(name="BlogMessage.findByMessageNumber", query="SELECT b FROM BlogMessage b WHERE b.messageNumber = :messageNumber")
-@NamedQuery(name="BlogMessage.findMessageNumberRange", query="SELECT b FROM BlogMessage b WHERE b.messageNumber BETWEEN :messageNumberStart AND :messageNumberEnd")
+@Table(name = "BlogMessage", uniqueConstraints = {
+    @UniqueConstraint(columnNames = "href")})
+@NamedQuery(name = "BlogMessage.findAll", query = "SELECT b FROM BlogMessage b")
+@NamedQuery(name = "BlogMessage.findByMessageId", query = "SELECT b FROM BlogMessage b WHERE b.messageId = :messageId")
+@NamedQuery(name = "BlogMessage.findByHref", query = "SELECT b FROM BlogMessage b WHERE b.href = :href")
+@NamedQuery(name = "BlogMessage.findByMessageNumber", query = "SELECT b FROM BlogMessage b WHERE b.messageNumber = :messageNumber")
+@NamedQuery(name = "BlogMessage.findMessageNumberRange", query = "SELECT b FROM BlogMessage b WHERE b.messageNumber BETWEEN :messageNumberStart AND :messageNumberEnd")
 public class BlogMessage {
 
     private static final String STRING = "";
@@ -180,87 +182,107 @@ public class BlogMessage {
         this.href = href;
     }
 
-    private String processMultipart(Message msg) throws IOException, MessagingException {
+    String getContentTypeFromHeader(Message msg) throws MessagingException {
+        return Optional.ofNullable(msg.getHeader("Content-Type")[0].split(";")[0]).orElse("null");
 
-        if ("java.lang.String".equals(msg.getContent().getClass().getCanonicalName())) {
-            return msg.getContent().toString();
-        }
+    }
 
-        Multipart multipart = (Multipart) msg.getContent();
-        StringBuilder content = new StringBuilder();
-        BodyPart part;
-        Optional<BodyPart> textPart = Optional.empty();
-        Optional<BodyPart> htmlPart = Optional.empty();
-        Optional<List<String>> imgs = Optional.empty();
-
-        for (int i = 0; i < multipart.getCount(); i++) {
-
-            part = multipart.getBodyPart(i);
-
-            if (part.getContentType().contains(MediaType.TEXT_PLAIN)) {
-                textPart = Optional.of(part);
-
-            } else if (part.getContentType().contains(MediaType.TEXT_HTML)) {
-                htmlPart = Optional.of(part);
-
-            } else if (part.getContentType().contains("multipart/alternative")) {
-
-                DataHandler mh = part.getDataHandler();
-                MimeMultipart mm = (MimeMultipart) mh.getContent();
-
-                for (int m = 0; m < mm.getCount(); m++) {
-                    BodyPart p = mm.getBodyPart(m);
-                    if (p.getContentType().contains(MediaType.TEXT_HTML)) {
-                        htmlPart = Optional.of(p);
-                    }
+    StringBuilder buildPart(StringBuilder sb, Part p) {
+        try {
+            Object o = p.getContent();
+            if (o instanceof Multipart) {
+                Multipart mp = (Multipart) o;
+                int count = mp.getCount();
+                for (int i = 0; i < count; i++) {
+                    buildPart(sb, mp.getBodyPart(i));
                 }
-
             }
 
-            if (part.getContent() instanceof BASE64DecoderStream) {
+            if (p.isMimeType(MediaType.TEXT_HTML)) {
+                String html = (String) p.getContent();
 
-                DataHandler dh = part.getDataHandler();
-                String imageString = "";
+                sb.append(processHtml(html));
+            }
+            
+            if (o instanceof BASE64DecoderStream) {
+                
+                DataHandler dh = p.getDataHandler();
+                
+                String imageString;
                 if (dh.getContentType().contains("image/")) {
-                    try(ByteArrayOutputStream baos = new ByteArrayOutputStream()){
+                    try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
                         dh.writeTo(baos);
                         byte[] attBytes = baos.toByteArray();
                         imageString = Base64.getEncoder().encodeToString(attBytes);
                         baos.close();
                     }
-                    if(imageString.isEmpty()){
-                        continue;
+                    if (imageString.isEmpty()) {
+
                     }
+                    
                     // get the contentType ensure no attachment name
-                    String contentType = dh.getContentType().split(";")[0];
+                    String[] aryContentType = dh.getContentType().split(";");
+                   
+                    String contentType = aryContentType[0];
 
                     String template = "<div class=\"blgmsgimg\"><img src=\"data:{0};base64, {1} \" /></div>";
-                    String imgTag = MessageFormat.format(template, new Object[] { contentType, imageString });
+                    String imgTag = MessageFormat.format(template, new Object[]{contentType, imageString});
+                    String cidPh = "<img src=\"cid\\:{0}\" id=\"{0}\">";
                     
-                    if (imgs.isPresent()) {
-                        imgs.get().add(imgTag);
-                    } else {
-                        List<String> is = new ArrayList<>();
-                        is.add(imgTag);
-                        imgs = Optional.of(is);
+                    String partId = "";
+                    if(aryContentType.length > 1){
+                        partId = aryContentType[1];
                     }
+                    
+                    String imgId = partId;
+                    if(partId.contains("=")){
+                        imgId = partId.split("=")[1];
+                    }
+                    
+                    String placeholder = MessageFormat.format(cidPh, new Object[]{imgId});
+                    int plIdx = sb.toString().indexOf(placeholder);
+                    
+                    if(plIdx == -1 ){
+                        sb.append(imgTag);                       
+                    }else{
+                       
+                        String compile = sb.toString().replaceAll(placeholder, imgTag);
+                        sb.setLength(0);
+                        sb.append(compile);
+                    }
+                    
                 }
 
             }
+
+        } catch (MessagingException e) {
+            LOG.log(Level.SEVERE, "", e);
+        } catch (IOException ioex) {
+            System.out.println("Cannot get content" + ioex.getMessage());
         }
 
-        if (htmlPart.isPresent()) {
-            content.append(processHtml((String) htmlPart.get().getContent()));
-        } else if (textPart.isPresent()) {
-            content.append((String) textPart.get().getContent());
+        return sb;
+    }
+
+    private String processMultipart(Message msg) throws IOException, MessagingException {
+
+        if ("java.lang.String".equals(msg.getContent().getClass().getCanonicalName())) {
+            return msg.getContent().toString();
         }
-        if (imgs.isPresent()) {
-            for (String img : imgs.get()) {
-                content.append(img);
+        
+        MimeMultipart mp;
+        Object content = msg.getContent();
+        Boolean isMimeMultipart = content instanceof MimeMultipart;
+        StringBuilder sb = new StringBuilder();
+        if (isMimeMultipart) {
+            mp = (MimeMultipart) content;
+            for (int i = 0; i < mp.getCount(); i++) {
+                buildPart(sb, mp.getBodyPart(i));
             }
-
         }
-        return content.toString();
+        
+         
+        return sb.toString();
     }
 
     private String processHtml(String html) {
@@ -283,8 +305,12 @@ public class BlogMessage {
     }
 
     private String createSubject(String msgSubject, String rfRegex) {
-
-        String lsub = msgSubject;
+        String lsub = "";
+        try {
+            lsub = MimeUtility.decodeText(msgSubject);
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(BlogMessage.class.getName()).log(Level.SEVERE, null, ex);
+        }
         lsub = lsub.replaceFirst(rfRegex, STRING);
         lsub = lsub.trim();
         if (lsub.length() == 0) {
@@ -302,7 +328,7 @@ public class BlogMessage {
         // Use title (minus non-alphanumeric characters)
         StringBuilder base = new StringBuilder();
         if (!this.subject.isEmpty()) {
-            base.append(StringChanger.replaceNonAlphanumeric(this.subject, ' ').trim());
+            base.append(StringChanger.replaceNonAlphanumeric(this.subject, ' ').trim());            
         }
         // If we still have no base, then try body (minus non-alphanumerics)
         if (base.length() == 0 && !this.body.isEmpty()) {
@@ -320,16 +346,14 @@ public class BlogMessage {
                 if (tmp.length() == 0) {
                     tmp.append(s);
                 } else {
-
                     tmp.append(TITLE_SEPARATOR).append(s);
                 }
                 count++;
             }
             base = tmp;
         } // No title or text, so instead we will use the items date
-          // in YYYYMMDD format as the base anchor
+        // in YYYYMMDD format as the base anchor
         else {
-
             base.append(new DateFormatter(this.createDate).format8chars());
         }
 
@@ -349,7 +373,7 @@ public class BlogMessage {
         boolean response = false;
         if (o instanceof BlogMessage) {
             response = (((BlogMessage) o).href).equals(this.href)
-                && (((BlogMessage) o).messageId).equals(this.messageId);
+                    && (((BlogMessage) o).messageId).equals(this.messageId);
             ;
         }
         return response;
@@ -357,7 +381,7 @@ public class BlogMessage {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.messageId,this.href);
+        return Objects.hash(this.messageId, this.href);
     }
 
 }
