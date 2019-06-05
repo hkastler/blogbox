@@ -1,7 +1,6 @@
 package com.hkstlr.blogbox.boundary.jax;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
@@ -14,18 +13,16 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import com.hkstlr.blogbox.boundary.jpa.BlogMessageManager;
+import com.hkstlr.blogbox.control.BlogMessageHelper;
 import com.hkstlr.blogbox.control.EmailReader;
 import com.hkstlr.blogbox.control.Index;
 import com.hkstlr.blogbox.control.Paginator;
-import com.hkstlr.blogbox.control.BlogMessageHelper;
 import com.hkstlr.blogbox.entities.BlogMessage;
 
-import org.eclipse.microprofile.metrics.annotation.Timed;
-import org.eclipse.microprofile.opentracing.Traced;
+import org.eclipse.microprofile.metrics.annotation.Metered;
 
 @Path("/srvc")
-@Traced
-@Timed
+@Metered
 public class BlogBoxService {
 
     @Inject
@@ -73,7 +70,7 @@ public class BlogBoxService {
     @Path("/entries/page/{page}/pageSize/{pageSize}")
     public List<BlogMessage> getEntries(@PathParam("page") Integer page, @PathParam("pageSize") Integer pageSize) {
         Paginator paginator = new Paginator(pageSize, page, index.getBlogMessageCount());
-        List<BlogMessage> entries = new LinkedList<>();
+        List<BlogMessage> entries = new ArrayList<>(pageSize);
         bman.getBlogMessageRange(paginator.getPageFirstItem() - 1, paginator.getPageLastItem() - 1).stream()
                 .forEach(entry -> {
                     entry.setBody(BlogMessageHelper.bodyForBlogEntries(entry.getBody()));
