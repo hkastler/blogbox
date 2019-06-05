@@ -19,7 +19,7 @@ limitations under the License.
     <version>${revision}${sha1}${changelist}</version>
     <packaging>pom</packaging>
     <properties>
-        <revision>1.3.0</revision>
+        <revision>1.3.5</revision>
         <changelist>-SNAPSHOT</changelist>
         <sha1 />
         <tag>${revision}${sha1}${changelist}</tag>
@@ -40,7 +40,6 @@ limitations under the License.
     </properties>
     <modules>
         <module>blogbox</module>
-        <module>blogbox-st</module>
     </modules>
     <build>
         <plugins>
