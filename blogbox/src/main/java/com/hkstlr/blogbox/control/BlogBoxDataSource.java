@@ -20,4 +20,7 @@ import javax.ejb.Startup;
 @Startup
 public class BlogBoxDataSource {
     //see annotation
+    public BlogBoxDataSource(){
+        super();
+    }
 }
