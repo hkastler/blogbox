@@ -1,9 +1,7 @@
 package com.hkstlr.blogbox.entities;
 
-import java.io.ByteArrayOutputStream;
+import com.hkstlr.blogbox.control.BlogMessageBody;
 import java.io.IOException;
-import java.text.MessageFormat;
-import java.util.Base64;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
@@ -11,12 +9,8 @@ import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.activation.DataHandler;
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.Part;
-import javax.mail.internet.MimeMultipart;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
@@ -28,19 +22,11 @@ import javax.persistence.Temporal;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.ws.rs.core.MediaType;
 
 import com.hkstlr.blogbox.control.DateFormatter;
 import com.hkstlr.blogbox.control.StringChanger;
-import com.sun.mail.util.BASE64DecoderStream;
 import java.io.UnsupportedEncodingException;
 import javax.mail.internet.MimeUtility;
-
-import org.jsoup.Jsoup;
-import org.jsoup.helper.StringUtil;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.safety.Whitelist;
 
 @Entity
 @Cacheable
@@ -104,7 +90,7 @@ public class BlogMessage {
         this.messageNumber = msg.getMessageNumber();
         this.createDate = msg.getReceivedDate();
         this.subject = createSubject(msg.getSubject(), DEFAULT_SUBJECTREGEX);
-        this.body = processMultipart(msg);
+        this.body = new BlogMessageBody(msg).getBody();
         this.href = createHref(DEFAULT_HREFWORDMAX);
     }
 
@@ -114,7 +100,7 @@ public class BlogMessage {
         this.messageNumber = msg.getMessageNumber();
         this.createDate = msg.getReceivedDate();
         this.subject = createSubject(msg.getSubject(), DEFAULT_SUBJECTREGEX);
-        this.body = processMultipart(msg);
+        this.body = new BlogMessageBody(msg).getBody();
         this.href = createHref(hrefWordMax);
     }
 
@@ -124,7 +110,7 @@ public class BlogMessage {
         this.messageNumber = msg.getMessageNumber();
         this.createDate = msg.getReceivedDate();
         this.subject = createSubject(msg.getSubject(), subjectRegex);
-        this.body = processMultipart(msg);
+        this.body = new BlogMessageBody(msg).getBody();
         this.href = createHref(hrefWordMax);
     }
 
@@ -185,124 +171,8 @@ public class BlogMessage {
     String getContentTypeFromHeader(Message msg) throws MessagingException {
         return Optional.ofNullable(msg.getHeader("Content-Type")[0].split(";")[0]).orElse("null");
 
-    }
-
-    StringBuilder buildPart(StringBuilder sb, Part p) {
-        try {
-            Object o = p.getContent();
-            if (o instanceof Multipart) {
-                Multipart mp = (Multipart) o;
-                int count = mp.getCount();
-                for (int i = 0; i < count; i++) {
-                    buildPart(sb, mp.getBodyPart(i));
-                }
-            }
-
-            if (p.isMimeType(MediaType.TEXT_HTML)) {
-                String html = (String) p.getContent();
-
-                sb.append(processHtml(html));
-            }
-            
-            if (o instanceof BASE64DecoderStream) {
-                
-                DataHandler dh = p.getDataHandler();
-                
-                String imageString;
-                if (dh.getContentType().contains("image/")) {
-                    try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-                        dh.writeTo(baos);
-                        byte[] attBytes = baos.toByteArray();
-                        imageString = Base64.getEncoder().encodeToString(attBytes);
-                        baos.close();
-                    }
-                    if (imageString.isEmpty()) {
-
-                    }
-                    
-                    // get the contentType ensure no attachment name
-                    String[] aryContentType = dh.getContentType().split(";");
-                   
-                    String contentType = aryContentType[0];
-
-                    String template = "<div class=\"blgmsgimg\"><img src=\"data:{0};base64, {1} \" /></div>";
-                    String imgTag = MessageFormat.format(template, new Object[]{contentType, imageString});
-                    String cidPh = "<img src=\"cid\\:{0}\" id=\"{0}\">";
-                    
-                    String partId = "";
-                    if(aryContentType.length > 1){
-                        partId = aryContentType[1];
-                    }
-                    
-                    String imgId = partId;
-                    if(partId.contains("=")){
-                        imgId = partId.split("=")[1];
-                    }
-                    
-                    String placeholder = MessageFormat.format(cidPh, new Object[]{imgId});
-                    int plIdx = sb.toString().indexOf(placeholder);
-                    
-                    if(plIdx == -1 ){
-                        sb.append(imgTag);                       
-                    }else{
-                       
-                        String compile = sb.toString().replaceAll(placeholder, imgTag);
-                        sb.setLength(0);
-                        sb.append(compile);
-                    }
-                    
-                }
-
-            }
-
-        } catch (MessagingException e) {
-            LOG.log(Level.SEVERE, "", e);
-        } catch (IOException ioex) {
-            System.out.println("Cannot get content" + ioex.getMessage());
-        }
-
-        return sb;
-    }
-
-    private String processMultipart(Message msg) throws IOException, MessagingException {
-
-        if ("java.lang.String".equals(msg.getContent().getClass().getCanonicalName())) {
-            return msg.getContent().toString();
-        }
-        
-        MimeMultipart mp;
-        Object content = msg.getContent();
-        Boolean isMimeMultipart = content instanceof MimeMultipart;
-        StringBuilder sb = new StringBuilder();
-        if (isMimeMultipart) {
-            mp = (MimeMultipart) content;
-            for (int i = 0; i < mp.getCount(); i++) {
-                buildPart(sb, mp.getBodyPart(i));
-            }
-        }
-        
-         
-        return sb.toString();
-    }
-
-    private String processHtml(String html) {
-        Document doc = Jsoup.parse(html);
-        Element htmlBody = doc.body();
-
-        Optional<Element> sig = Optional.ofNullable(doc.select("div:contains(Sent from Yahoo Mail)").first());
-        if (sig.isPresent()) {
-            sig.get().remove();
-        }
-
-        Whitelist wl = Whitelist.relaxed();
-        wl.addAttributes("div", "style");
-        wl.addTags("font");
-        wl.addAttributes("font", "size");
-        wl.addAttributes("font", "color");
-
-        String safe = Jsoup.clean(htmlBody.html(), wl);
-        return StringUtil.normaliseWhitespace(safe);
-    }
+    }    
+   
 
     private String createSubject(String msgSubject, String rfRegex) {
         String lsub = "";
@@ -323,7 +193,7 @@ public class BlogMessage {
     /**
      * Create href for blog, based on title or text
      */
-    private String createHref(@NotNull Integer numberOfWordsInUrl) {
+    private String createHref(Integer numberOfWordsInUrl) {
 
         // Use title (minus non-alphanumeric characters)
         StringBuilder base = new StringBuilder();

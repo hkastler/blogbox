@@ -2,6 +2,7 @@ package com.hkstlr.blogbox.entities;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,11 +13,8 @@ import java.util.logging.Logger;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
-import static org.junit.Assert.assertTrue;
-import org.junit.Before;
-import org.junit.BeforeClass;
 
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -80,6 +78,7 @@ public class BlogMessageTest {
      */
     @Test
     public void testGetBody() {
+        log.info(cut.getBody());
         assertTrue(cut.getBody().contains("image/jpeg"));
     }
 
@@ -110,7 +109,7 @@ public class BlogMessageTest {
         try (InputStream is = ClassLoader.getSystemResourceAsStream("multipartrelated.eml")) {
             msg = new MimeMessage(session, is);
             cut = new BlogMessage(msg);
-            assertNotNull(cut.getBody());
+           
 
         } catch (Exception e) {
             log.log(Level.INFO, "testMultipartRelated catch", e);
@@ -127,16 +126,11 @@ public class BlogMessageTest {
         MimeMessage msg;
         try (InputStream is = ClassLoader.getSystemResourceAsStream("rawplaintext4.eml")) {
             msg = new MimeMessage(session, is);
-            cut = new BlogMessage(msg);
-            log.info("subject:" + cut.getSubject());
-            log.info("href:" + cut.getHref());
-            log.info("body:" + cut.getBody());
+            cut = new BlogMessage(msg);            
             assertNotNull(cut);
-
         } catch (Exception e) {
             log.log(Level.INFO, "testRawPlainText catch", e);
         }
-
     }
 
 }
