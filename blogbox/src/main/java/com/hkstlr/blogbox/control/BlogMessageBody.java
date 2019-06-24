@@ -105,70 +105,73 @@ public final class BlogMessageBody {
                 String chtml = (String) p.getContent();
                 this.html.append(chtml);
             } else if (o instanceof BASE64DecoderStream) {
-                DataHandler dh = p.getDataHandler();
-                if (dh.getContentType().contains("image/")) {
-                    String imageString = "";
-                    try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-                        dh.writeTo(baos);
-                        byte[] attBytes = baos.toByteArray();
-                        imageString = Base64.getEncoder().encodeToString(attBytes);
-                        baos.close();
-                    } catch (IOException ex) {
-                        Logger.getLogger(BlogMessageBody.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    // get the contentType ensure no attachment name
-                    String[] aryContentType = dh.getContentType().split(";");
-
-                    String contentType = aryContentType[0];
-
-                    String template = "<div class=\"blgmsgimg\"><img src=\"data:{0};base64, {1} \" /></div>";
-                    String imgTag = MessageFormat.format(template, new Object[] { contentType, imageString });
-                    String cidPh = "<img src=\"cid:{0}\" id=\"{0}\">";
-
-                    String partId = "";
-                    if (aryContentType.length > 1) {
-                        partId = aryContentType[1];
-                    }
-
-                    String imgId = partId;
-                    if (partId.contains("=")) {
-                        imgId = partId.split("=")[1];
-                    }
-                    Optional<String[]> cidHeader = Optional.ofNullable(p.getHeader("Content-Id"));
-
-                    if (cidHeader.isPresent()) {
-
-                        String contentId = Optional.ofNullable(cidHeader.get()[0]).orElse("");
-                        String ncid = contentId.replaceAll("<", "");
-                        ncid = ncid.replaceAll(">", "");
-                        imgId = ncid;
-                    }
-                    String placeholder = MessageFormat.format(cidPh, new Object[] { imgId });
-
-                    if (this.html.length() > 0) {
-                        if (p.getDisposition().equals("inline")) {
-                            String compile = this.html.toString();
-                            if (!compile.contains(placeholder)) {
-                                compile = compile.concat(imgTag);
-                            } else {
-                                compile = compile.replaceAll(placeholder, imgTag);
-                            }
-                            this.html.setLength(0);
-                            this.html.append(compile);
-                        } else {
-                            this.html.append(imgTag);
-                        }
-                    } else {
-                        this.text.append(imgTag);
-                    }
-
+               
+                if (p.getDataHandler().getContentType().contains("image/")) {
+                    handleImage(p);
                 }
-
             }
 
         } catch (MessagingException | IOException e) {
-             LOG.log(Level.SEVERE, null, e);
-        } 
+            LOG.log(Level.SEVERE, null, e);
+        }
+    }
+
+    void handleImage(Part p) throws MessagingException {
+        DataHandler dh = p.getDataHandler();
+        String imageString = "";
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            dh.writeTo(baos);
+            byte[] attBytes = baos.toByteArray();
+            imageString = Base64.getEncoder().encodeToString(attBytes);
+
+        } catch (IOException ex) {
+            Logger.getLogger(BlogMessageBody.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        // get the contentType ensure no attachment name
+        String[] aryContentType = dh.getContentType().split(";");
+
+        String contentType = aryContentType[0];
+
+        String template = "<div class=\"blgmsgimg\"><img src=\"data:{0};base64, {1} \" /></div>";
+        String imgTag = MessageFormat.format(template, new Object[]{contentType, imageString});
+        String cidPh = "<img src=\"cid:{0}\" id=\"{0}\">";
+
+        String partId = "";
+        if (aryContentType.length > 1) {
+            partId = aryContentType[1];
+        }
+
+        String imgId = partId;
+        if (partId.contains("=")) {
+            imgId = partId.split("=")[1];
+        }
+        Optional<String[]> cidHeader = Optional.ofNullable(p.getHeader("Content-Id"));
+
+        if (cidHeader.isPresent()) {
+            String contentId = Optional.ofNullable(cidHeader.get()[0]).orElse("");
+            String ncid = contentId.replaceAll("<", "");
+            ncid = ncid.replaceAll(">", "");
+            imgId = ncid;
+        }
+        
+        String placeholder = MessageFormat.format(cidPh, new Object[]{imgId});
+
+        if (this.html.length() > 0) {
+            if (p.getDisposition().equals("inline")) {
+                String compile = this.html.toString();
+                if (!compile.contains(placeholder)) {
+                    compile = compile.concat(imgTag);
+                } else {
+                    compile = compile.replaceAll(placeholder, imgTag);
+                }
+                this.html.setLength(0);
+                this.html.append(compile);
+            } else {
+                this.html.append(imgTag);
+            }
+        } else {
+            this.text.append(imgTag);
+        }
     }
 
     private String processHtml(String html) {
