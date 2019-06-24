@@ -33,7 +33,7 @@ limitations under the License.
          <!-- sonar props -->
         <sonar.host.url>http://sonarqube:9000</sonar.host.url>
         <sonar.sources>src/main</sonar.sources>
-        <sonar.test.exclusions>src/test/**/*</sonar.test.exclusions>
+        <sonar.tests>src/test/**/*</sonar.tests>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.jacoco.reportPaths>${project.basedir}/target/jacoco.exec</sonar.jacoco.reportPaths>
         <sonar.cfamily.threads>32</sonar.cfamily.threads>
@@ -76,7 +76,7 @@ limitations under the License.
     </scm>
     <distributionManagement>
         <snapshotRepository>
-            <id>nexus</id>
+            <id>nexus-snapshot</id>
             <url>http://nexus:8081/repository/maven-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
