@@ -1,17 +1,14 @@
 package com.hkstlr.blogbox.entities;
 
+import com.hkstlr.blogbox.control.BlogMessageTestHelper;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.mail.MessagingException;
-import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
 
 import org.junit.Before;
@@ -33,14 +30,8 @@ public class BlogMessageTest {
 
     @Before
     public void setUp() throws IOException, MessagingException {
-        Session session = Session.getDefaultInstance(System.getProperties(), null);
-        try (InputStream is = ClassLoader.getSystemResourceAsStream("multiattach.eml")) {
-            message = new MimeMessage(session, is);
-            cut = new BlogMessage(message);
-        } catch (Exception e) {
-            log.log(Level.INFO, "setup", e);
-        }
-
+        BlogMessageTestHelper b = new BlogMessageTestHelper();
+        cut = b.getBlogMessageFromEmlFile("multiattach.eml");
     }
 
     /**
@@ -98,39 +89,7 @@ public class BlogMessageTest {
     public void testGetHeaders() {
     }
 
-    @Test
-    public void testMultipartRelated() throws IOException, MessagingException {
-        Properties props = System.getProperties();
-        props.put("mail.mime.charset","UTF-8");
-        Session session = Session.getDefaultInstance(System.getProperties(), null);
-        
-        MimeMessage msg;
-        
-        try (InputStream is = ClassLoader.getSystemResourceAsStream("multipartrelated.eml")) {
-            msg = new MimeMessage(session, is);
-            cut = new BlogMessage(msg);
-           
-
-        } catch (Exception e) {
-            log.log(Level.INFO, "testMultipartRelated catch", e);
-        }
-
-    }
+   
     
-    @Test
-    public void testRawPlainText() throws IOException, MessagingException {
-        Properties props = System.getProperties();
-        props.put("mail.mime.charset","UTF-8");
-        Session session = Session.getDefaultInstance(props, null);
-        
-        MimeMessage msg;
-        try (InputStream is = ClassLoader.getSystemResourceAsStream("rawplaintext4.eml")) {
-            msg = new MimeMessage(session, is);
-            cut = new BlogMessage(msg);            
-            assertNotNull(cut);
-        } catch (Exception e) {
-            log.log(Level.INFO, "testRawPlainText catch", e);
-        }
-    }
 
 }

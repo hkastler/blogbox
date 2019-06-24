@@ -28,6 +28,9 @@ public final class BlogMessageBody {
 
     Message msg;
     StringBuilder body = new StringBuilder();
+    StringBuilder text = new StringBuilder();
+    StringBuilder html = new StringBuilder();
+    StringBuilder imgs = new StringBuilder();
 
     private static final Logger LOG = Logger.getLogger(BlogMessageBody.class.getName());
 
@@ -52,11 +55,20 @@ public final class BlogMessageBody {
             MimeMultipart mp;
             Object content = msg.getContent();
             Boolean isMimeMultipart = content instanceof MimeMultipart;
+
             if (isMimeMultipart) {
                 mp = (MimeMultipart) content;
+
                 for (int i = 0; i < mp.getCount(); i++) {
                     buildPart(mp.getBodyPart(i));
                 }
+                if (html.length() > 0) {
+                    body.append(html);
+
+                } else {
+                    body.append(text);
+                }
+
             } else {
                 body.append((String) msg.getContent());
             }
@@ -87,13 +99,13 @@ public final class BlogMessageBody {
                     buildPart(mp.getBodyPart(i));
                 }
             }
-
-            if (p.isMimeType(MediaType.TEXT_HTML)) {
-                String html = (String) p.getContent();
-                body.append(html);
-            }
-
-            if (o instanceof BASE64DecoderStream) {
+            if (p.isMimeType(MediaType.TEXT_PLAIN)) {
+                String ctext = (String) p.getContent();
+                text.append(ctext);
+            } else if (p.isMimeType(MediaType.TEXT_HTML)) {
+                String chtml = (String) p.getContent();
+                html.append(chtml);
+            } else if (o instanceof BASE64DecoderStream) {
                 DataHandler dh = p.getDataHandler();
                 if (dh.getContentType().contains("image/")) {
                     String imageString;
@@ -107,13 +119,12 @@ public final class BlogMessageBody {
 
                     }
 
-                    String contentId = Optional.ofNullable(p.getHeader("Content-Id")[0]).orElse("");
                     // get the contentType ensure no attachment name
                     String[] aryContentType = dh.getContentType().split(";");
 
                     String contentType = aryContentType[0];
 
-                    String template = "<img src=\"data:{0};base64, {1} \" />";
+                    String template = "<div class=\"blgmsgimg\"><img src=\"data:{0};base64, {1} \" /></div>";
                     String imgTag = MessageFormat.format(template, new Object[]{contentType, imageString});
                     String cidPh = "<img src=\"cid:{0}\" id=\"{0}\">";
 
@@ -126,23 +137,32 @@ public final class BlogMessageBody {
                     if (partId.contains("=")) {
                         imgId = partId.split("=")[1];
                     }
-                    if (!contentId.isEmpty()) {
+                    Optional<String[]> cidHeader = Optional.ofNullable(p.getHeader("Content-Id"));
+
+                    if (cidHeader.isPresent()) {
+
+                        String contentId = Optional.ofNullable(cidHeader.get()[0]).orElse("");
                         String ncid = contentId.replaceAll("<", "");
                         ncid = ncid.replaceAll(">", "");
                         imgId = ncid;
                     }
                     String placeholder = MessageFormat.format(cidPh, new Object[]{imgId});
 
-                    if (p.getDisposition().equals("inline")) {
-                        String compile = body.toString();
-                        compile = compile.replaceAll(placeholder, imgTag);
-                        body.setLength(0);
-                        body.append(compile);
+                    if (html.length() > 0) {
+                        if (p.getDisposition().equals("inline")) {
+                            String compile = html.toString();
+                            if (!compile.contains(placeholder)) {
+                                compile = compile.concat(imgTag);
+                            } else {
+                                compile = compile.replaceAll(placeholder, imgTag);                           }
+                            html.setLength(0);
+                            html.append(compile);
+                        } else {
+                            html.append(imgTag);
+                            
+                        }
                     } else {
-                        
-                        body.append("<div class=\"blgmsgimg\">");
-                        body.append(imgTag);
-                        body.append("</div>");
+                        text.append(imgTag);                        
                     }
 
                 }
@@ -155,7 +175,7 @@ public final class BlogMessageBody {
             System.out.println("Cannot get content" + ioex.getMessage());
         }
     }
-
+    
     private String processHtml(String html) {
         Document doc = Jsoup.parse(html);
         Element htmlBody = doc.body();
@@ -169,7 +189,7 @@ public final class BlogMessageBody {
         wl.addProtocols("img", "src", "http", "https", "data", "cid");
         wl.addAttributes("div", "style");
         wl.addAttributes("div", "class");
-                
+
         wl.addTags("font");
         wl.addAttributes("font", "size");
         wl.addAttributes("font", "color");
