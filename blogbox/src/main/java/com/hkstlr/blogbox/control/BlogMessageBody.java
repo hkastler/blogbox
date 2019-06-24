@@ -133,8 +133,8 @@ public final class BlogMessageBody {
         String contentType = aryContentType[0];
 
         String template = "<div class=\"blgmsgimg\"><img src=\"data:{0};base64, {1} \" /></div>";
-        String imgTag = MessageFormat.format(template, new Object[]{contentType, imageString});
-        String cidPh = "<img src=\"cid:{0}\" id=\"{0}\">";
+        String imgTag = MessageFormat.format(template, contentType, imageString);
+        String cidPlaceholder = "<img src=\"cid:{0}\" id=\"{0}\">";
 
         String partId = "";
         if (aryContentType.length > 1) {
@@ -154,18 +154,18 @@ public final class BlogMessageBody {
             imgId = ncid;
         }
         
-        String placeholder = MessageFormat.format(cidPh, new Object[]{imgId});
+        String placeholder = MessageFormat.format(cidPlaceholder, imgId);
 
         if (this.html.length() > 0) {
             if (p.getDisposition().equals("inline")) {
-                String compile = this.html.toString();
-                if (!compile.contains(placeholder)) {
-                    compile = compile.concat(imgTag);
+                String currentHtml = this.html.toString();
+                if (!currentHtml.contains(placeholder)) {
+                    currentHtml = currentHtml.concat(imgTag);
                 } else {
-                    compile = compile.replaceAll(placeholder, imgTag);
+                    currentHtml = currentHtml.replaceAll(placeholder, imgTag);
                 }
                 this.html.setLength(0);
-                this.html.append(compile);
+                this.html.append(currentHtml);
             } else {
                 this.html.append(imgTag);
             }
