@@ -42,7 +42,7 @@ function paginatorEventHandler(e) {
     window.history.pushState("", "", this.href);
     request.get(blogEntries.getRequestUrl(paginator.page, paginator.pageSize), processBlogListings, function(){
         paginator.paginate();
-        paginatorDecorator(e);
+        paginatorDecorator();
         blogEntries.container.classList.remove("hide");
         loader.hide();
         pgBottom.classList.remove("hide")});
