@@ -69,7 +69,6 @@ public class BlogMessageTest {
      */
     @Test
     public void testGetBody() {
-        log.info(cut.getBody());
         assertTrue(cut.getBody().contains("image/jpeg"));
     }
 
