@@ -5,13 +5,12 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.util.logging.Logger;
 
 import javax.mail.MessagingException;
 
-import com.hkstlr.blogbox.entities.BlogMessageTest;
 
 import org.junit.Test;
+import org.ocpsoft.logging.Logger;
 
 /**
  *
@@ -20,22 +19,26 @@ import org.junit.Test;
 public class BlogMessageBodyTest {
 
     BlogMessageBody cut;
-    Logger log = Logger.getLogger(BlogMessageTest.class.getName());
+    
 
     @Test
     public void testMultipartRelated() throws IOException, MessagingException {
         BlogMessageTestHelper bmth = new BlogMessageTestHelper();
         String emlFile = "multipartrelated.eml";
         cut = bmth.getBlogMessageBodyFromEmlFile(emlFile);
-        
+        assertFalse(cut.getBody().isEmpty());
     }
 
     @Test
     public void testRawPlainText() throws IOException, MessagingException {
         BlogMessageTestHelper bmth = new BlogMessageTestHelper();
-        String emlFile = "rawplaintext4.eml";
-        cut = bmth.getBlogMessageBodyFromEmlFile(emlFile);
-        assertTrue(cut.getBody().length() > 0);
+        String emlFile;
+        for (int i = 1; i <= 4; i++) {
+            emlFile = "rawplaintext".concat(Integer.toString(i)).concat(".eml");
+            cut = bmth.getBlogMessageBodyFromEmlFile(emlFile);
+            assertTrue(cut.getBody().length() > 0);
+        }
+
     }
 
     @Test
@@ -43,7 +46,6 @@ public class BlogMessageBodyTest {
         BlogMessageTestHelper bmth = new BlogMessageTestHelper();
         String emlFile = "plaintextInlineImage.eml";
         cut = bmth.getBlogMessageBodyFromEmlFile(emlFile);
-        assertNotNull(cut);
         assertFalse(cut.getBody().isEmpty());
     }
 }
