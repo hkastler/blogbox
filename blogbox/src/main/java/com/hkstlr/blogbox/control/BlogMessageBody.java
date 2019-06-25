@@ -26,68 +26,46 @@ import org.jsoup.safety.Whitelist;
 
 public final class BlogMessageBody {
 
-    Message msg;
-    StringBuilder body = new StringBuilder();
+    String body;
+    StringBuilder bodyBuilder = new StringBuilder();
     StringBuilder text = new StringBuilder();
-    StringBuilder html = new StringBuilder();
+    StringBuilder html = new StringBuilder(); 
 
     private static final Logger LOG = Logger.getLogger(BlogMessageBody.class.getName());
 
-    public BlogMessageBody() {
-        super();
-    }
-
     public BlogMessageBody(Message msg) {
-        this.msg = msg;
-        setBody();
+        this.body = buildBody(msg);
     }
 
-    public String[] contentTypes(String getContentType) {
-        String nStr = getContentType;
-        String[] aryStr = nStr.split(";");
-        Arrays.parallelSetAll(aryStr, (i) -> aryStr[i].trim());
-        return aryStr;
-    }
-
-    public void setBody() {
+    public String buildBody(Message msg) {
         try {
             MimeMultipart mp;
-            Object content = this.msg.getContent();
+            Object content = msg.getContent();
             Boolean isMimeMultipart = content instanceof MimeMultipart;
 
             if (isMimeMultipart) {
                 mp = (MimeMultipart) content;
-
+                
                 for (int i = 0; i < mp.getCount(); i++) {
                     buildPart(mp.getBodyPart(i));
                 }
                 if (this.html.length() > 0) {
-                    this.body.append(html);
+                    this.bodyBuilder.append(html);
 
                 } else {
-                    this.body.append(text);
+                    this.bodyBuilder.append(text);
                 }
 
             } else {
-                this.body.append((String) msg.getContent());
+                this.bodyBuilder.append((String) msg.getContent());
             }
         } catch (IOException | MessagingException ex) {
             Logger.getLogger(BlogMessageBody.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        return processHtml(bodyBuilder.toString());
     }
-
-    public Message getMsg() {
-        return msg;
-    }
-
-    public void setMsg(Message msg) {
-        this.msg = msg;
-    }
-
-    public String getBody() {
-        return processHtml(body.toString());
-    }
-
+    
     void buildPart(Part p) {
         try {
             Object o = p.getContent();
@@ -134,7 +112,6 @@ public final class BlogMessageBody {
 
         String template = "<div class=\"blgmsgimg\"><img src=\"data:{0};base64, {1} \" /></div>";
         String imgTag = MessageFormat.format(template, contentType, imageString);
-        String cidPlaceholder = "<img src=\"cid:{0}\" id=\"{0}\">";
 
         String partId = "";
         if (aryContentType.length > 1) {
@@ -154,15 +131,15 @@ public final class BlogMessageBody {
             imgId = ncid;
         }
         
-        String placeholder = MessageFormat.format(cidPlaceholder, imgId);
+        String compiledCidFinder = MessageFormat.format("cid:{0}", imgId);
 
         if (this.html.length() > 0) {
             if (p.getDisposition().equals("inline")) {
                 String currentHtml = this.html.toString();
-                if (!currentHtml.contains(placeholder)) {
+                if (!currentHtml.contains(compiledCidFinder)) {
                     currentHtml = currentHtml.concat(imgTag);
                 } else {
-                    currentHtml = currentHtml.replaceAll(placeholder, imgTag);
+                    currentHtml = replaceCidImgTag(currentHtml, compiledCidFinder, imgTag);
                 }
                 this.html.setLength(0);
                 this.html.append(currentHtml);
@@ -174,10 +151,33 @@ public final class BlogMessageBody {
         }
     }
 
+    String replaceCidImgTag(String html, String imgSelectorValue, String replacement){
+        Document doc = Jsoup.parse(html);
+        String imgSelector = MessageFormat.format("img[src*=\"{0}\"]'", imgSelectorValue);
+        Optional<Element> oImg = Optional.ofNullable(doc.selectFirst(imgSelector));
+        if (oImg.isPresent()) {
+            Element img = oImg.get();
+            img.before(replacement);
+            img.remove();
+        }
+        return doc.toString();
+    }
+    
+    public String[] contentTypes(String getContentType) {
+        String nStr = getContentType;
+        String[] aryStr = nStr.split(";");
+        Arrays.parallelSetAll(aryStr, i -> aryStr[i].trim());
+        return aryStr;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
     private String processHtml(String html) {
         Document doc = Jsoup.parse(html);
         Element htmlBody = doc.body();
-
+        
         Optional<Element> sig = Optional.ofNullable(doc.select("div:contains(Sent from Yahoo Mail)").first());
         if (sig.isPresent()) {
             sig.get().remove();
