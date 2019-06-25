@@ -79,14 +79,15 @@ public class BlogMessage {
     private static final String DEFAULT_SUBJECTREGEX = "[Bb]log";
     public static final Integer DEFAULT_HREFWORDMAX = 10;
     public static final String TITLE_SEPARATOR = "-";
+    public static final String MESSAGE_ID = "Message-ID";
 
     public BlogMessage() {
         super();
     }
 
-    public BlogMessage(Message msg) throws MessagingException, IOException {
+    public BlogMessage(Message msg) throws MessagingException {
         super();
-        this.messageId = Optional.ofNullable(msg.getHeader("Message-ID")[0]).orElse(Double.toHexString(Math.random()));
+        this.messageId = Optional.ofNullable(msg.getHeader(MESSAGE_ID)[0]).orElse(Double.toHexString(Math.random()));
         this.messageNumber = msg.getMessageNumber();
         this.createDate = msg.getReceivedDate();
         this.subject = createSubject(msg.getSubject(), DEFAULT_SUBJECTREGEX);
@@ -94,9 +95,9 @@ public class BlogMessage {
         this.href = createHref(DEFAULT_HREFWORDMAX);
     }
 
-    public BlogMessage(Message msg, Integer hrefWordMax) throws MessagingException, IOException {
+    public BlogMessage(Message msg, Integer hrefWordMax) throws MessagingException {
         super();
-        this.messageId = Optional.ofNullable(msg.getHeader("Message-ID")[0]).orElse(Double.toHexString(Math.random()));
+        this.messageId = Optional.ofNullable(msg.getHeader(MESSAGE_ID)[0]).orElse(Double.toHexString(Math.random()));
         this.messageNumber = msg.getMessageNumber();
         this.createDate = msg.getReceivedDate();
         this.subject = createSubject(msg.getSubject(), DEFAULT_SUBJECTREGEX);
@@ -104,9 +105,9 @@ public class BlogMessage {
         this.href = createHref(hrefWordMax);
     }
 
-    public BlogMessage(Message msg, String subjectRegex, Integer hrefWordMax) throws MessagingException, IOException {
+    public BlogMessage(Message msg, String subjectRegex, Integer hrefWordMax) throws MessagingException {
         super();
-        this.messageId = Optional.ofNullable(msg.getHeader("Message-ID")[0]).orElse(Double.toHexString(Math.random()));
+        this.messageId = Optional.ofNullable(msg.getHeader(MESSAGE_ID)[0]).orElse(Double.toHexString(Math.random()));
         this.messageNumber = msg.getMessageNumber();
         this.createDate = msg.getReceivedDate();
         this.subject = createSubject(msg.getSubject(), subjectRegex);
@@ -244,7 +245,6 @@ public class BlogMessage {
         if (o instanceof BlogMessage) {
             response = (((BlogMessage) o).href).equals(this.href)
                     && (((BlogMessage) o).messageId).equals(this.messageId);
-            ;
         }
         return response;
     }

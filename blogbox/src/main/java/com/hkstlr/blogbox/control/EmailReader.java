@@ -184,7 +184,7 @@ public class EmailReader {
 				hrefs.add(bmsg.getHref());
 				event.fire( new BlogMessageEvent("save", bmsg) );
 
-			} catch (IOException | MessagingException e) {
+			} catch (MessagingException e) {
 				log.log(Level.WARNING, "bmsg", e);
 			} finally {
 				//do nothing
