@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
  */
 public class BlogMessageHelper {
 
-    public BlogMessageHelper() {
+    private BlogMessageHelper() {
         super();
     }
 

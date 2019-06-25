@@ -23,6 +23,7 @@ public class Config {
 
     private Properties props = new Properties();
     private Logger log = Logger.getLogger(this.getClass().getName());
+    String defaultConfig = "/etc/opt/blogbox/blogbox.properties";
 
     public Config() {
         super();
@@ -37,13 +38,13 @@ public class Config {
 
         try {
             InputStream is = null;
-            is = new FileInputStream(new File("/etc/opt/blogbox/blogbox.properties"));
-            props.load(is);
+            is = new FileInputStream(new File(this.defaultConfig));
+            this.props.load(is);
             is.close();
         } catch (FileNotFoundException ne) {
             log.info("/etc/opt/blogbox/blogbox.properties not found");
             try {
-                props.load(this.getClass().getClassLoader().getResourceAsStream("app.properties"));
+                this.props.load(this.getClass().getClassLoader().getResourceAsStream("app.properties"));
             } catch (IOException e) {
                 log.log(Level.SEVERE, null, e);
             }
