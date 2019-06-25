@@ -33,6 +33,7 @@ limitations under the License.
          <!-- sonar props -->
         <sonar.host.url>http://sonarqube:9000</sonar.host.url>
         <sonar.sources>src/main</sonar.sources>
+        <sonar.tests>src/test</sonar.tests>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.jacoco.reportPaths>${project.basedir}/target/jacoco.exec</sonar.jacoco.reportPaths>
         <sonar.cfamily.threads>32</sonar.cfamily.threads>
