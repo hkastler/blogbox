@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!--
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -28,13 +28,14 @@ limitations under the License.
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         
-
-        <version.jacoco>0.8.3</version.jacoco>
-         <!-- sonar props -->
+        
+        <jacoco.version>0.8.3</jacoco.version>
+        <!-- sonar props -->
         <sonar.host.url>http://sonarqube:9000</sonar.host.url>
         <sonar.sources>src/main</sonar.sources>
         <sonar.tests>src/test</sonar.tests>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+        <sonar.coverage.jacoco.xmlReportPaths>**/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
         <sonar.cfamily.threads>32</sonar.cfamily.threads>
     </properties>
     <modules>
@@ -43,10 +44,11 @@ limitations under the License.
     <build>
         <plugins>
             <!-- Code Coverage report generation -->
+            <!-- Code Coverage report generation -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>${version.jacoco}</version>
+                <version>${jacoco.version}</version>
                 <executions>
                     <execution>
                         <goals>
@@ -60,6 +62,15 @@ limitations under the License.
                             <goal>report</goal>
                         </goals>
                     </execution>
+                    
+                    <execution>
+                        <id>jacoco-site</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                    
                 </executions>
             </plugin>
             <plugin>
