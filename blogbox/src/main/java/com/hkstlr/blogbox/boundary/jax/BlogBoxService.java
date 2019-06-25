@@ -60,9 +60,8 @@ public class BlogBoxService {
     @Path("/entry/{href}/refsonly")
     public Object getNavRefs(@PathParam("href") String href) {
         BlogMessage entry = bman.getBlogMessageByHref(href);
-        Integer msgNumber = entry.getMessageNumber();
-        Object nav = Optional.ofNullable(bman.findRefsByMessageNumber(msgNumber)).orElse(new ArrayList<>());
-        return nav;
+          
+        return Optional.ofNullable(bman.findRefsByMessageNumber(entry.getMessageNumber())).orElse(new ArrayList<>());
     }
 
     @GET

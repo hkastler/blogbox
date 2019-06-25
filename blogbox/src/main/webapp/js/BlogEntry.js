@@ -1,8 +1,8 @@
 class BlogEntry {
     constructor(ctx, baseHref, href) {
-        this.ctx = ctx,
-        this.baseHref = baseHref,
-        this.href = href
+        this.ctx = ctx;
+        this.baseHref = baseHref;
+        this.href = href;
      }
 
     entryHtml(msg) {

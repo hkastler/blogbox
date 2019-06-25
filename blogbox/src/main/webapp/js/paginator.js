@@ -194,6 +194,6 @@ class Paginator {
         }
     }
 
-};
+}
 export default Paginator;
 

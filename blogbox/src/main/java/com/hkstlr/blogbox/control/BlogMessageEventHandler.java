@@ -1,7 +1,6 @@
 package com.hkstlr.blogbox.control;
 
 import java.util.Optional;
-import java.util.logging.Logger;
 
 import javax.ejb.Asynchronous;
 import javax.ejb.EJB;

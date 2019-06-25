@@ -79,16 +79,6 @@ public class BlogMessageTest {
     public void testGetHref() {
 
         assertEquals("workout-status-report", cut.getHref());
-    }
-
-    /**
-     * Test of getHeaders method, of class BlogMessage.
-     */
-    @Test
-    public void testGetHeaders() {
-    }
-
-   
+    }    
     
-
 }
