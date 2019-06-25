@@ -174,8 +174,7 @@ public class BlogMessage {
 
     String getContentTypeFromHeader(Message msg) throws MessagingException {
         return Optional.ofNullable(msg.getHeader("Content-Type")[0].split(";")[0]).orElse("null");
-
-    }    
+    }
 
     private String createSubject(String msgSubject, String rfRegex) {
         String lsub = "";
@@ -190,7 +189,6 @@ public class BlogMessage {
             lsub = msgSubject;
         }
         return lsub;
-
     }
 
     /**
@@ -201,7 +199,7 @@ public class BlogMessage {
         // Use title (minus non-alphanumeric characters)
         StringBuilder base = new StringBuilder();
         if (!this.subject.isEmpty()) {
-            base.append(StringChanger.replaceNonAlphanumeric(this.subject, ' ').trim());            
+            base.append(StringChanger.replaceNonAlphanumeric(this.subject, ' ').trim());
         }
         // If we still have no base, then try body (minus non-alphanumerics)
         if (base.length() == 0 && !this.body.isEmpty()) {

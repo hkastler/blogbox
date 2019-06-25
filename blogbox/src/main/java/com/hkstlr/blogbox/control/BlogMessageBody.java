@@ -86,7 +86,7 @@ public final class BlogMessageBody {
                
                 if (p.getDataHandler().getContentType().contains("image/")) {
                     handleImage(p);
-                }
+                } 
             }
 
         } catch (MessagingException | IOException e) {
