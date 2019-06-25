@@ -1,7 +1,7 @@
 package com.hkstlr.blogbox.entities;
 
-import com.hkstlr.blogbox.control.BlogMessageBody;
-import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.SecureRandom;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.internet.MimeUtility;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
@@ -23,10 +24,9 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.hkstlr.blogbox.control.BlogMessageBody;
 import com.hkstlr.blogbox.control.DateFormatter;
 import com.hkstlr.blogbox.control.StringChanger;
-import java.io.UnsupportedEncodingException;
-import javax.mail.internet.MimeUtility;
 
 @Entity
 @Cacheable
@@ -75,7 +75,6 @@ public class BlogMessage {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date createDate;
 
-    private static final Logger LOG = Logger.getLogger(BlogMessage.class.getName());
     private static final String DEFAULT_SUBJECTREGEX = "[Bb]log";
     public static final Integer DEFAULT_HREFWORDMAX = 10;
     public static final String TITLE_SEPARATOR = "-";
@@ -87,7 +86,7 @@ public class BlogMessage {
 
     public BlogMessage(Message msg) throws MessagingException {
         super();
-        this.messageId = Optional.ofNullable(msg.getHeader(MESSAGE_ID)[0]).orElse(Double.toHexString(Math.random()));
+        this.messageId = Optional.ofNullable(msg.getHeader(MESSAGE_ID)[0]).orElse(getRandomDoubleAsString());
         this.messageNumber = msg.getMessageNumber();
         this.createDate = msg.getReceivedDate();
         this.subject = createSubject(msg.getSubject(), DEFAULT_SUBJECTREGEX);
@@ -97,7 +96,7 @@ public class BlogMessage {
 
     public BlogMessage(Message msg, Integer hrefWordMax) throws MessagingException {
         super();
-        this.messageId = Optional.ofNullable(msg.getHeader(MESSAGE_ID)[0]).orElse(Double.toHexString(Math.random()));
+        this.messageId = Optional.ofNullable(msg.getHeader(MESSAGE_ID)[0]).orElse(getRandomDoubleAsString());
         this.messageNumber = msg.getMessageNumber();
         this.createDate = msg.getReceivedDate();
         this.subject = createSubject(msg.getSubject(), DEFAULT_SUBJECTREGEX);
@@ -107,7 +106,7 @@ public class BlogMessage {
 
     public BlogMessage(Message msg, String subjectRegex, Integer hrefWordMax) throws MessagingException {
         super();
-        this.messageId = Optional.ofNullable(msg.getHeader(MESSAGE_ID)[0]).orElse(Double.toHexString(Math.random()));
+        this.messageId = Optional.ofNullable(msg.getHeader(MESSAGE_ID)[0]).orElse(getRandomDoubleAsString());
         this.messageNumber = msg.getMessageNumber();
         this.createDate = msg.getReceivedDate();
         this.subject = createSubject(msg.getSubject(), subjectRegex);
@@ -121,6 +120,10 @@ public class BlogMessage {
 
     public void setMessageId(String messageId) {
         this.messageId = messageId;
+    }
+
+    private String getRandomDoubleAsString(){
+        return Double.toHexString(new SecureRandom().nextDouble());
     }
 
     /**
@@ -173,7 +176,6 @@ public class BlogMessage {
         return Optional.ofNullable(msg.getHeader("Content-Type")[0].split(";")[0]).orElse("null");
 
     }    
-   
 
     private String createSubject(String msgSubject, String rfRegex) {
         String lsub = "";

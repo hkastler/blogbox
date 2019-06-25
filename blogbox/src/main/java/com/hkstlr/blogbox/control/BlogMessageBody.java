@@ -153,7 +153,7 @@ public final class BlogMessageBody {
 
     String replaceCidImgTag(String html, String imgSelectorValue, String replacement){
         Document doc = Jsoup.parse(html);
-        String imgSelector = MessageFormat.format("img[src*=\"{0}\"]'", imgSelectorValue);
+        String imgSelector = MessageFormat.format("img[src*=\"{0}\"]", imgSelectorValue);
         Optional<Element> oImg = Optional.ofNullable(doc.selectFirst(imgSelector));
         if (oImg.isPresent()) {
             Element img = oImg.get();

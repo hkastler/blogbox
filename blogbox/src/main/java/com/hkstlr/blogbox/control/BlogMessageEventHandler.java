@@ -16,8 +16,6 @@ import com.hkstlr.blogbox.entities.BlogMessage;
 @Stateless
 public class BlogMessageEventHandler {
 
-    Logger LOG = Logger.getLogger(BlogMessageEventHandler.class.getCanonicalName());
-    
     @Inject
     Config config;
 
