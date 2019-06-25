@@ -19,7 +19,7 @@ limitations under the License.
     <version>${revision}${sha1}${changelist}</version>
     <packaging>pom</packaging>
     <properties>
-        <revision>1.4.6</revision>
+        <revision>1.4.7</revision>
         <changelist>-SNAPSHOT</changelist>
         <sha1 />
         <tag>${revision}${sha1}${changelist}</tag>
@@ -61,7 +61,6 @@ limitations under the License.
                             <goal>report</goal>
                         </goals>
                     </execution>
-                    
                     <execution>
                         <id>jacoco-site</id>
                         <phase>test</phase>
@@ -69,7 +68,6 @@ limitations under the License.
                             <goal>report</goal>
                         </goals>
                     </execution>
-                    
                 </executions>
             </plugin>
             <plugin>
