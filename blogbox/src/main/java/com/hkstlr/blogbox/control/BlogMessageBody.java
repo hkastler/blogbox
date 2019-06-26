@@ -60,13 +60,14 @@ public final class BlogMessageBody {
                 this.bodyBuilder.append((String) msg.getContent());
             }
         } catch (IOException | MessagingException ex) {
-            Logger.getLogger(BlogMessageBody.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.log(Level.SEVERE, null, ex);
         }
         
         return processHtml(bodyBuilder.toString());
     }
     
     void buildPart(Part p) {
+        
         try {
             Object o = p.getContent();
             if (o instanceof Multipart) {
@@ -83,10 +84,11 @@ public final class BlogMessageBody {
                 String chtml = (String) p.getContent();
                 this.html.append(chtml);
             } else if (o instanceof BASE64DecoderStream) {
-               
                 if (p.getDataHandler().getContentType().contains("image/")) {
                     handleImage(p);
-                } 
+                } else {
+                    LOG.log(Level.INFO, "unhandled Base64 content type ".concat(p.getDataHandler().getContentType()).concat(" found in content"));
+                }
             }
 
         } catch (MessagingException | IOException e) {
