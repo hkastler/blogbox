@@ -87,7 +87,7 @@ public final class BlogMessageBody {
                 if (p.getDataHandler().getContentType().contains("image/")) {
                     handleImage(p);
                 } else {
-                    LOG.log(Level.INFO, "unhandled Base64 content type ".concat(p.getDataHandler().getContentType()).concat(" found in content"));
+                    LOG.log(Level.INFO, "unhandled Base64 content type {0} found in content" , p.getDataHandler().getContentType());
                 }
             }
 
