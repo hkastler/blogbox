@@ -1,0 +1,61 @@
+X-Apparently-To: hkastler@yahoo.com; Sun, 24 Mar 2019 02:35:46 +0000
+Return-Path: <hkastler@icloud.com>
+Received-SPF: pass (domain of icloud.com designates 17.58.38.39 as permitted sender)
+X-YMailISG: hf6yhBkWLDss3f8GzLqC9ntRH9e6H47WQqIVXPFgqJDtN757
+ k6eOkquwIbj.g08213fodZljMW2xJRtWX7h2XWUuJ9uZVWdrdHbGTkHTRUtc
+ bhH8O1xwfKIzi2bfHd4QlfeWHiqTwttt7edySr0yU2XnaSoxptf4YKUXq3Zs
+ sEYDK_V.rkiJFkeBQedcZXoRBj9m4cudFkXGXU2jN4L6nfFiDUmNdB.qCc1q
+ Z71gkZQw0xIh0emWtYMRvcRPjjrD8jH8T.4I386sLrTNxv07fJVr4iUO8Ur8
+ r5gKwrTDsSaPCFTDFCllWMk8KMOnlQEFojDw4vMEfE2Vsq7zU2nYfCJG.gbS
+ xduJCwhL07wGcYL_CbXoXmfSm4zpVR6bB0bfkOLaKvBvWrWQrshqdea.iXOm
+ 84e3pAwLrS9EWVdrDZ.2PAsLlkz0aCbmm9qOp6YhiqClhnNAlToXYyzYA3OB
+ pg_YlRGr.yH0cDOoOe.5CiHuC5so5sJL63tbIHaZyl.e9.1U9w0zVfBX9YQv
+ 4wyJnqiki99L9OftYkabqtvI.OZN7zkAuxgGtO4wIMsE2WjFoIcV9Pzxll86
+ Zw97vxmd4BZqhXNf7WAAm3LruwPKttj0ljnLrLhzxPawNYRI8cCFPiTti01W
+ dKdmJToy9kwIKbE5bsUJ2D1u4BY4OVU5YXogy.IDRdail.PFlTHrzI2lDZpS
+ HcLZUd6HULpjjkJqLKYB7mWC7HniDtPZAiVqUx3Tgi_fi9i_qxeVnX6GumE8
+ lMoeVauOssTn9PAa7LjNfBiB7OZ4wvec08c81J7CBRA0rjzIK8DY5QjCnf55
+ KFSpAbGuXQiGdADi9ctgKBfgzULUxX8EJwHAwa1a6naCs9bA_qazmvxGXB5l
+ 0EeQXijPwO4_s.aPAZbJ3IqhFOIf_DfYYhQzPYAffwkQr7qUVfQbJ33aR8b7
+ 3tNvDJjvtMhiSqvdM3JV4dtQ.HoTQeW1SH7lD3brmiPmvWVCNw_kUjFLthGu
+ MYR2cvI4dm2F0MkbP32EWBpwYsxbhsMq0aqXqiABphdRFr2ynUBsVBzcnpjq
+ 5SEs
+X-Originating-IP: [17.58.38.39]
+Authentication-Results: mta4114.mail.gq1.yahoo.com 
+ header.i=@icloud.com; header.s=04042017; dkim=pass (ok)
+Received: from 127.0.0.1  (EHLO ms11p00im-hyfv17281201.me.com) (17.58.38.39)
+  by mta4114.mail.gq1.yahoo.com with SMTPS; Sun, 24 Mar 2019 02:35:46 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
+	s=04042017; t=1553394943;
+	bh=iOxAvWGZ8x7L+dcp85ZkE8Ee4qb8g7cb0krzA5XwdjQ=;
+	h=From:Content-Type:Mime-Version:Date:Subject:Message-Id:To;
+	b=XBlwlE2/98AOvbCU5wXQTTu/tH35eVoUMq8m0CQ8gKrSzpvsLStSGZURQjFKZq8T1
+	 ADePg0PGo3BZuwG0N36yfqtZMWdJUwwkwtDQbwB18QGBt+Cith6jYgDXww+usizC3V
+	 6YtnzdRPx2bzBmbgW2Gr5RMfiYYO2xSgHZ1rbHa4eJPgcOvsy7Zzv0uvGbZq1IRMwq
+	 rWCJ93Df79PGZqua2MdCRJwfNPxLqjXoU9eAnur/l65hlGdaUkNUzD0FzaWKHS0a3x
+	 Y8dfC/bMjj5uudjmFIX7sbRERDUJR39BUKT9gi/1B/uxbxXRT2Hehkj5iWSyU7TM85
+	 UPcWZNcTWbkMA==
+Received: from [192.168.1.106] (c-73-9-182-41.hsd1.il.comcast.net [73.9.182.41])
+	by ms11p00im-hyfv17281201.me.com (Postfix) with ESMTPSA id 7B5BCC000C2
+	for <hkastler@yahoo.com>; Sun, 24 Mar 2019 02:35:43 +0000 (UTC)
+From: Henry Kastler <hkastler@icloud.com>
+Content-Type: text/plain;
+	charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0 (1.0)
+Date: Sat, 23 Mar 2019 21:35:42 -0500
+Subject: Blog Kurosawa interview 
+Message-Id: <0324EDFF-0F60-46F8-8C35-6574CC08C3E7@icloud.com>
+To: hkastler@yahoo.com
+X-Mailer: iPhone Mail (16D57)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-03-24_02:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 clxscore=1015 mlxscore=0
+ mlxlogscore=438 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1812120000 definitions=main-1903240019
+Content-Length: 64
+
+
+https://twitter.com/largottes/status/1109503278612533248?s=20
+

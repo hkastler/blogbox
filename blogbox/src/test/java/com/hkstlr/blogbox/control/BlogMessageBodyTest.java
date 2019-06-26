@@ -31,7 +31,7 @@ public class BlogMessageBodyTest {
     public void testRawPlainText() throws IOException, MessagingException {
         BlogMessageTestHelper bmth = new BlogMessageTestHelper();
         String emlFile;
-        for (int i = 1; i <= 5; i++) {
+        for (int i = 1; i <= 6; i++) {
             emlFile = "rawplaintext".concat(Integer.toString(i)).concat(".eml");
             cut = bmth.getBlogMessageBodyFromEmlFile(emlFile);
             assertTrue(cut.getBody().length() > 0);
