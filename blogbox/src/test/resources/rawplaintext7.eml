@@ -1,0 +1,85 @@
+X-Apparently-To: hkastler@yahoo.com; Sat, 29 Dec 2018 13:47:00 +0000
+Return-Path: <hkastler@icloud.com>
+Received-SPF: pass (domain of icloud.com designates 17.58.63.174 as permitted sender)
+X-YMailISG: R5wd4.oWLDvhRDv_8v7dqG0yxqyMl.7eBjdWeF6tubRQKurv
+ 49pcLKC7s3UFaHETrMNDvjPX0FoP4RwVo.V14a_5c7Mi.0V9Z.CI8lRLZcSn
+ k3JURshycoCb.TDo.6aA.FZaVqz1P81K3pIinU2ERj5pknuAIxEcendDGfG2
+ ahb7RwO5lauP4ERgGtsBWzXn6ODPYXxD_aspiSODJUegzLO9u9_m8.Cds0Nv
+ eqYN5xlV9YoDPe9NooQiAm_JcZm5UJV6tv1dYe3_ZprqPQrcVqH6NyebIVCj
+ TtCkgLGU2KdfJS2HO02KbcxXSounPNWffUYfKRJiboSuTiC94OJh0mBTYAxx
+ G_wXIcADMIBQ7CMx6Y9lYDh29GFviAk0SBr98k7wjKABLUbT0R6djpnlsgTs
+ WYXyY4P4fqZtfE8HtnezJzAJWOi9eTgrNKFlYX0QTY0QlGMwStG4oToyiyY.
+ MpiU6tNRphLWsSvy4Q_9yvyd6WRqDG4S0PeoHMngEK593380TtgHUj6tuslw
+ X2rH__TVq1IQlyQbML_.n_TDpgbzCcunM0aVt0NZyH6PEeqf3UAuElRbvP4w
+ .H0pOUqqt.bWBKxLgIMBCIJBdO1e8gYAeK7QNr8jo5JzfdIAph.5dUZ1zxlF
+ Y0vV5rHrBFqM3d5z.OAEATJN8iRiiaMobOecSI6oIw4L5tw2lhMP3CGX6wyM
+ NcmAyxpJ_LbTwokTHMNk1YcxSKo.KYmaYQ09P4lf8cw8zKlrTky55XvYrjGi
+ vQ5hdPwx4vbwswexfJWpJvM3BUxBoKZWZQkYhjEhfbx6CChSfu1mPu6xT6NF
+ OSMB_bZlQc75xtjGdpougT5NI_Ebt2eW3.pgjX5olbClXeJdjKn2_8bn.jMM
+ kq1RxxRQy7R0f8PtL6k9I8FZWCPvyU7nmKdbX6bJdDhk6krQgQrV3PsL6T2U
+ PhTGOi4YjB3ljwe3F2f98.L4ghe9V6gK.TJ3p7W8kHPkgeCyQfEykx2QdHam
+ 3WMSl0RphqJgqn4o7SgbjrJwwyWEMGEcFwb5ZOvtsskJ1eA6r1XayfGB4Q4a
+ ZnEqkB_8XokNESX.qrm.i6L4TMf1JaAHuury.37QHpkeuIqcBbSp7Wcj.SI3
+ 1J4c6SCpumuwpW9z_QPMCBvBa68b5E_IRB1M6MOMmSS_30AGbL98
+X-Originating-IP: [17.58.63.174]
+Authentication-Results: mta4266.mail.bf1.yahoo.com 
+ header.i=@icloud.com; header.s=04042017; dkim=pass (ok)
+Received: from 127.0.0.1  (EHLO st43p00im-ztbu10063601.me.com) (17.58.63.174)
+  by mta4266.mail.bf1.yahoo.com with SMTPS; Sat, 29 Dec 2018 13:47:00 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
+	s=04042017; t=1546091219;
+	bh=GKYzVRDsh+0L8XvVm42NbL66MC4JoDI10qFJHCoR2YU=;
+	h=Content-Type:From:Mime-Version:Date:Subject:Message-Id:To;
+	b=SC0Y1KAcRnl6v+ve04f/7ceJgirPCgcr9ofWdGUMX2He7WiKBslvLMYyEKwYOu53O
+	 Ie2Sw35tq+7494YTyz7p0Rr6A4dGIUFDo1hL6/Mf+/Rd8iQaCTBl+85NUFNFIlnfkw
+	 YHqR7/JvV4gkVhUm376NqxIbl75ICUSQfiPa6G3gkWESWnc9L+z9t6j2JH9qR4ZQgw
+	 QBt1ancC/GR38vxjv+OU5TncDjh46ZDqOTli0N15HKqPoEXDQk+mfo8+HB0xTBC1Yb
+	 OdvuiPgpNqH1eTwwfiEGrokv43G6ZrPy18n5qG3iPSZmPMPdGh4VkhPoMHHJHD/H9I
+	 Q46F8dLskx7aw==
+Received: from [192.168.1.106] (c-73-9-182-41.hsd1.il.comcast.net [73.9.182.41])
+	by st43p00im-ztbu10063601.me.com (Postfix) with ESMTPSA id 6E6BC70006A
+	for <hkastler@yahoo.com>; Sat, 29 Dec 2018 13:46:59 +0000 (UTC)
+Content-Type: multipart/alternative; boundary=Apple-Mail-96B35525-F355-427E-AA40-1AB7203835BA
+Content-Transfer-Encoding: 7bit
+From: Henry Kastler <hkastler@icloud.com>
+Mime-Version: 1.0 (1.0)
+Date: Sat, 29 Dec 2018 07:46:58 -0600
+Subject: Blog How to change Mail on iOS to HTML : Email Signature Platform - Help Desk and Knowledge Base
+Message-Id: <69DA93F9-CF50-4BE1-BE2C-5D74FB5D7B9E@icloud.com>
+To: hkastler@yahoo.com
+X-Mailer: iPhone Mail (16B92)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-12-29_07:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 clxscore=1015 mlxscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1807170000 definitions=main-1812290128
+Content-Length: 1046
+
+
+--Apple-Mail-96B35525-F355-427E-AA40-1AB7203835BA
+Content-Type: text/plain;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+It=E2=80=99s underlined=20
+https://support.xink.io/support/solutions/articles/1000227451-how-to-change-=
+the-default-email-format-in-mail-on-ios-to-html-
+
+
+Sent from my iPhone=
+
+--Apple-Mail-96B35525-F355-427E-AA40-1AB7203835BA
+Content-Type: text/html;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<html><head><meta http-equiv=3D"content-type" content=3D"text/html; charset=3D=
+utf-8"></head><body dir=3D"auto"><div dir=3D"ltr">It=E2=80=99s underlined&nb=
+sp;<br><u><a href=3D"https://support.xink.io/support/solutions/articles/1000=
+227451-how-to-change-the-default-email-format-in-mail-on-ios-to-html-">https=
+://support.xink.io/support/solutions/articles/1000227451-how-to-change-the-d=
+efault-email-format-in-mail-on-ios-to-html-</a></u></div><br><br><div id=3D"=
+AppleMailSignature" dir=3D"ltr">Sent from my iPhone</div></body></html>=
+
+--Apple-Mail-96B35525-F355-427E-AA40-1AB7203835BA--
