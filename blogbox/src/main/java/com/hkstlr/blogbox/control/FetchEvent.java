@@ -20,9 +20,5 @@ public class FetchEvent {
 	public void setEvent(String event) {
 		this.event = event;
 	}
-	
-	
-	
-	
 
 }
