@@ -114,8 +114,12 @@ public class EmailReader {
         this.store = (IMAPSSLStore) this.session.getStore();
     }
 
-    public void storeClose() throws MessagingException {
-        this.store.close();        
+    public void storeClose() {
+        try {
+            this.store.close();
+        } catch (MessagingException ex) {
+            Logger.getLogger(EmailReader.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public Message[] getImapEmails() {
@@ -159,7 +163,7 @@ public class EmailReader {
         this.props = props;
     }
 
-    public Boolean setBlogMessages(Integer hrefMaxWords) throws MessagingException {
+    public Boolean setBlogMessages(Integer hrefMaxWords) {
 
         List<String> hrefs = new ArrayList<>();
 
@@ -206,4 +210,5 @@ public class EmailReader {
         }
     }
 
+    
 }
