@@ -9,3 +9,5 @@ blogbox-st/.factorypath
 .vscode/settings.json
 .vscode/extensions.json
 blogbox/.apt_generated/**
+/blogbox/nbproject/
+/blogbox-webapp/target/
