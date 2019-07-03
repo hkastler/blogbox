@@ -1,7 +1,7 @@
 #!/bin/sh
 HOST=localhost
 WILDFLY_MANAGEMENT_URL=http://admin:admin0099@${HOST}:9990
-PROJECT=blogbox
+PROJECT=blogbox-webapp
 NEXUS_WAR_NAME=${PROJECT}-${VERSION}.war
 WAR_NAME=${PROJECT}.war
 
