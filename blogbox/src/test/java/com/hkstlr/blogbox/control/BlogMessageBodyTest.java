@@ -45,4 +45,16 @@ public class BlogMessageBodyTest {
         cut = bmth.getBlogMessageBodyFromEmlFile(emlFile);
         assertFalse(cut.getBody().isEmpty());
     }
+
+
+    @Test
+    public void testRawPlainTextPdf() throws IOException, MessagingException {
+        BlogMessageTestHelper bmth = new BlogMessageTestHelper();
+        String emlFile = "pdfattach.eml";
+        cut = bmth.getBlogMessageBodyFromEmlFile(emlFile);
+        
+        assertFalse(cut.getBody().isEmpty());
+    }
 }
+
+

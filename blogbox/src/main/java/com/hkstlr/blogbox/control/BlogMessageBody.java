@@ -29,7 +29,7 @@ public final class BlogMessageBody {
     String body;
     StringBuilder bodyBuilder = new StringBuilder();
     StringBuilder text = new StringBuilder();
-    StringBuilder html = new StringBuilder(); 
+    StringBuilder html = new StringBuilder();
 
     private static final Logger LOG = Logger.getLogger(BlogMessageBody.class.getName());
 
@@ -45,7 +45,7 @@ public final class BlogMessageBody {
 
             if (isMimeMultipart) {
                 mp = (MimeMultipart) content;
-                
+
                 for (int i = 0; i < mp.getCount(); i++) {
                     buildPart(mp.getBodyPart(i));
                 }
@@ -62,12 +62,12 @@ public final class BlogMessageBody {
         } catch (IOException | MessagingException ex) {
             LOG.log(Level.SEVERE, null, ex);
         }
-        
+
         return processHtml(bodyBuilder.toString());
     }
-    
+
     void buildPart(Part p) {
-        
+
         try {
             Object o = p.getContent();
             if (o instanceof Multipart) {
@@ -84,10 +84,13 @@ public final class BlogMessageBody {
                 String chtml = (String) p.getContent();
                 this.html.append(chtml);
             } else if (o instanceof BASE64DecoderStream) {
-                if (p.getDataHandler().getContentType().contains("image/")) {
+                String contentType = p.getDataHandler().getContentType();
+                if (contentType.contains("image/")) {
                     handleImage(p);
+                } else if (contentType.contains("pdf")) {
+                    handlePdf(p);
                 } else {
-                    LOG.log(Level.INFO, "unhandled Base64 content type {0} found in content" , p.getDataHandler().getContentType());
+                    LOG.log(Level.INFO, "unhandled Base64 content type {0} found in content", p.getDataHandler().getContentType());
                 }
             }
 
@@ -96,19 +99,25 @@ public final class BlogMessageBody {
         }
     }
 
-    void handleImage(Part p) throws MessagingException {
-        DataHandler dh = p.getDataHandler();
-        String imageString = "";
+    String getBase64String(Part p) {
+        String b64 = "";
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-            dh.writeTo(baos);
+            p.getDataHandler().writeTo(baos);
             byte[] attBytes = baos.toByteArray();
-            imageString = Base64.getEncoder().encodeToString(attBytes);
+            b64 = Base64.getEncoder().encodeToString(attBytes);
 
-        } catch (IOException ex) {
-            Logger.getLogger(BlogMessageBody.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, null, ex);
         }
+
+        return b64;
+    }
+
+    void handleImage(Part p) throws MessagingException {
+
+        String imageString = getBase64String(p);
         // get the contentType ensure no attachment name
-        String[] aryContentType = dh.getContentType().split(";");
+        String[] aryContentType = p.getDataHandler().getContentType().split(";");
 
         String contentType = aryContentType[0];
 
@@ -132,7 +141,7 @@ public final class BlogMessageBody {
             ncid = ncid.replaceAll(">", "");
             imgId = ncid;
         }
-        
+
         String compiledCidFinder = MessageFormat.format("cid:{0}", imgId);
 
         if (this.html.length() > 0) {
@@ -153,7 +162,7 @@ public final class BlogMessageBody {
         }
     }
 
-    String replaceCidImgTag(String html, String imgSelectorValue, String replacement){
+    String replaceCidImgTag(String html, String imgSelectorValue, String replacement) {
         Document doc = Jsoup.parse(html);
         String imgSelector = MessageFormat.format("img[src*=\"{0}\"]", imgSelectorValue);
         Optional<Element> oImg = Optional.ofNullable(doc.selectFirst(imgSelector));
@@ -164,7 +173,21 @@ public final class BlogMessageBody {
         }
         return doc.toString();
     }
-    
+
+    void handlePdf(Part p) throws MessagingException {
+        String fileName = "PDF.pdf";
+        String pdfString = getBase64String(p);        
+        String[] aryContentType = p.getDataHandler().getContentType().split(";");        
+        String contentType = aryContentType[0];
+        String template = "<div class=\"blgmsgpdf\"><a href=\"data:{0};base64, {1} \">{2}</a></div>";
+        String pdfTag = MessageFormat.format(template, contentType, pdfString, p.getFileName());
+        if (this.html.length() > 0) {
+            this.html.append(pdfTag);
+        } else {
+            this.text.append(pdfTag);
+        }
+    }
+
     public String[] contentTypes(String getContentType) {
         String nStr = getContentType;
         String[] aryStr = nStr.split(";");
@@ -179,22 +202,21 @@ public final class BlogMessageBody {
     private String processHtml(String html) {
         Document doc = Jsoup.parse(html);
         Element htmlBody = doc.body();
-        
+
         Optional<Element> sig = Optional.ofNullable(doc.select("div:contains(Sent from Yahoo Mail)").first());
         if (sig.isPresent()) {
             sig.get().remove();
         }
 
-        Whitelist wl = Whitelist.relaxed();
+        Whitelist wl = Whitelist.none();
         wl.addProtocols("img", "src", "http", "https", "data", "cid");
         wl.addAttributes("div", "style");
-        wl.addAttributes("div", "class");
-
-        wl.addTags("font");
+        wl.addAttributes("div", "class");        
+        wl.addTags("a", "font");
+        wl.addAttributes("a", "href", "target", "data");        
         wl.addAttributes("font", "size");
-        wl.addAttributes("font", "color");
-
-        String safe = Jsoup.clean(htmlBody.html(), wl);
+        wl.addAttributes("font", "color");               
+        String safe = Jsoup.clean(htmlBody.html(), wl.preserveRelativeLinks(true));        
         return StringUtil.normaliseWhitespace(safe);
     }
 
