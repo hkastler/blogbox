@@ -1,12 +1,18 @@
 #!/bin/sh
 HOST=localhost
 WILDFLY_MANAGEMENT_URL=http://admin:admin0099@${HOST}:9990
-PROJECT=blogbox
-NEXUS_WAR_NAME=${PROJECT}-${VERSION}.war
+PROJECTS="$1"
+if [ "$PROJECTS" == "" ]; then
+PROJECTS=blogbox-webapp,blogbox
+fi
+
+IFS=","
+for PROJECT in $PROJECTS
+do
+PROJECT_HOME=$LOCAL_HOME/$PROJECT
 WAR_NAME=${PROJECT}.war
-
+echo "PROJECT is $PROJECT"
 cp ${PROJECT}/target/${WAR_NAME} .
-
 echo "Deploying '$WAR_NAME' to '$WILDFLY_MANAGEMENT_URL'"
 echo '-------------------'
 
@@ -36,3 +42,4 @@ if [ "$result" != "success" ]; then
 
   exit -1
 fi
+done
