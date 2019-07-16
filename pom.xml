@@ -39,6 +39,7 @@ limitations under the License.
     </properties>
     <modules>
         <module>blogbox</module>
+        <module>blogbox-webapp</module>
     </modules>
     <build>
         <plugins>

@@ -4,6 +4,8 @@ FROM wildfly.15.0.0.final:latest
 
 #Dockerfile in the root to access target dirs
 COPY blogbox/target/blogbox.war /opt/jboss/wildfly/standalone/deployments/
+#Dockerfile in the root to access target dirs
+COPY blogbox-webapp/target/blogbox-webapp.war /opt/jboss/wildfly/standalone/deployments/
 RUN rm -f /opt/jboss/wildfly/welcome-content/*.*
 
 ADD standalone-custom.xml /opt/jboss/wildfly/standalone/configuration/
