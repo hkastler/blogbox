@@ -1,0 +1,115 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:ps="http://xmlns.jcp.org/jsf/passthrough">
+
+	<div class="panel-heading panel-title">
+		<h2 id="setupTitle">
+			<i class="fa fa-id-card" aria-hidden="true"></i>
+			<h:outputText value="#{formTitle}" />
+		</h2>
+	</div>
+	<div class="panel-body">
+
+		<h:form id="setupForm" prependId="false">
+			<h:messages layout="table" infoClass="table alert alert-success"
+				errorClass="table alert alert-danger" globalOnly="false"
+				id="setupFormMsgs" />
+			
+			<div class="form-group #{blogName.isValid()? '' : 'has-error'}">
+
+				<input jsfc="h:inputText" class="form-control" id="siteName"
+					binding="#{siteName}" value="#{bean.siteName}"
+					ps:placeholder="#{messages['setup.siteName']}" ps:required="true"
+					ps:requiredMessage="required" />
+				<h:message for="username" errorClass="form-control-label has-error" />
+				<span class="help-block" jsfc="h:panelGroup">
+					<h:outputLabel for="siteName">
+						#{messages['setup.siteName.label']}
+					</h:outputLabel>
+				</span>
+			</div>	
+				
+			<div class="form-group #{imapHost.isValid()? '' : 'has-error'}">
+
+				<input jsfc="h:inputText" class="form-control" id="imapHost"
+					binding="#{imapHost}" value="#{bean.imapHost}"
+					ps:placeholder="#{messages['setup.imapHost']}" ps:required="true"
+					ps:requiredMessage="required" />
+				<h:message for="username" errorClass="form-control-label has-error" />
+				<span class="help-block" jsfc="h:panelGroup">
+					<h:outputLabel for="imapHost">
+						#{messages['setup.imapHost.label']}
+					</h:outputLabel>
+				</span>
+			</div>
+
+			<div class="form-group #{username.isValid()? '' : 'has-error'}">
+
+				<input jsfc="h:inputText" class="form-control" id="username"
+					binding="#{emailAddress}" value="#{bean.user.username}"
+					ps:placeholder="#{messages['setup.email']}" ps:required="true"
+					ps:requiredMessage="required" />
+				<h:message for="username" errorClass="form-control-label has-error" />
+				<span class="help-block" jsfc="h:panelGroup"> 
+					<h:outputLabel for="username">
+						#{messages['setup.email.label']}
+					</h:outputLabel>
+				</span>
+			</div>
+
+			<div class="form-group #{password.isValid()? '' : 'has-error'}">
+
+				<h:inputSecret class="form-control"
+					id="password"
+					 value="#{bean.user.password}"
+					ps:placeholder="#{messages['setup.password']}" ps:required="true"
+					ps:requiredMessage="required">
+				</h:inputSecret>
+				<h:message for="password"
+					errorClass="form-control-label has-error" />
+				<span class="help-block" jsfc="h:panelGroup">
+					<h:outputLabel for="password">
+						#{messages['setup.password.label']}
+					</h:outputLabel>
+				</span>
+			</div>
+
+			<div class="form-group #{folderName.isValid()? '' : 'has-error'}">
+
+				<h:inputText class="form-control" 
+				id="folderName" 
+				required="true"
+				value="#{bean.folderName}"
+					ps:placeholder="#{messages['setup.folderName']}"
+					ps:required="true" ps:requiredMessage="required">
+				</h:inputText>
+				<h:message for="folderName" errorClass="control-label has-error" />
+				<span class="help-block" jsfc="h:panelGroup"> 
+					<h:outputLabel for="folderName">
+						#{messages['setup.folderName.label']}
+					</h:outputLabel>
+				</span>
+			</div>
+
+
+
+
+			<input type="hidden" name="action" value="#{bean.action}" />
+
+
+			<br />
+			<input jsfc="h:commandButton" type="submit" id="profile_save"
+				value="Setup blog" class="btn btn-primary" action="#{bean.setup()}"
+				rendered="#{bean.action eq 'create'}" />
+
+
+		</h:form>
+	</div>
+
+</ui:composition>
+
+

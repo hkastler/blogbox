@@ -1,0 +1,21 @@
+<ui:composition template="${null eq request.getParameter('ajaxTemplate') ? '/templates/defaultTemplate.xhtml' : '/templates/clearTemplate.xhtml' }"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+	<ui:define name="head">
+        <link rel="modulepreload" href="#{request.contextPath}/js/RequestManager.js" />
+        <link rel="modulepreload" href="#{request.contextPath}/js/BlogEntry.js" />
+	</ui:define>	
+	<ui:define name="content">
+		<div id="content">
+			<div id="loader"></div>
+			<div id="entry"></div>
+			<div id="navContainer" class="hide"></div>
+		</div>
+	</ui:define>
+	<ui:define name="postBody">
+		<script src="${request.contextPath}/js/entry.js" type="module"></script>
+	</ui:define>
+</ui:composition>
