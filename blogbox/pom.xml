@@ -29,30 +29,7 @@
     <build>
         <finalName>${build.finalName}</finalName>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>${plugin.dependency.version}</version>
-                <executions>
-                    <execution>
-                        <id>copy</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <artifactItems>
-                        <artifactItem>
-                            <groupId>com.hkstlr</groupId>
-                            <artifactId>hkstlr.com-webtemplates</artifactId>
-                            <version>LATEST</version>
-                            <type>jar</type>
-                        </artifactItem>
-                    </artifactItems>
-                </configuration>
-            </plugin>
+            
         </plugins>
     </build>
     <dependencies>
@@ -78,11 +55,7 @@
             <artifactId>jsoup</artifactId>
             <version>${jsoup.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.ocpsoft.rewrite</groupId>
-            <artifactId>rewrite-servlet</artifactId>
-            <version>${ocpsoft.rewrite.version}</version>
-        </dependency>
+        
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-jpamodelgen</artifactId>

@@ -15,22 +15,23 @@ import javax.ws.rs.Produces;
 import com.hkstlr.blogbox.boundary.jpa.BlogMessageManager;
 import com.hkstlr.blogbox.control.BlogMessageHelper;
 import com.hkstlr.blogbox.control.EmailReader;
+import com.hkstlr.blogbox.control.FetchEvent;
 import com.hkstlr.blogbox.control.Index;
 import com.hkstlr.blogbox.control.Paginator;
 import com.hkstlr.blogbox.entities.BlogMessage;
-
-import org.eclipse.microprofile.metrics.annotation.Metered;
+import java.util.logging.Logger;
 
 @Path("/srvc")
-@Metered
 public class BlogBoxService {
 
     @Inject
     Index index;
-
+    
     @EJB
     BlogMessageManager bman;
-
+        
+    private static final Logger LOG = Logger.getLogger(BlogBoxService.class.getName());    
+    
     public BlogBoxService() {
         super();
     }
@@ -111,4 +112,17 @@ public class BlogBoxService {
         bman.clearCache();
         return "cleared";
     }
+
+    @GET
+    @Produces("text/plain")
+    @Path("/fetch")
+    public String fetch() {
+        LOG.info("/fetch called");
+        String fetchEvent = this.getClass().getCanonicalName().concat(".fetch()");
+        index.getEvent().fire(new FetchEvent(fetchEvent));
+        LOG.info(fetchEvent);
+        return fetchEvent;
+    }
+
+    
 }
