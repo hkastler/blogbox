@@ -85,7 +85,7 @@ public final class BlogMessageBody {
                 this.html.append(chtml);
             } else if (o instanceof BASE64DecoderStream) {
                 String contentType = p.getDataHandler().getContentType();
-                if (contentType.contains("image/")) {
+                if (contentType.contains("image")) {
                     handleImage(p);
                 } else if (contentType.contains("pdf")) {
                     handlePdf(p);
@@ -175,9 +175,9 @@ public final class BlogMessageBody {
     }
 
     void handlePdf(Part p) throws MessagingException {
-        String fileName = "PDF.pdf";
-        String pdfString = getBase64String(p);        
-        String[] aryContentType = p.getDataHandler().getContentType().split(";");        
+        
+        String pdfString = getBase64String(p);
+        String[] aryContentType = p.getDataHandler().getContentType().split(";");
         String contentType = aryContentType[0];
         String template = "<div class=\"blgmsgpdf\"><a href=\"data:{0};base64, {1} \">{2}</a></div>";
         String pdfTag = MessageFormat.format(template, contentType, pdfString, p.getFileName());
@@ -186,6 +186,7 @@ public final class BlogMessageBody {
         } else {
             this.text.append(pdfTag);
         }
+
     }
 
     public String[] contentTypes(String getContentType) {
@@ -208,15 +209,10 @@ public final class BlogMessageBody {
             sig.get().remove();
         }
 
-        Whitelist wl = Whitelist.none();
-        wl.addProtocols("img", "src", "http", "https", "data", "cid");
-        wl.addAttributes("div", "style");
-        wl.addAttributes("div", "class");        
-        wl.addTags("a", "font");
-        wl.addAttributes("a", "href", "target", "data");        
-        wl.addAttributes("font", "size");
-        wl.addAttributes("font", "color");               
-        String safe = Jsoup.clean(htmlBody.html(), wl.preserveRelativeLinks(true));        
+        Whitelist wl = new RelaxedPlusDataBase64();
+        
+        String safe = Jsoup.clean(htmlBody.html(), wl.preserveRelativeLinks(true));
+        System.out.println(safe);
         return StringUtil.normaliseWhitespace(safe);
     }
 
