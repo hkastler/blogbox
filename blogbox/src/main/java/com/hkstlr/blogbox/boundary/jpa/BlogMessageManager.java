@@ -98,16 +98,35 @@ public class BlogMessageManager {
         return b;
     }
 
+    Object wrappedRefQuery(Query q) {
+        Object b;
+        try {
+            // q.setHint("org.hibernate.cacheable", Boolean.TRUE);
+            b = q.getSingleResult();
+        } catch (NoResultException e) {
+            b = new Object[3];
+        }
+        return b;
+    }
+
     public Object findRefsByMessageNumber(Integer msgNum) {
-        List obj;
+        Object[] obj = new Object[2];
+
         try {
             Query q = em.createNativeQuery(
-                    "SELECT b.href, b.subject, b.messageNumber FROM BlogMessage b WHERE b.messageNumber = :low UNION SELECT b.href, b.subject, b.messageNumber FROM BlogMessage b WHERE b.messageNumber = :high ORDER BY messageNumber ASC");
-            q.setParameter("low", msgNum - 1).setParameter("high", msgNum + 1);
-            obj = q.getResultList();
+                    "SELECT b.href, b.subject, b.messageNumber FROM BlogMessage b WHERE  b.messageNumber = :msgNum ");
+            q.setParameter("msgNum", msgNum - 1);
+
+            obj[0] = wrappedRefQuery(q);
+
+            q.setParameter("msgNum", msgNum + 1);
+
+            obj[1] = wrappedRefQuery(q);
+
         } catch (NoResultException nre) {
             obj = null;
         }
+
         return obj;
     }
 
