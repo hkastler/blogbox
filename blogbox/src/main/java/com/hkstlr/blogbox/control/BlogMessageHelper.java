@@ -16,11 +16,23 @@ public class BlogMessageHelper {
      * for blog browsing
      */
     public static String bodyForBlogEntries(String body) {
+        String lBody = body;
+        lBody = imagePlaceholder(lBody);
+        lBody = pdfPlaceholder(lBody);
+        return lBody;
+    }
+    
+    public static String imagePlaceholder(String body){
         String regex = "<img[^>]+>|<img>";
         String replacement = "&lt;image&gt;";
         return body.replaceAll(regex, replacement);
     }
     
+    public static String pdfPlaceholder(String body){
+        String regex = "<a\\s+(?:[^>]*?\\s+)?href=([\"'])(.*?)\\1";
+        String replacement = "<a ";
+        return body.replaceAll(regex, replacement);
+    }
    
 
 }
