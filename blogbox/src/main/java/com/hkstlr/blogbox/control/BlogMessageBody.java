@@ -9,7 +9,6 @@ import java.util.Base64;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.activation.DataHandler;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -101,11 +100,10 @@ public final class BlogMessageBody {
 
     String getBase64String(Part p) {
         String b64 = "";
-        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream(p.getSize())) {
             p.getDataHandler().writeTo(baos);
-            byte[] attBytes = baos.toByteArray();
-            b64 = Base64.getEncoder().encodeToString(attBytes);
-
+            b64 = Base64.getEncoder().encodeToString( baos.toByteArray() );
+           
         } catch (Exception ex) {
             LOG.log(Level.SEVERE, null, ex);
         }
@@ -113,13 +111,14 @@ public final class BlogMessageBody {
         return b64;
     }
 
+    
+
     void handleImage(Part p) throws MessagingException {
 
         String imageString = getBase64String(p);
-        // get the contentType ensure no attachment name
-        String[] aryContentType = p.getDataHandler().getContentType().split(";");
-
-        String contentType = aryContentType[0];
+        
+        String[] aryContentType = contentTypes(p.getDataHandler().getContentType());
+        String contentType = getPartContentType(aryContentType);
 
         String template = "<div class=\"blgmsgimg\"><img src=\"data:{0};base64, {1} \" /></div>";
         String imgTag = MessageFormat.format(template, contentType, imageString);
@@ -177,8 +176,7 @@ public final class BlogMessageBody {
     void handlePdf(Part p) throws MessagingException {
         
         String pdfString = getBase64String(p);
-        String[] aryContentType = p.getDataHandler().getContentType().split(";");
-        String contentType = aryContentType[0];
+        String contentType = getPartContentType(contentTypes(p.getDataHandler().getContentType()));
         String template = "<div class=\"blgmsgpdf\"><a href=\"data:{0};base64, {1} \">{2}</a></div>";
         String pdfTag = MessageFormat.format(template, contentType, pdfString, p.getFileName());
         if (this.html.length() > 0) {
@@ -188,9 +186,13 @@ public final class BlogMessageBody {
         }
 
     }
+    
+    public String getPartContentType(String[] contentTypes) throws MessagingException{
+        return contentTypes[0];
+    }
 
-    public String[] contentTypes(String getContentType) {
-        String nStr = getContentType;
+    public String[] contentTypes(String contentTypes) {
+        String nStr = contentTypes;
         String[] aryStr = nStr.split(";");
         Arrays.parallelSetAll(aryStr, i -> aryStr[i].trim());
         return aryStr;
@@ -201,7 +203,8 @@ public final class BlogMessageBody {
     }
 
     private String processHtml(String html) {
-        Document doc = Jsoup.parse(html);
+        String lHtml = newLinesToBrs(html);
+        Document doc = Jsoup.parse(lHtml);
         Element htmlBody = doc.body();
 
         Optional<Element> sig = Optional.ofNullable(doc.select("div:contains(Sent from Yahoo Mail)").first());
@@ -212,8 +215,12 @@ public final class BlogMessageBody {
         Whitelist wl = new RelaxedPlusDataBase64();
         
         String safe = Jsoup.clean(htmlBody.html(), wl.preserveRelativeLinks(true));
-        System.out.println(safe);
+        
         return StringUtil.normaliseWhitespace(safe);
+    }
+
+    private String newLinesToBrs(String html){
+        return html.replaceAll("(\r\n|\n)", "<br/>");
     }
 
 }
