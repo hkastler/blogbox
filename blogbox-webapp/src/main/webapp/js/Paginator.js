@@ -51,7 +51,12 @@ class Paginator {
 
         let position = paginatorConfig.position
         let outcome = paginatorConfig.outcome;
+        let container = document.createElement("nav");
+        container.setAttribute("aria-label","Navigation");
+        container.setAttribute("itemscope","True");
+        container.setAttribute("itemtype","https://schema.org/SiteNavigationElement");
         let pgContainer = document.createElement("ul");
+        container.appendChild(pgContainer);
         pgContainer.className = "pagination " + paginatorConfig.pgClassName;
         pgContainer.id = "paginator-" + position;
 
@@ -149,7 +154,7 @@ class Paginator {
             pgContainer.appendChild(nextArrow);
         }
 
-        return pgContainer;
+        return container;
     }
     
     paginate() {

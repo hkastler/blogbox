@@ -7,7 +7,7 @@ class BlogEntry {
      }
 
     entryHtml(msg) {
-        return `<article itemprop="blogPost" itemscope="itemscope" itemtype="https://schema.org/BlogPosting">
+        return `<article aria-label="Article" itemscope="True" itemprop="blogPost" itemtype="https://schema.org/BlogPosting">
                     <meta itemprop="mainEntityOfPage" content="/${msg.href}" />
                     <a name="top" id="top"></a>
                     <div itemprop="name headline"><h3 class="mt-4" id="msgSubject">${msg.subject}</h3></div>
@@ -21,12 +21,12 @@ class BlogEntry {
     }
 
     navHtml(prev, next) {
-        var navHtml = `<nav aria-label="Navigation" itemscope="itemscope" itemtype="https://schema.org/SiteNavigationElement"><div id="nav">`
-        if (prev.length != 0) {
+        var navHtml = `<nav aria-label="Navigation" itemscope="True" itemtype="https://schema.org/SiteNavigationElement"><div id="nav">`
+        if (prev.length != 0 && prev[0] !== null) {
             navHtml += this.navLink(prev[0], prev[1], "prev");
             navHtml += `&lt; ${prev[1].substring(0, 10)}...</a>`;
         }
-        if (next.length != 0) {
+        if (next.length != 0 && next[0] !== null) {
             navHtml += this.navLink(next[0], next[1], "next");
             navHtml += `${next[1].substring(0, 10)}... &gt;</a>`;
         }
