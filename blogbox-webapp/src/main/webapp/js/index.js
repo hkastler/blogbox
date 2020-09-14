@@ -8,7 +8,7 @@ const blogboxCtx = "/blogbox";
 const paginator = new Paginator(1, 4, 0, request.ctx, blogboxCtx);
 paginator.init(request);
 
-const blogEntries = new BlogEntries(blogboxCtx, request.ctx, document.getElementById("blogEntries"));
+const blogEntries = new BlogEntries(blogboxCtx, request.ctx, document.getElementById("blogEntries"), "posting");
 let loader = new Loader();
 document.getElementById("loader").parentNode.replaceChild(loader.dots(), document.getElementById("loader"));
 let loaderElem = document.getElementById("loader");

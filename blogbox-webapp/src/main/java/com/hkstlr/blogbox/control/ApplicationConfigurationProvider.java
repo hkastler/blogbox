@@ -31,6 +31,7 @@ public class ApplicationConfigurationProvider extends HttpConfigurationProvider 
 
     private static final String INDEX = "index";
     private static final String ENTRY = "entry";
+    private static final String POSTING = "posting";
     private static final String PAGE = "page";
     private static final String PAGE_SIZE = "pageSize";
 
@@ -44,6 +45,7 @@ public class ApplicationConfigurationProvider extends HttpConfigurationProvider 
 
         String indexPath = FS + INDEX;
         String entryPath = FS + ENTRY + FS + "{href}";
+        String postingPath = FS + POSTING + FS + "{href}";
         String pagePath = FS + PAGE + FS + "{page}";
         String pageSizePath = FS + PAGE_SIZE + FS + "{pageSize}";
         String extMatcher = MessageFormat.format("^(?!.*\\.{0}.*).*$", URL_EXTENSION);
@@ -58,6 +60,7 @@ public class ApplicationConfigurationProvider extends HttpConfigurationProvider 
                 .addRule(Join.path(pagePath + pageSizePath).to(INDEX_URL))
 
                 .addRule(Join.path(entryPath).to(ENTRY_URL))
+                .addRule(Join.path(postingPath).to(ENTRY_URL))
 
                 .addRule(TrailingSlash.append())
                 .when(Path.matches("/{x}"))
