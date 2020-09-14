@@ -21,6 +21,10 @@ public class RelaxedPlusDataBase64 extends Whitelist {
         addAttributes("colgroup", "span", "width");
         addAttributes("div", "style");
         addAttributes("div", "class");
+        
+        addAttributes("font", "size");
+        addAttributes("font", "color");
+        
         addAttributes("img", "align", "alt", "height", "src", "title", "width");
         addAttributes("ol", "start", "type");
         addAttributes("q", "cite");
@@ -36,11 +40,7 @@ public class RelaxedPlusDataBase64 extends Whitelist {
         addProtocols("q", "cite", "http", "https");
         
         addProtocols("img", "src", "http", "https", "data", "cid");
-        addProtocols("href", "http", "https", "data", "#");
-        
-       
-        addAttributes("font", "size");
-        addAttributes("font", "color");
+        addProtocols("href", "http", "https", "data", "#"); 
     }
 
     protected boolean isSafeAttribute(String tagName, Element el, Attribute attr) {
