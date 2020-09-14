@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
       lang="en-US">
     <h:head>
         <meta charset="utf-8"/>
@@ -10,7 +11,7 @@
         <ui:insert name="meta"></ui:insert>
         <title><ui:insert name="title">#{messages["site.name"]}</ui:insert></title>
          <!-- Bootstrap Core CSS -->
-         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous"/>
         <link rel="stylesheet" href="#{request.contextPath}/css/main.css"/>
         <link rel="icon" type="image/gif" href="#{request.contextPath}/images/favicon.ico" />
        
@@ -27,12 +28,12 @@
         </style>
         <ui:insert name="head"></ui:insert>
     </h:head>
-    <h:body>
+    <h:body p:itemscope="True" p:itemtype="http://schema.org/WebPage">
         <ui:insert name="topBody"></ui:insert>
         <ui:insert name="navigation">
             <ui:include src="navigation.xhtml" />
         </ui:insert>
-        <main aria-label="Main content" itemscope="itemscope" itemtype="https://schema.org/Blog">
+        <main aria-label="Main content" itemscope="True" itemtype="https://schema.org/Blog">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-8">
@@ -55,9 +56,8 @@
         <ui:insert name="footer">
             <ui:include src="footer.xhtml" /> 
         </ui:insert>
-        <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous" async="async"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
         <ui:insert name="postBody"><!-- hello --> </ui:insert>
     </h:body>
 </html>

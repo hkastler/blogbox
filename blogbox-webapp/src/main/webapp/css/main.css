@@ -2,6 +2,10 @@
    Author's custom styles
    ========================================================================== */
 
+a{
+  text-decoration: none;
+}
+
 .row {
   display: -webkit-box;
   display: -webkit-flex;
@@ -19,8 +23,14 @@
     height: 100%;
 }
 
+
 .blgmsgimg > img {
 	width: 75%;
+}
+
+#msgBody > .blgmsgimg {
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 input:focus::-webkit-input-placeholder{
@@ -39,6 +49,7 @@ article{
 
 nav{
     margin-bottom: 16px;
+    padding-left: 1rem;
 }
 
 .paginator > ul{
@@ -64,6 +75,13 @@ nav{
     display: flex;
     flex-direction: column;
     min-height: 50vh;
+}
+
+#blogEntries > div {
+  border-bottom-color: gray;
+  border-bottom-style: solid;
+  border-bottom-width: thin;  
+  padding-bottom: 2rem;
 }
 #paginator-bottom {
     margin-top: 16px;
