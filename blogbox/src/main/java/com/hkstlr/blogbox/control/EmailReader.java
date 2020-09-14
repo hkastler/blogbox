@@ -62,13 +62,18 @@ public class EmailReader {
             storeConnectLocalClient();
         }
 
-        try {
-            this.blogBox = (IMAPFolder) store.getFolder(this.folderName);
-            this.blogBox.open(IMAPFolder.READ_ONLY);
-
-        } catch (MessagingException e) {
-            log.log(Level.SEVERE, "init()", e);
+        if (this.store.isConnected()){
+            try {
+                this.blogBox = (IMAPFolder) store.getFolder(this.folderName);
+                this.blogBox.open(IMAPFolder.READ_ONLY);
+    
+            } catch (MessagingException e) {
+                log.log(Level.SEVERE, "init()", e);
+            }
+        } else {
+            log.log(Level.SEVERE, "init() not connected");
         }
+
 
     }
 
@@ -77,7 +82,7 @@ public class EmailReader {
             InitialContext ctx = new InitialContext();
             this.session = (Session) ctx.lookup(jndiName);
         } catch (NamingException e1) {
-            log.log(Level.WARNING, "jndiName not found", e1);
+            log.log(Level.FINE, "jndiName not found", e1);
         }
     }
 
@@ -125,6 +130,9 @@ public class EmailReader {
     public Message[] getImapEmails() {
 
         try {
+            if (!this.blogBox.isOpen()) {
+                this.blogBox.open(IMAPFolder.READ_ONLY);
+            }
             Message[] msgs = this.blogBox.getMessages();
             FetchProfile fp = new FetchProfile();
             fp.add(IMAPFolder.FetchProfileItem.MESSAGE);
