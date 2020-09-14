@@ -14,8 +14,6 @@ import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
-import com.hkstlr.blogbox.entities.BlogMessage;
-
 @SuppressWarnings("serial")
 @Stateless
 public class FetchHandler implements Serializable {
@@ -66,13 +64,13 @@ public class FetchHandler implements Serializable {
     
     @Asynchronous
     public Future<Boolean> getBlogMessages() {
-    	
+    	Integer DEFAULT_HREFWORDMAX = 10;
         CompletableFuture<Boolean> completableFuture 
           = new CompletableFuture<>();
          
         Integer hrefMaxWords = Optional.ofNullable(Integer.parseInt(config.getProps()
         		.getProperty("bmgs.hrefWordMax")))
-        		.orElse(BlogMessage.DEFAULT_HREFWORDMAX);
+        		.orElse(DEFAULT_HREFWORDMAX);
         
         er.setProps(config.getProps());
         er.init();

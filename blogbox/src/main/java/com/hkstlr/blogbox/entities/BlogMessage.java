@@ -74,11 +74,10 @@ public class BlogMessage {
     @Column(name = "createDate")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date createDate;
-
-    private static final String DEFAULT_SUBJECTREGEX = "[Bb]log";
-    public static final Integer DEFAULT_HREFWORDMAX = 10;
+    
+    
     public static final String TITLE_SEPARATOR = "-";
-    public static final String MESSAGE_ID = "Message-ID";
+    
 
     public BlogMessage() {
         super();
@@ -86,27 +85,27 @@ public class BlogMessage {
 
     public BlogMessage(Message msg) throws MessagingException {
         super();
-        this.messageId = Optional.ofNullable(msg.getHeader(MESSAGE_ID)[0]).orElse(getRandomDoubleAsString());
+        this.setMessageIdFromMsg(msg);
         this.messageNumber = msg.getMessageNumber();
         this.createDate = msg.getReceivedDate();
-        this.subject = createSubject(msg.getSubject(), DEFAULT_SUBJECTREGEX);
+        this.subject = defaultCreateSubject(msg.getSubject());
         this.body = new BlogMessageBody(msg).getBody();
-        this.href = createHref(DEFAULT_HREFWORDMAX);
+        this.href = defaultCreateHref();
     }
 
     public BlogMessage(Message msg, Integer hrefWordMax) throws MessagingException {
         super();
-        this.messageId = Optional.ofNullable(msg.getHeader(MESSAGE_ID)[0]).orElse(getRandomDoubleAsString());
+        this.setMessageIdFromMsg(msg);
         this.messageNumber = msg.getMessageNumber();
         this.createDate = msg.getReceivedDate();
-        this.subject = createSubject(msg.getSubject(), DEFAULT_SUBJECTREGEX);
+        this.subject = defaultCreateSubject(msg.getSubject());
         this.body = new BlogMessageBody(msg).getBody();
         this.href = createHref(hrefWordMax);
     }
 
     public BlogMessage(Message msg, String subjectRegex, Integer hrefWordMax) throws MessagingException {
         super();
-        this.messageId = Optional.ofNullable(msg.getHeader(MESSAGE_ID)[0]).orElse(getRandomDoubleAsString());
+        this.setMessageIdFromMsg(msg);
         this.messageNumber = msg.getMessageNumber();
         this.createDate = msg.getReceivedDate();
         this.subject = createSubject(msg.getSubject(), subjectRegex);
@@ -120,6 +119,15 @@ public class BlogMessage {
 
     public void setMessageId(String messageId) {
         this.messageId = messageId;
+    }
+
+    public void setMessageIdFromMsg(Message msg) throws MessagingException {
+        String[] rpls = {"<", ">"};
+        this.messageId = Optional.ofNullable(msg.getHeader("Message-ID")[0])
+                            .orElse(getRandomDoubleAsString());
+        for(String rpl : rpls){
+            this.messageId = this.messageId.replace(rpl, STRING);
+        }
     }
 
     private String getRandomDoubleAsString(){
@@ -176,8 +184,13 @@ public class BlogMessage {
         return Optional.ofNullable(msg.getHeader("Content-Type")[0].split(";")[0]).orElse("null");
     }
 
+    private String defaultCreateSubject(String msgSubject) {        
+        String DEFAULT_SUBJECTREGEX = "[Bb]log";
+        return createSubject(msgSubject, DEFAULT_SUBJECTREGEX);
+    }
+
     private String createSubject(String msgSubject, String rfRegex) {
-        String lsub = "";
+        String lsub = STRING;
         try {
             lsub = MimeUtility.decodeText(msgSubject);
         } catch (UnsupportedEncodingException ex) {
@@ -189,6 +202,11 @@ public class BlogMessage {
             lsub = msgSubject;
         }
         return lsub;
+    }
+
+    private String defaultCreateHref(){
+        Integer DEFAULT_HREFWORDMAX = 10;
+        return createHref(DEFAULT_HREFWORDMAX);
     }
 
     /**
