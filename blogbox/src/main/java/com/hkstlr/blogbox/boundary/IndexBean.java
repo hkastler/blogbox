@@ -55,20 +55,20 @@ public class IndexBean {
         return Math.min(a, b);
     }
 
-    public Boolean hasMessages(){
+    public Boolean hasMessages() {
         Integer msgCount = index.getBlogMessageCount();
         return (msgCount > 0);
     }
 
     public List<BlogMessage> currentList() {
-         return bmm.getBlogMessageRange(paginator.getPageFirstItem() - 1, paginator.getPageLastItem() - 1);
+        return bmm.getBlogMessageRange(paginator.getPageFirstItem() - 1, paginator.getPageLastItem() - 1);
     }
 
-    public BlogMessage getMsgByHref(String href){
+    public BlogMessage getMsgByHref(String href) {
         return bmm.getBlogMessageByHref(href);
     }
 
-    public BlogMessage getMsgByMessageNumber(Integer msgNum){
+    public BlogMessage getMsgByMessageNumber(Integer msgNum) {
         return bmm.getBlogMessageByMessageNumber(msgNum);
     }
 
