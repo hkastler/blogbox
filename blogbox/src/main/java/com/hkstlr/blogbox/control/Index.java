@@ -33,9 +33,10 @@ public class Index {
 
     @PostConstruct
     void init() {
-        blogMessageCount = 0;
+        blogMessageCount = bman.count();
+        log.log(Level.INFO,"count:{0}", Integer.toString(blogMessageCount));
         log.log(Level.INFO, "setup:{0}", config.isSetup());
-        if (config.isSetup()) {
+        if (config.isSetup() && blogMessageCount == 0) {
             event.fire(new FetchEvent(this.getClass().getCanonicalName()
                     .concat(".init()")));
         }
@@ -88,8 +89,8 @@ public class Index {
     @Asynchronous
     public void handle(@Observes IndexEvent event) {
         if("updateBlogMessageCount".equals(event.getName())){
-            updateBlogMessageCount();
             bman.clearCache();
+            updateBlogMessageCount();
         }
     }
 
