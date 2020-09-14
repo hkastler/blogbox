@@ -10,13 +10,10 @@ import javax.ejb.Startup;
  */
 @DataSourceDefinition(name = "java:app/blogbox/BlogBoxDS",
     className = "org.h2.jdbcx.JdbcDataSource",
-    url = "jdbc:h2:mem:blogbox;DB_CLOSE_DELAY=-1",
+    url = "jdbc:h2:/etc/opt/blogbox/data;DB_CLOSE_DELAY=-1;LOB_TIMEOUT=1000;",
     user = "sa",
-    password = "sa",
-    initialPoolSize = 4,
-    minPoolSize = 4,
-    maxPoolSize = 16
-)
+    password = "sa"
+    )
 @Startup
 public class BlogBoxDataSource {
     //see annotation
