@@ -6,14 +6,12 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.Asynchronous;
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.hkstlr.blogbox.boundary.jpa.BlogMessageManager;
 import com.hkstlr.blogbox.control.Config;
 import com.hkstlr.blogbox.control.DateFormatter;
-import com.hkstlr.blogbox.control.FetchEvent;
 import com.hkstlr.blogbox.control.Index;
 import com.hkstlr.blogbox.control.Paginator;
 import com.hkstlr.blogbox.entities.BlogMessage;
@@ -29,9 +27,6 @@ public class IndexBean {
 
     @Inject
     Index index;
-
-    @Inject
-    Event<String> indexEvent;
 
     public IndexBean() {
         super();
@@ -86,7 +81,7 @@ public class IndexBean {
 
     @Asynchronous
     public void goFetch() {
-        index.getEvent().fire(new FetchEvent(this.getClass().getCanonicalName().concat(".goFetch()")));
+      index.goFetch(this.getClass().getCanonicalName());
     }
 
 }

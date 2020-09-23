@@ -87,6 +87,12 @@ public class BlogMessageManager {
         return this.getSingleResult(q);
     }
 
+    public BlogMessage getTopMessage() {
+        TypedQuery<BlogMessage> q = em.createQuery("SELECT b FROM BlogMessage b ORDER BY messageNumber DESC", BlogMessage.class);
+        q.setMaxResults(1);
+        return this.getSingleResult(q);
+    }
+
     BlogMessage getSingleResult(TypedQuery<BlogMessage> q) {
         BlogMessage b;
         try {

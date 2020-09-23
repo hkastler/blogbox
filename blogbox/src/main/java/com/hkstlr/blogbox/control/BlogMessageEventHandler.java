@@ -22,7 +22,7 @@ public class BlogMessageEventHandler {
     BlogMessageManager bman;
     
     @Inject
-    Event<BlogMessageEvent> event;
+    Event<BlogMessageEvent> blogMessageEvent;
 
     public BlogMessageEventHandler() {
         super();

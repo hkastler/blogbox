@@ -12,6 +12,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
+import com.hkstlr.blogbox.boundary.events.EventsManager;
 import com.hkstlr.blogbox.boundary.jpa.BlogMessageManager;
 import com.hkstlr.blogbox.control.BlogMessageHelper;
 import com.hkstlr.blogbox.control.EmailReader;
@@ -29,8 +30,11 @@ public class BlogBoxService {
     
     @EJB
     BlogMessageManager bman;
+
+    @EJB
+    EventsManager em;
         
-    private static final Logger LOG = Logger.getLogger(BlogBoxService.class.getName());    
+    private static Logger LOG = Logger.getLogger(BlogBoxService.class.getName());
     
     public BlogBoxService() {
         super();
@@ -116,13 +120,15 @@ public class BlogBoxService {
     @GET
     @Produces("text/plain")
     @Path("/fetch")
-    public String fetch() {
-        LOG.info("/fetch called");
-        String fetchEvent = this.getClass().getCanonicalName().concat(".fetch()");
-        index.getEvent().fire(new FetchEvent(fetchEvent));
-        LOG.info(fetchEvent);
-        return fetchEvent;
+    public String fetch() {        
+        return em.fetchAll(this.getClass().getCanonicalName());
     }
 
+    @GET
+    @Produces("text/plain")
+    @Path("/fetchlatest")
+    public String fetchlatest() {
+        return em.fetchLatest(this.getClass().getCanonicalName());
+    }
     
 }

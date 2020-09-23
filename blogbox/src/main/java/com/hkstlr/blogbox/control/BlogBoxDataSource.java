@@ -7,6 +7,8 @@ import javax.ejb.Startup;
 /**
  *
  * @author henry.kastler
+ * C:\\etc\\opt\\blogbox\\data
+ * /etc/opt/blogbox/data
  */
 @DataSourceDefinition(name = "java:app/blogbox/BlogBoxDS",
     className = "org.h2.jdbcx.JdbcDataSource",

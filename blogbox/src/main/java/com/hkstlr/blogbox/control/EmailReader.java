@@ -2,11 +2,14 @@ package com.hkstlr.blogbox.control;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
@@ -15,9 +18,13 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.NoSuchProviderException;
 import javax.mail.Session;
+import javax.mail.search.DateTerm;
+import javax.mail.search.ReceivedDateTerm;
+import javax.mail.search.SearchTerm;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import com.hkstlr.blogbox.boundary.events.EventsManager;
 import com.hkstlr.blogbox.entities.BlogMessage;
 import com.sun.mail.imap.IMAPFolder;
 import com.sun.mail.imap.IMAPSSLStore;
@@ -33,8 +40,8 @@ public class EmailReader {
     String folderName;
     IMAPFolder blogBox;
 
-    @Inject
-    Event<BlogMessageEvent> event;
+    @EJB
+    EventsManager em;
 
     private final Logger log = Logger.getLogger(this.getClass().getName());
 
@@ -56,24 +63,24 @@ public class EmailReader {
 
         if (this.session != null) {
             log.log(Level.INFO, "getting mail session from container");
+            
             storeConnectContainer();
         } else {
             log.log(Level.INFO, "getting mail session from local client");
             storeConnectLocalClient();
         }
 
-        if (this.store.isConnected()){
+        if (this.store.isConnected()) {
             try {
                 this.blogBox = (IMAPFolder) store.getFolder(this.folderName);
                 this.blogBox.open(IMAPFolder.READ_ONLY);
-    
+
             } catch (MessagingException e) {
                 log.log(Level.SEVERE, "init()", e);
             }
         } else {
             log.log(Level.SEVERE, "init() not connected");
         }
-
 
     }
 
@@ -123,7 +130,7 @@ public class EmailReader {
         try {
             this.store.close();
         } catch (MessagingException ex) {
-            Logger.getLogger(EmailReader.class.getName()).log(Level.SEVERE, null, ex);
+            log.log(Level.SEVERE, null, ex);
         }
     }
 
@@ -144,6 +151,24 @@ public class EmailReader {
         }
 
         return new Message[0];
+    }
+
+    public Message[] searchLatestMessages(Date givenDate) {
+        log.log(Level.INFO, "date:{0}", givenDate.toString());
+
+        SearchTerm st = new ReceivedDateTerm(DateTerm.GT, givenDate);
+
+        try {
+            if (!this.blogBox.isOpen()) {
+                this.blogBox.open(IMAPFolder.READ_ONLY);
+            }
+            Message[] messages = this.blogBox.search(st);
+            return messages;
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+        return new Message[0];
+
     }
 
     public int getMessageCount() {
@@ -172,35 +197,56 @@ public class EmailReader {
     }
 
     public Boolean setBlogMessages(Integer hrefMaxWords) {
-
         List<String> hrefs = new ArrayList<>();
 
         Arrays.asList(getImapEmails()).parallelStream().forEach(msg -> {
-
             try {
                 if (!blogBox.isOpen()) {
                     blogBox.open(IMAPFolder.READ_ONLY);
                 }
-
                 BlogMessage bmsg = new BlogMessage(msg, hrefMaxWords);
 
                 if (hrefs.contains(bmsg.getHref())) {
                     bmsg.makeHrefUnique();
                 }
-                hrefs.add(bmsg.getHref());
-                event.fire(new BlogMessageEvent("save", bmsg));
+                hrefs.add(bmsg.getHref());                
+                em.saveBlogMessage(bmsg);
+            } catch (MessagingException e) {
+                log.log(Level.WARNING, "bmsg", e);
+            } finally {
+                // do nothing
+            }
+        });
+        storeClose();
+        // convert to String array for payload type safety
+        em.deleteByHrefNotIn(hrefs.toArray(new String[hrefs.size()]));
+        log.log(Level.INFO, "{0} bmgs returned", new Object[] { Integer.toString(hrefs.size()) });
+        return true;
+    }
+
+    public Boolean searchLatestBlogMessages(Integer hrefMaxWords, Date date) {
+        AtomicInteger runCount = new AtomicInteger(0);
+        Arrays.asList(searchLatestMessages(date)).parallelStream().forEach(msg -> {
+            try {
+                if (!blogBox.isOpen()) {
+                    blogBox.open(IMAPFolder.READ_ONLY);
+                }
+                // search works only by date, not datetime
+                if (msg.getReceivedDate().after(date)) {
+                    BlogMessage bmsg = new BlogMessage(msg, hrefMaxWords);
+                    bmsg.makeHrefUnique();
+                    em.saveBlogMessage(bmsg);
+                    runCount.getAndIncrement();
+                }
 
             } catch (MessagingException e) {
                 log.log(Level.WARNING, "bmsg", e);
             } finally {
-                //do nothing
+                // do nothing
             }
         });
-
         storeClose();
-        //convert to String array for payload type safety
-        event.fire(new BlogMessageEvent("deleteByHrefNotIn", hrefs.toArray(new String[hrefs.size()])));
-        log.log(Level.INFO, "{0} bmgs returned", new Object[]{Integer.toString(hrefs.size())});
+        log.log(Level.INFO, "{0} bmgs returned", new Object[] { runCount.toString() });
         return true;
     }
 
@@ -218,5 +264,4 @@ public class EmailReader {
         }
     }
 
-    
 }

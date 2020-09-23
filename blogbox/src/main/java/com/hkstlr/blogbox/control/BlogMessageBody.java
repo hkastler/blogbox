@@ -30,7 +30,7 @@ public final class BlogMessageBody {
     StringBuilder text = new StringBuilder();
     StringBuilder html = new StringBuilder();
 
-    private static final Logger LOG = Logger.getLogger(BlogMessageBody.class.getName());
+    private static Logger LOG = Logger.getLogger(BlogMessageBody.class.getName());
 
     public BlogMessageBody(Message msg) {
         this.body = buildBody(msg);
