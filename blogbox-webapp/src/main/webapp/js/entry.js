@@ -3,12 +3,12 @@ import BlogEntry from './BlogEntry.js';
 import Loader from './Loader.js';
 
 
-const request = new RequestManager();
-const baseHref = request.pathArray[request.pathArray.length - 2];
-const href = request.pathArray[request.pathArray.length - 1];
+const requestManager = new RequestManager();
+const baseHref = requestManager.pathArray[requestManager.pathArray.length - 2];
+const href = requestManager.pathArray[requestManager.pathArray.length - 1];
 const blogDataCtx = "/blogbox";
 
-let blogEntry = new BlogEntry(blogDataCtx, request.ctx, baseHref, href);
+let blogEntry = new BlogEntry(blogDataCtx, requestManager.ctx, baseHref, href);
 
 const entryContainer = document.getElementById("entry");
 const navContainer = document.getElementById("navContainer");
@@ -43,7 +43,7 @@ function blogEntryLinkHandler(e){
     const entryHref = aHref[aHref.length-1];
     
     blogEntry.href = entryHref;
-    request.get(blogEntry.getRequestUrl(), processResponse, blogOnLoadEnd);
+    requestManager.get(blogEntry.getRequestUrl(), processResponse, blogOnLoadEnd);
     scrollToTop(100);
 }
 function scrollToTop(scrollDuration) {
@@ -56,4 +56,4 @@ function scrollToTop(scrollDuration) {
     },15);
 }
 document.addEventListener('DOMContentLoaded', 
-    request.get(blogEntry.getRequestUrl(), processResponse, blogOnLoadEnd));
+    requestManager.get(blogEntry.getRequestUrl(), processResponse, blogOnLoadEnd));

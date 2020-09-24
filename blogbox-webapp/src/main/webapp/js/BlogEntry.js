@@ -8,7 +8,6 @@ class BlogEntry {
 
     entryHtml(msg) {
         return `<article aria-label="Article" itemscope="True" itemprop="blogPost" itemtype="https://schema.org/BlogPosting">
-                    <meta itemprop="mainEntityOfPage" content="/${msg.href}" />
                     <a name="top" id="top"></a>
                     <div itemprop="name headline"><h3 class="mt-4" id="msgSubject">${msg.subject}</h3></div>
                     <div id="msgCreateDate">
