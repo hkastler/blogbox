@@ -27,6 +27,7 @@ import javax.validation.constraints.Size;
 import com.hkstlr.blogbox.control.BlogMessageBody;
 import com.hkstlr.blogbox.control.DateFormatter;
 import com.hkstlr.blogbox.control.StringChanger;
+import com.hkstlr.blogbox.control.StringPool;
 
 @Entity
 @Cacheable
@@ -39,14 +40,14 @@ import com.hkstlr.blogbox.control.StringChanger;
 @NamedQuery(name = "BlogMessage.findMessageNumberRange", query = "SELECT b FROM BlogMessage b WHERE b.messageNumber BETWEEN :messageNumberStart AND :messageNumberEnd")
 public class BlogMessage {
 
-    private static final String STRING = "";
+    
 
     @Id
     @Basic(optional = false)
     @NotNull(message = "{BlogMessage.messageId.NotNull}")
     @Size(min = 1, max = 255, message = "{BlogMessage.messageId.NotNull}")
     @Column(name = "messageId", nullable = false, length = 255)
-    private String messageId = STRING;
+    private String messageId = StringPool.STRING;
 
     @Basic(optional = false)
     @NotNull(message = "{BlogMessage.messageNumber.NotNull}")
@@ -57,26 +58,26 @@ public class BlogMessage {
     @NotNull(message = "{BlogMessage.href.NotNull}")
     @Size(min = 1, max = 255, message = "{BlogMessage.href.NotNull}")
     @Column(name = "href", nullable = false, length = 255)
-    private String href = STRING;
+    private String href = StringPool.STRING;
 
     @Basic(optional = false)
     @NotNull(message = "{BlogMessage.subject.NotNull}")
     @Size(min = 1, max = 255, message = "{BlogMessage.subject.NotNull}")
     @Column(name = "subject", nullable = false, length = 255)
-    private String subject = STRING;
+    private String subject = StringPool.STRING;
 
     @Basic(optional = false)
     @NotNull(message = "{BlogMessage.body.NotNull}")
     @Size(min = 1, message = "{BlogMessage.body.NotNull}")
     @Column(name = "body", nullable = false, length = 10485760)
-    private String body = STRING;
+    private String body = StringPool.STRING;
 
     @Column(name = "createDate")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date createDate;
     
     
-    public static final String TITLE_SEPARATOR = "-";
+    public static final String TITLE_SEPARATOR = StringPool.DASH;
     
 
     public BlogMessage() {
@@ -89,7 +90,7 @@ public class BlogMessage {
         this.messageNumber = msg.getMessageNumber();
         this.createDate = msg.getReceivedDate();
         this.subject = defaultCreateSubject(msg.getSubject());
-        this.body = new BlogMessageBody(msg).getBody();
+        this.body = new BlogMessageBody(this.messageId,msg).getBody();
         this.href = defaultCreateHref();
     }
 
@@ -99,7 +100,7 @@ public class BlogMessage {
         this.messageNumber = msg.getMessageNumber();
         this.createDate = msg.getReceivedDate();
         this.subject = defaultCreateSubject(msg.getSubject());
-        this.body = new BlogMessageBody(msg).getBody();
+        this.body = new BlogMessageBody(this.messageId,msg).getBody();
         this.href = createHref(hrefWordMax);
     }
 
@@ -109,7 +110,7 @@ public class BlogMessage {
         this.messageNumber = msg.getMessageNumber();
         this.createDate = msg.getReceivedDate();
         this.subject = createSubject(msg.getSubject(), subjectRegex);
-        this.body = new BlogMessageBody(msg).getBody();
+        this.body = new BlogMessageBody(this.messageId,msg).getBody();
         this.href = createHref(hrefWordMax);
     }
 
@@ -122,12 +123,13 @@ public class BlogMessage {
     }
 
     public void setMessageIdFromMsg(Message msg) throws MessagingException {
-        String[] rpls = {"<", ">"};
+        String[] rpls = {StringPool.LESS_THAN, StringPool.GREATER_THAN};
         this.messageId = Optional.ofNullable(msg.getHeader("Message-ID")[0])
                             .orElse(getRandomDoubleAsString());
         for(String rpl : rpls){
-            this.messageId = this.messageId.replace(rpl, STRING);
+            this.messageId = this.messageId.replace(rpl, StringPool.STRING);
         }
+        this.messageId = this.messageId.split(StringPool.AT)[0];
     }
 
     private String getRandomDoubleAsString(){
@@ -181,22 +183,22 @@ public class BlogMessage {
     }
 
     String getContentTypeFromHeader(Message msg) throws MessagingException {
-        return Optional.ofNullable(msg.getHeader("Content-Type")[0].split(";")[0]).orElse("null");
+        return Optional.ofNullable(msg.getHeader("Content-Type")[0].split(StringPool.SEMICOLON)[0]).orElse("null");
     }
 
-    private String defaultCreateSubject(String msgSubject) {        
+    private String defaultCreateSubject(String msgSubject) {
         String DEFAULT_SUBJECTREGEX = "[Bb]log";
         return createSubject(msgSubject, DEFAULT_SUBJECTREGEX);
     }
 
     private String createSubject(String msgSubject, String rfRegex) {
-        String lsub = STRING;
+        String lsub = StringPool.STRING;
         try {
             lsub = MimeUtility.decodeText(msgSubject);
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(BlogMessage.class.getName()).log(Level.SEVERE, null, ex);
         }
-        lsub = lsub.replaceFirst(rfRegex, STRING);
+        lsub = lsub.replaceFirst(rfRegex, StringPool.STRING);
         lsub = lsub.trim();
         if (lsub.length() == 0) {
             lsub = msgSubject;
@@ -213,15 +215,15 @@ public class BlogMessage {
      * Create href for blog, based on title or text
      */
     private String createHref(Integer numberOfWordsInUrl) {
-
+        final char CHAR = ' ';
         // Use title (minus non-alphanumeric characters)
         StringBuilder base = new StringBuilder();
         if (!this.subject.isEmpty()) {
-            base.append(StringChanger.replaceNonAlphanumeric(this.subject, ' ').trim());
+            base.append(StringChanger.replaceNonAlphanumeric(this.subject, CHAR).trim());
         }
         // If we still have no base, then try body (minus non-alphanumerics)
         if (base.length() == 0 && !this.body.isEmpty()) {
-            base.append(StringChanger.replaceNonAlphanumeric(this.body, ' ').trim());
+            base.append(StringChanger.replaceNonAlphanumeric(this.body, CHAR).trim());
         }
 
         if (base.length() > 0) {

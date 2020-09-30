@@ -33,13 +33,13 @@ public class RelaxedPlusDataBase64 extends Whitelist {
         addAttributes("th", "abbr", "axis", "colspan", "rowspan", "scope", "width");
         addAttributes("ul", "type");
         
-        addProtocols("a", "href", "ftp", "http", "https", "mailto");
+        //addProtocols("a", "href", "ftp", "http", "https", "mailto");
         addProtocols("blockquote", "cite", "http", "https");
         addProtocols("cite", "cite", "http", "https");
-        addProtocols("img", "src", "http", "https");
+        //addProtocols("img", "src", "http", "https");
         addProtocols("q", "cite", "http", "https");
         
-        addProtocols("img", "src", "http", "https", "data", "cid");
+        //addProtocols("img", "src", "http", "https", "data", "cid");
         addProtocols("href", "http", "https", "data", "#"); 
     }
 

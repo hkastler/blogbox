@@ -3,8 +3,6 @@ package com.hkstlr.blogbox.control;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
 
 /**
@@ -57,10 +55,10 @@ public class BlogMessageEventTest {
 
     @Test
     public void testConstructors(){
-        BlogMessageEvent bmeFull = new BlogMessageEvent("name", new Integer[]{1,2,3});
+        BlogMessageSaveEvent bmeFull = new BlogMessageSaveEvent("name", new Integer[]{1,2,3});
         assertNotNull(bmeFull.getPayload());
         assertFalse(bmeFull.getPayload() instanceof String);
-        BlogMessageEvent bmeName = new BlogMessageEvent("name");
+        BlogMessageSaveEvent bmeName = new BlogMessageSaveEvent("name");
         assertNotNull(bmeName.getName());
     }
     

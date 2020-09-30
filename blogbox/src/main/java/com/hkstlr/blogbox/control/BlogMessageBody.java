@@ -1,11 +1,8 @@
 package com.hkstlr.blogbox.control;
 
-import com.sun.mail.util.BASE64DecoderStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,6 +14,8 @@ import javax.mail.Part;
 import javax.mail.internet.MimeMultipart;
 import javax.ws.rs.core.MediaType;
 
+import com.sun.mail.util.BASE64DecoderStream;
+
 import org.jsoup.Jsoup;
 import org.jsoup.helper.StringUtil;
 import org.jsoup.nodes.Document;
@@ -25,14 +24,16 @@ import org.jsoup.safety.Whitelist;
 
 public final class BlogMessageBody {
 
+    String messageId;
     String body;
     StringBuilder bodyBuilder = new StringBuilder();
     StringBuilder text = new StringBuilder();
     StringBuilder html = new StringBuilder();
 
-    private static Logger LOG = Logger.getLogger(BlogMessageBody.class.getName());
+    private Logger LOG = Logger.getLogger(BlogMessageBody.class.getName());
 
-    public BlogMessageBody(Message msg) {
+    public BlogMessageBody(String messageId, Message msg) {
+        this.messageId = messageId;
         this.body = buildBody(msg);
     }
 
@@ -89,56 +90,43 @@ public final class BlogMessageBody {
                 } else if (contentType.contains("pdf")) {
                     handlePdf(p);
                 } else {
-                    LOG.log(Level.INFO, "unhandled Base64 content type {0} found in content", p.getDataHandler().getContentType());
+                    LOG.log(Level.INFO, "unhandled Base64 content type {0} found in content",
+                            p.getDataHandler().getContentType());
                 }
             }
 
         } catch (MessagingException | IOException e) {
             LOG.log(Level.SEVERE, null, e);
         }
+
     }
 
-    String getBase64String(Part p) {
-        String b64 = "";
-        try (ByteArrayOutputStream baos = new ByteArrayOutputStream(p.getSize())) {
-            p.getDataHandler().writeTo(baos);
-            b64 = Base64.getEncoder().encodeToString( baos.toByteArray() );
-           
-        } catch (Exception ex) {
-            LOG.log(Level.SEVERE, null, ex);
-        }
+    void handleImage(Part p) throws MessagingException, IOException {
 
-        return b64;
-    }
+        PartFileWriter pfw = new PartFileWriter(this.messageId, p);
+        pfw.createFile();
+        String template = "<div class=\"blgmsgimg\"><img src=\"/assets/imgs/{0}\" /></div>";
+        String imgTag = MessageFormat.format(template, pfw.getFileName());
 
-    
-
-    void handleImage(Part p) throws MessagingException {
-
-        String imageString = getBase64String(p);
-        
         String[] aryContentType = contentTypes(p.getDataHandler().getContentType());
-        String contentType = getPartContentType(aryContentType);
-
-        String template = "<div class=\"blgmsgimg\"><img src=\"data:{0};base64, {1} \" /></div>";
-        String imgTag = MessageFormat.format(template, contentType, imageString);
-
-        String partId = "";
+        String partId = StringPool.STRING;
         if (aryContentType.length > 1) {
             partId = aryContentType[1];
         }
 
         String imgId = partId;
-        if (partId.contains("=")) {
-            imgId = partId.split("=")[1];
+        if (partId.contains(StringPool.EQUALS)) {
+            imgId = partId.split(StringPool.EQUALS)[1];
         }
-        Optional<String[]> cidHeader = Optional.ofNullable(p.getHeader("Content-Id"));
 
+        Optional<String[]> cidHeader = Optional.ofNullable(p.getHeader("Content-Id"));
         if (cidHeader.isPresent()) {
-            String contentId = Optional.ofNullable(cidHeader.get()[0]).orElse("");
-            String ncid = contentId.replaceAll("<", "");
-            ncid = ncid.replaceAll(">", "");
-            imgId = ncid;
+            String contentId = Optional.ofNullable(cidHeader.get()[0]).orElse(StringPool.STRING);
+            if (!contentId.isBlank()) {
+                String ncid = contentId.replaceAll(StringPool.LESS_THAN, StringPool.STRING);
+                ncid = ncid.replaceAll(StringPool.GREATER_THAN, StringPool.STRING);
+                imgId = ncid;
+            }
         }
 
         String compiledCidFinder = MessageFormat.format("cid:{0}", imgId);
@@ -162,6 +150,7 @@ public final class BlogMessageBody {
     }
 
     String replaceCidImgTag(String html, String imgSelectorValue, String replacement) {
+
         Document doc = Jsoup.parse(html);
         String imgSelector = MessageFormat.format("img[src*=\"{0}\"]", imgSelectorValue);
         Optional<Element> oImg = Optional.ofNullable(doc.selectFirst(imgSelector));
@@ -171,14 +160,17 @@ public final class BlogMessageBody {
             img.remove();
         }
         return doc.toString();
+
     }
 
     void handlePdf(Part p) throws MessagingException {
-        
-        String pdfString = getBase64String(p);
-        String contentType = getPartContentType(contentTypes(p.getDataHandler().getContentType()));
-        String template = "<div class=\"blgmsgpdf\"><a href=\"data:{0};base64, {1} \">{2}</a></div>";
-        String pdfTag = MessageFormat.format(template, contentType, pdfString, p.getFileName());
+
+        PartFileWriter pfw = new PartFileWriter(this.messageId, p);
+        pfw.fileLocation = "/etc/opt/blogbox/assets/pdfs/";
+        pfw.createFile();
+
+        String template = "<div class=\"blgmsgpdf\"><a href=\"/assets/pdfs/{0}\">{1}</a></div>";
+        String pdfTag = MessageFormat.format(template, pfw.getFileName(), p.getFileName());
         if (this.html.length() > 0) {
             this.html.append(pdfTag);
         } else {
@@ -186,8 +178,8 @@ public final class BlogMessageBody {
         }
 
     }
-    
-    public String getPartContentType(String[] contentTypes) throws MessagingException{
+
+    public String getPartContentType(String[] contentTypes) throws MessagingException {
         return contentTypes[0];
     }
 
@@ -213,13 +205,13 @@ public final class BlogMessageBody {
         }
 
         Whitelist wl = new RelaxedPlusDataBase64();
-        
+
         String safe = Jsoup.clean(htmlBody.html(), wl.preserveRelativeLinks(true));
-        
+
         return StringUtil.normaliseWhitespace(safe);
     }
 
-    private String newLinesToBrs(String html){
+    private String newLinesToBrs(String html) {
         return html.replaceAll("(\r\n|\n)", "<br/>");
     }
 

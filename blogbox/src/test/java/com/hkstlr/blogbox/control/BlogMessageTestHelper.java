@@ -29,7 +29,9 @@ public class BlogMessageTestHelper {
     }
     
     public BlogMessageBody getBlogMessageBodyFromEmlFile(String emlFile) throws IOException, MessagingException {
-        return new BlogMessageBody(getMessageFromEmlFile(emlFile));   
+        Message msg = getMessageFromEmlFile(emlFile);
+        BlogMessage bm = new BlogMessage(msg);
+        return new BlogMessageBody(bm.getMessageId(),msg);
     }
     
     Message getMessageFromEmlFile(String emlFile){

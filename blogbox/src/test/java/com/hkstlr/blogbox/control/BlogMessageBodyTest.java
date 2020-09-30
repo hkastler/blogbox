@@ -31,9 +31,10 @@ public class BlogMessageBodyTest {
     public void testRawPlainText() throws IOException, MessagingException {
         BlogMessageTestHelper bmth = new BlogMessageTestHelper();
         String emlFile;
-        for (int i = 1; i <= 7; i++) {
+        for (int i = 8; i <= 8; i++) {
             emlFile = "rawplaintext".concat(Integer.toString(i)).concat(".eml");
             cut = bmth.getBlogMessageBodyFromEmlFile(emlFile);
+            System.out.println(cut.getBody());
             assertTrue(cut.getBody().length() > 0);
         }
     }
@@ -44,6 +45,7 @@ public class BlogMessageBodyTest {
         String emlFile = "plaintextInlineImage.eml";
         cut = bmth.getBlogMessageBodyFromEmlFile(emlFile);
         assertFalse(cut.getBody().isEmpty());
+        System.out.println(cut.getBody());
     }
 
 

@@ -1,6 +1,8 @@
 package com.hkstlr.blogbox.entities;
 
 import com.hkstlr.blogbox.control.BlogMessageTestHelper;
+import com.hkstlr.blogbox.control.StringPool;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -43,6 +45,7 @@ public class BlogMessageTest {
     @Test
     public void testGetMessageId() {
         assertNotNull(cut.getMessageId());
+        assertTrue(!cut.getMessageId().contains(StringPool.AT));
     }
 
     /**
@@ -69,7 +72,8 @@ public class BlogMessageTest {
      */
     @Test
     public void testGetBody() {
-        assertTrue(cut.getBody().contains("image/jpeg"));
+        log.info(cut.getBody());
+        assertTrue(cut.getBody().contains("jpg"));
     }
 
     /**
