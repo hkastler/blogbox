@@ -2,6 +2,8 @@ package com.hkstlr.blogbox.control;
 
 public class BlogMessageEvent extends BlogboxEvent {
 
+    enum BlogMessageEvents { SAVE, DELETE_BY_HREF };
+
     public BlogMessageEvent(){
         super();
     }

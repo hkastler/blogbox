@@ -6,10 +6,8 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
-import javax.enterprise.event.Event;
-import javax.inject.Inject;
 
-import com.hkstlr.blogbox.boundary.events.EventsManager;
+import com.hkstlr.blogbox.boundary.event.BlogboxEventManager;
 
 /**
  *
@@ -19,7 +17,7 @@ import com.hkstlr.blogbox.boundary.events.EventsManager;
 public class BlogMessageFetchScheduler {
 
     @EJB
-    EventsManager em;
+    BlogboxEventManager em;
 
     Logger log = Logger.getLogger(this.getClass().getName());
 

@@ -12,15 +12,13 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-import com.hkstlr.blogbox.boundary.events.EventsManager;
+import com.hkstlr.blogbox.boundary.event.BlogboxEventManager;
 import com.hkstlr.blogbox.boundary.jpa.BlogMessageManager;
 import com.hkstlr.blogbox.control.BlogMessageHelper;
 import com.hkstlr.blogbox.control.EmailReader;
-import com.hkstlr.blogbox.control.FetchEvent;
 import com.hkstlr.blogbox.control.Index;
 import com.hkstlr.blogbox.control.Paginator;
 import com.hkstlr.blogbox.entities.BlogMessage;
-import java.util.logging.Logger;
 
 @Path("/srvc")
 public class BlogBoxService {
@@ -32,11 +30,9 @@ public class BlogBoxService {
     BlogMessageManager bman;
 
     @EJB
-    EventsManager em;
-        
-    private static Logger LOG = Logger.getLogger(BlogBoxService.class.getName());
-    
-    public BlogBoxService() {
+    BlogboxEventManager em;
+
+     public BlogBoxService() {
         super();
     }
 
@@ -99,6 +95,15 @@ public class BlogBoxService {
     }
 
     @GET
+    @Produces("text/plain")
+    @Path("/updatecount")
+    public String updateCount() {
+        String callerName = this.getClass().getCanonicalName().concat(".updateCount()");
+        em.updateBlogMessageCount(callerName);
+        return callerName;
+    }
+
+    @GET
     @Produces("application/json")
     @Path("/props")
     public Properties getProps() {
@@ -120,7 +125,7 @@ public class BlogBoxService {
     @GET
     @Produces("text/plain")
     @Path("/fetch")
-    public String fetch() {        
+    public String fetch() {
         return em.fetchAll(this.getClass().getCanonicalName());
     }
 

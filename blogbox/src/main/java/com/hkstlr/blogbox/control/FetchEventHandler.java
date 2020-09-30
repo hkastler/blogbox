@@ -12,28 +12,27 @@ import java.util.logging.Logger;
 import javax.ejb.Asynchronous;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
-import com.hkstlr.blogbox.boundary.events.EventsManager;
+import com.hkstlr.blogbox.boundary.event.BlogboxEventManager;
 
 @SuppressWarnings("serial")
 @Stateless
-public class FetchHandler implements Serializable {
+public class FetchEventHandler implements Serializable {
 
-    private static final Logger LOG = Logger.getLogger(FetchHandler.class.getCanonicalName());
+    private static final Logger LOG = Logger.getLogger(FetchEventHandler.class.getCanonicalName());
 
     @Inject
     Config config;
 
     @EJB
-    EventsManager em;
+    BlogboxEventManager em;
 
     @Inject
     EmailReader er;
 
-    public FetchHandler() {
+    public FetchEventHandler() {
         super();
     }
 

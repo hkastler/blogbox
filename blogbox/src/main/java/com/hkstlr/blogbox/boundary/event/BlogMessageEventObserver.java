@@ -1,47 +1,35 @@
-package com.hkstlr.blogbox.control;
+package com.hkstlr.blogbox.boundary.event;
 
 import java.util.Optional;
 
 import javax.ejb.Asynchronous;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
-import javax.inject.Inject;
 
 import com.hkstlr.blogbox.boundary.jpa.BlogMessageManager;
+import com.hkstlr.blogbox.control.BlogMessageDeleteEvent;
+import com.hkstlr.blogbox.control.BlogMessageSaveEvent;
 import com.hkstlr.blogbox.entities.BlogMessage;
 
 @Stateless
-public class BlogMessageEventHandler {
-
-    @Inject
-    Config config;
+public class BlogMessageEventObserver {
 
     @EJB
     BlogMessageManager bman;
     
-    @Inject
-    Event<BlogMessageEvent> blogMessageEvent;
-
-    public BlogMessageEventHandler() {
+    public BlogMessageEventObserver() {
         super();
     }
 
     @Asynchronous
-    public void handle(@Observes BlogMessageEvent event) {
-        String eventName = event.getName();
-        Object payload = event.getPayload();
-        if (null != eventName) switch (eventName) {
-            case "save":
-                save((BlogMessage) payload);
-                break;
-            case "deleteByHrefNotIn":
-                deleteByHrefNotIn((String[]) payload);
-                break;
-            default:
-                break;
-        }
+    public void observeSave(@Observes BlogMessageSaveEvent event) {
+        save(event.getBlogMessage());
+    }
+
+    @Asynchronous
+    public void observeDelete(@Observes BlogMessageDeleteEvent event) {
+        deleteByHrefNotIn(event.getHrefs());
     }
     
     void deleteByHrefNotIn(String[] hrefs) {

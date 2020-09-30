@@ -11,8 +11,9 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
-import com.hkstlr.blogbox.boundary.events.EventsManager;
+import com.hkstlr.blogbox.boundary.event.BlogboxEventManager;
 import com.hkstlr.blogbox.boundary.jpa.BlogMessageManager;
+import com.hkstlr.blogbox.control.IndexEvent.IndexEvents;
 
 @ApplicationScoped
 @DependsOn(value = "config")
@@ -27,7 +28,7 @@ public class Index {
     BlogMessageManager bman;
 
     @EJB
-    EventsManager em;
+    BlogboxEventManager em;
 
     Integer blogMessageCount;
 
@@ -81,7 +82,8 @@ public class Index {
 
     @Asynchronous
     public void handle(@Observes IndexEvent event) {
-        if ("updateBlogMessageCount".equals(event.getName())) {
+        log.log(Level.INFO,"handle:{0}", event.getName());
+        if (event.getName().contains(IndexEvents.UPDATE_COUNT.name())) {
             bman.clearCache();
             updateBlogMessageCount();
         }
