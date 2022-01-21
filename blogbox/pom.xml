@@ -15,7 +15,7 @@
         <build.finalName>blogbox</build.finalName>
         <javaee-api.version>8.0</javaee-api.version>
         <javax.mail.version>1.6.2</javax.mail.version>
-        <h2.version>1.4.197</h2.version>
+        <h2.version>2.1.210</h2.version>
         <jsoup.version>1.11.2</jsoup.version>
         <ocpsoft.rewrite.version>3.4.2.Final</ocpsoft.rewrite.version>
         <hibernate.jpamodelgen.version>5.4.0.Final</hibernate.jpamodelgen.version>
